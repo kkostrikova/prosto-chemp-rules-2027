@@ -105,6 +105,17 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 #compulsoryLaunchBtn:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:900px){.compulsory-launch{grid-template-columns:1fr}}
 
+
+.comp-builder{margin-top:18px}.comp-form{border:1px solid #2c3038;border-radius:28px;background:linear-gradient(145deg,#11141a,#090a0d);padding:24px}.comp-step-title{display:flex;gap:12px;align-items:center;margin:4px 0 16px}.comp-step-title>span{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--pink);font-weight:900}.comp-step-title b{display:block;font-size:19px}.comp-step-title small{display:block;color:#858b95;margin-top:3px}.comp-meta{grid-template-columns:repeat(4,1fr)}.comp-source-note{margin:14px 0 26px;padding:12px 14px;border:1px solid #343944;border-radius:14px;color:#aab0b9;font-size:12px;background:#0a0c10}.comp-groups{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}.comp-group{border:1px solid #30353d;border-radius:18px;padding:15px;background:#0c0e12}.comp-group-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.comp-group-head b{font-size:16px}.comp-group-head span{font-size:10px;color:var(--lime);font-weight:900}.comp-group select{width:100%;background:#07080a;color:white;border:1px solid #3a4049;border-radius:12px;padding:12px}.comp-preview{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed #343943}.comp-preview.show{display:grid;grid-template-columns:72px 1fr;gap:12px}.comp-code{width:72px;height:72px;border-radius:16px;display:grid;place-items:center;background:#17050d;border:1px solid #ff0a7850;color:var(--pink);font-size:19px;font-weight:900}.comp-preview h4{margin:0 0 5px;font-size:15px}.comp-preview p{margin:0;color:#979da6;font-size:11px;line-height:1.5;white-space:pre-line;max-height:105px;overflow:auto}.comp-order{display:grid;gap:9px;margin-bottom:16px}.order-row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;border:1px solid #30353d;border-radius:15px;padding:10px 12px;background:#0c0e12}.order-no{width:32px;height:32px;border-radius:10px;background:var(--lime);color:#050505;display:grid;place-items:center;font-weight:900}.order-copy b{display:block}.order-copy small{color:#858b94}.order-controls{display:flex;gap:5px}.order-controls button{width:34px;height:34px;border:1px solid #3a4049;border-radius:9px;background:#090b0e;color:white;cursor:pointer}.comp-validation{margin:14px 0;padding:12px 14px;border-radius:13px;background:#171309;border:1px solid #6f651c;color:#dfd69a;font-size:12px}.comp-validation.ok{background:#0e1708;border-color:#536a18;color:#d9ef9f}.comp-actions{display:flex;gap:10px;flex-wrap:wrap}.empty-state{grid-column:1/-1;border:1px dashed #343943;border-radius:16px;padding:20px;color:#747a84;text-align:center;font-size:12px}.comp-print{display:none}
+@media(max-width:1050px){.comp-meta{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.comp-meta,.comp-groups{grid-template-columns:1fr}.order-row{grid-template-columns:36px 1fr}.order-controls{grid-column:2}.comp-form{padding:16px}}
+@media print{
+ body.print-compulsory *{visibility:hidden!important}
+ body.print-compulsory #compulsoryPrint,body.print-compulsory #compulsoryPrint *{visibility:visible!important}
+ body.print-compulsory #compulsoryPrint{display:block!important;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff;color:#000}
+ .comp-print h1{font-size:26px;margin:0 0 18px}.comp-print .print-meta{display:grid;grid-template-columns:1fr 1fr;border:1px solid #aaa;margin-bottom:18px}.comp-print .print-meta div{padding:9px;border:1px solid #aaa}.comp-print table{width:100%;border-collapse:collapse}.comp-print th,.comp-print td{border:1px solid #999;padding:8px;text-align:left;vertical-align:top}.comp-print th{background:#eee}.comp-print .pcode{font-weight:900;font-size:16px}.comp-print .pdesc{white-space:pre-line;font-size:10px}
+}
+
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 </style>
 </head>
@@ -155,22 +166,59 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="compulsory">
 <div class="section-title">
   <div><div class="eyebrow">Compulsory elements</div><h2>Обов’язкові <em>елементи</em></h2></div>
-  <div class="section-sub">Окрема вкладка для заповнення обов’язкової частини виступу.</div>
+  <div class="section-sub">Конструктор автоматично відфільтровує елементи за снарядом, розрядом і групою та перевіряє повноту форми.</div>
 </div>
-<div class="compulsory-launch reveal">
+
+<div class="compulsory-launch reveal" id="compulsoryGate">
   <div class="compulsory-main">
     <div class="launch-badge">СТАРТ · 01.10.2026</div>
     <h3>Заповнення обов’язкових елементів</h3>
-    <p>Тут буде відкриватися окремий додаток для заповнення обов’язкових елементів та підготовки форми у потрібному форматі.</p>
-    <div class="launch-note"><b>Важливо:</b> додаток буде відкрито <strong>1 жовтня 2026 року</strong>.</div>
+    <p>Додаток буде відкрито для спортсменів <strong>1 жовтня 2026 року</strong>. До цієї дати публічне заповнення закрите.</p>
+    <div class="launch-note"><b>Важливо:</b> після відкриття спортсмен обере ПІБ, вік, розряд і снаряд, а система покаже лише допустимі елементи з відповідних груп.</div>
     <button class="btn lime" id="compulsoryLaunchBtn" type="button" disabled>Додаток відкриється 1 жовтня</button>
   </div>
   <div class="compulsory-side">
     <div class="mini">До відкриття додатка</div>
     <div class="launch-count" id="compulsoryCountdown">рахуємо…</div>
-    <p>Після 1 жовтня кнопка автоматично стане активною та відкриватиме Comply.</p>
+    <p>Для тестування до старту використовується службовий режим попереднього перегляду.</p>
   </div>
 </div>
+
+<div class="comp-builder reveal" id="compBuilder" hidden>
+  <div class="comp-form">
+    <div class="comp-step-title"><span>01</span><div><b>Дані спортсмена</b><small>Усі поля обов’язкові.</small></div></div>
+    <div class="form-grid comp-meta">
+      <div class="field"><label>Прізвище та ім’я</label><input id="compAthlete" placeholder="Прізвище Ім’я"></div>
+      <div class="field"><label>Вікова категорія</label><select id="compAge">
+        <option value="">Оберіть</option>
+        <option>Діти 5–6 років</option><option>Діти 7–9 років</option><option>10–11 років</option>
+        <option>12–14 років</option><option>15–17 років</option><option>18–25 років</option><option>25+ років</option>
+      </select></div>
+      <div class="field"><label>Розряд</label><select id="compCategory">
+        <option value="">Оберіть</option><option>Дебют</option><option>Аматор</option><option>Напівпрофесіонал</option><option>Професіонал</option><option>Еліт</option>
+      </select></div>
+      <div class="field"><label>Снаряд</label><select id="compApparatus">
+        <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option value="Гамак" disabled>Гамак — база звіряється</option>
+      </select></div>
+    </div>
+    <div class="comp-source-note" id="compSourceNote">Оберіть розряд і снаряд — система сформує потрібні групи автоматично.</div>
+
+    <div class="comp-step-title"><span>02</span><div><b>Вибір елементів</b><small>По одному елементу з кожної доступної групи.</small></div></div>
+    <div class="comp-groups" id="compGroups"><div class="empty-state">Спочатку оберіть розряд і снаряд.</div></div>
+
+    <div class="comp-step-title"><span>03</span><div><b>Порядок виконання</b><small>Розташуйте елементи саме в тому порядку, в якому вони будуть виконані у виступі.</small></div></div>
+    <div class="comp-order" id="compOrder"><div class="empty-state">Обрані елементи з’являться тут.</div></div>
+
+    <div class="comp-validation" id="compValidation">Заповніть дані та оберіть елементи з усіх груп.</div>
+    <div class="comp-actions">
+      <button class="btn" id="compPdf" type="button">Зберегти / друк PDF</button>
+      <button class="btn lime" id="compSubmit" type="button" disabled>Підключення автозбереження…</button>
+    </div>
+    <div class="receipt-status" id="compStatus"></div>
+  </div>
+</div>
+
+<div id="compulsoryPrint" class="comp-print" aria-hidden="true"></div>
 </section>
 
 <section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
@@ -262,6 +310,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#compulsory">Обов’язкові</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
 <div class="toast" id="toast"></div>
+<script src="elements-data.js"></script>
 <script>
 const toast=(t)=>{const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)};
 const SIGNATURE_ENDPOINT='https://script.google.com/macros/s/AKfycbx4wkYag-tnk_MmFlNuDyEg8X5hS73_3ze1fu-yFBdmmZtPplJ5aB74uFrK8laVfvkKgA/exec';
@@ -279,30 +328,114 @@ document.querySelector('.mobile-menu').onclick=()=>document.querySelector('.navl
 document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.querySelector('.navlinks').classList.remove('open'));
 // countdowns
 function updateCountdowns(){const now=new Date();document.querySelectorAll('.count').forEach(el=>{const d=new Date(el.dataset.date);const ms=d-now;if(ms<=0){el.textContent='Дедлайн минув';return}const days=Math.floor(ms/86400000);const hrs=Math.floor((ms%86400000)/3600000);el.textContent=`залишилось ${days} дн. ${hrs} год.`})}updateCountdowns();setInterval(updateCountdowns,3600000);
-// compulsory elements app launch
+// compulsory elements constructor
+const COMPULSORY_BACKEND_READY=false;
+const compState={selected:{},order:[]};
+function compulsoryPreviewMode(){return new URLSearchParams(location.search).get('preview')==='1'}
 function updateCompulsoryLaunch(){
-  const btn=document.getElementById('compulsoryLaunchBtn');
-  const count=document.getElementById('compulsoryCountdown');
-  if(!btn || !count) return;
-  const openDate=new Date('2026-10-01T00:00:00');
-  const now=new Date();
-  const ms=openDate-now;
-  if(ms<=0){
-    count.textContent='ВІДКРИТО';
-    btn.disabled=false;
-    btn.textContent='Відкрити додаток ↗';
-    btn.onclick=()=>window.open('https://comply.org.ua/','_blank','noopener');
+  const btn=document.getElementById('compulsoryLaunchBtn'),count=document.getElementById('compulsoryCountdown'),builder=document.getElementById('compBuilder'),gate=document.getElementById('compulsoryGate');
+  if(!btn||!count||!builder)return;
+  const openDate=new Date('2026-10-01T00:00:00'),now=new Date(),isOpen=now>=openDate||compulsoryPreviewMode();
+  if(isOpen){
+    count.textContent=now>=openDate?'ВІДКРИТО':'PREVIEW';
+    btn.disabled=false;btn.textContent=now>=openDate?'Відкрити конструктор ↓':'Відкрити тестовий конструктор ↓';
+    btn.onclick=()=>{builder.hidden=false;builder.scrollIntoView({behavior:'smooth',block:'start'})};
+    if(compulsoryPreviewMode()) builder.hidden=false;
   }else{
-    const days=Math.ceil(ms/86400000);
-    count.textContent=days+' дн.';
-    btn.disabled=true;
-    btn.textContent='Додаток відкриється 1 жовтня';
+    const days=Math.ceil((openDate-now)/86400000);count.textContent=days+' дн.';btn.disabled=true;btn.textContent='Додаток відкриється 1 жовтня';
   }
 }
-updateCompulsoryLaunch();
-setInterval(updateCompulsoryLaunch,3600000);
+updateCompulsoryLaunch();setInterval(updateCompulsoryLaunch,3600000);
+
+function compDataset(){
+  const app=document.getElementById('compApparatus')?.value,cat=document.getElementById('compCategory')?.value;
+  return (window.PROSTO_ELEMENTS?.apparatus?.[app]||[]).filter(x=>x.category===cat);
+}
+function renderCompGroups(){
+  const wrap=document.getElementById('compGroups'),note=document.getElementById('compSourceNote');
+  const app=document.getElementById('compApparatus').value,cat=document.getElementById('compCategory').value;
+  compState.selected={};compState.order=[];
+  if(!app||!cat){wrap.innerHTML='<div class="empty-state">Спочатку оберіть розряд і снаряд.</div>';renderCompOrder();validateComp();return}
+  const rows=compDataset();
+  const groups=[...new Set(rows.map(x=>x.group))];
+  if(!rows.length){wrap.innerHTML='<div class="empty-state">Для цієї комбінації у підключеній базі немає підтверджених елементів.</div>';note.textContent='Ми не показуємо неперевірені варіанти.';renderCompOrder();validateComp();return}
+  note.textContent=`${app} · ${cat}: знайдено ${rows.length} елементів у ${groups.length} групах. Список сформовано з підключеного вихідного документа.`;
+  wrap.innerHTML=groups.map((g,i)=>{
+    const items=rows.filter(x=>x.group===g);
+    return `<div class="comp-group" data-group="${g}"><div class="comp-group-head"><b>${g}</b><span>${items.length} варіант(и)</span></div><select class="comp-select" data-group="${g}"><option value="">Оберіть елемент</option>${items.map(x=>`<option value="${x.code}">${x.code}${x.title?' · '+x.title:''}</option>`).join('')}</select><div class="comp-preview" id="prev-${i}"></div></div>`;
+  }).join('');
+  wrap.querySelectorAll('.comp-select').forEach((sel,i)=>sel.addEventListener('change',()=>{
+    const el=rows.find(x=>x.code===sel.value),group=sel.dataset.group,prev=document.getElementById('prev-'+i);
+    if(el){
+      compState.selected[group]=el;
+      prev.className='comp-preview show';
+      prev.innerHTML=`<div class="comp-code">${el.code}</div><div><h4>${el.title||'Назву не зазначено у структурованому джерелі'}</h4><p>${el.description||'Опис не витягнуто зі структурованого джерела.'}</p></div>`;
+    }else{delete compState.selected[group];prev.className='comp-preview';prev.innerHTML=''}
+    syncCompOrder();renderCompOrder();validateComp();
+  }));
+  renderCompOrder();validateComp();
+}
+function syncCompOrder(){
+  const selected=Object.values(compState.selected);
+  const validCodes=new Set(selected.map(x=>x.code));
+  compState.order=compState.order.filter(c=>validCodes.has(c));
+  selected.forEach(x=>{if(!compState.order.includes(x.code))compState.order.push(x.code)});
+}
+function renderCompOrder(){
+  const wrap=document.getElementById('compOrder'),all=Object.values(compState.selected);
+  if(!compState.order.length){wrap.innerHTML='<div class="empty-state">Обрані елементи з’являться тут.</div>';return}
+  const byCode=Object.fromEntries(all.map(x=>[x.code,x]));
+  wrap.innerHTML=compState.order.map((code,i)=>{
+    const x=byCode[code];if(!x)return'';
+    return `<div class="order-row"><div class="order-no">${i+1}</div><div class="order-copy"><b>${x.code} · ${x.title||'Без назви'}</b><small>${x.group}</small></div><div class="order-controls"><button type="button" data-move="-1" data-i="${i}" aria-label="Вгору">↑</button><button type="button" data-move="1" data-i="${i}" aria-label="Вниз">↓</button></div></div>`;
+  }).join('');
+  wrap.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,j=i+(+b.dataset.move);if(j<0||j>=compState.order.length)return;[compState.order[i],compState.order[j]]=[compState.order[j],compState.order[i]];renderCompOrder();});
+}
+function compPayload(){
+  const byCode=Object.fromEntries(Object.values(compState.selected).map(x=>[x.code,x]));
+  return {
+    submissionType:'compulsoryForm',
+    athleteName:document.getElementById('compAthlete').value.trim(),
+    ageCategory:document.getElementById('compAge').value,
+    category:document.getElementById('compCategory').value,
+    apparatus:document.getElementById('compApparatus').value,
+    rulesVersion:'2026/27',
+    elements:compState.order.map(c=>byCode[c]).filter(Boolean)
+  };
+}
+function validateComp(){
+  const p=compPayload(),requiredGroups=[...new Set(compDataset().map(x=>x.group))],chosen=Object.keys(compState.selected);
+  const ok=!!p.athleteName&&!!p.ageCategory&&!!p.category&&!!p.apparatus&&requiredGroups.length>0&&requiredGroups.every(g=>chosen.includes(g));
+  const box=document.getElementById('compValidation'),submit=document.getElementById('compSubmit');
+  if(ok){box.className='comp-validation ok';box.textContent=`✓ Форма заповнена: ${requiredGroups.length} із ${requiredGroups.length} груп. Порядок виконання можна змінити стрілками.`;}
+  else{box.className='comp-validation';box.textContent=`Заповніть дані та оберіть по одному елементу з кожної групи (${chosen.length}/${requiredGroups.length||'—'}).`;}
+  if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent=COMPULSORY_BACKEND_READY?'Підтвердити та надіслати':'Автозбереження: потрібне оновлення Apps Script';}
+  return ok;
+}
+['compAthlete','compAge'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateComp));
+['compCategory','compApparatus'].forEach(id=>document.getElementById(id)?.addEventListener('change',renderCompGroups));
+
+function buildCompPrint(){
+  if(!validateComp()){toast('Спочатку заповніть усі групи');return false}
+  const p=compPayload(),target=document.getElementById('compulsoryPrint');
+  target.innerHTML=`<h1>ОБОВ'ЯЗКОВІ ЕЛЕМЕНТИ</h1><div class="print-meta"><div><b>СПОРТСМЕН</b><br>${p.athleteName}</div><div><b>ВІКОВА КАТЕГОРІЯ</b><br>${p.ageCategory}</div><div><b>РОЗРЯД</b><br>${p.category}</div><div><b>НАПРЯМОК</b><br>${p.apparatus}</div></div><table><thead><tr><th>№</th><th>Код</th><th>Група</th><th>Назва та опис</th></tr></thead><tbody>${p.elements.map((x,i)=>`<tr><td>${i+1}</td><td class="pcode">${x.code}</td><td>${x.group}</td><td><b>${x.title||''}</b><div class="pdesc">${x.description||''}</div></td></tr>`).join('')}</tbody></table>`;
+  return true;
+}
+document.getElementById('compPdf')?.addEventListener('click',()=>{if(!buildCompPrint())return;document.body.classList.add('print-compulsory');setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-compulsory'),400)},100)});
+document.getElementById('compSubmit')?.addEventListener('click',async()=>{
+  if(!validateComp()||!COMPULSORY_BACKEND_READY)return;
+  const p=compPayload(),btn=document.getElementById('compSubmit'),status=document.getElementById('compStatus');
+  btn.disabled=true;btn.textContent='Надсилаємо…';status.classList.add('show');status.textContent='Формуємо PDF та зберігаємо форму…';
+  try{
+    await fetch(SIGNATURE_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)});
+    status.innerHTML='<b>✓ Форму надіслано.</b><br><small>PDF і запис передано до реєстру організатора.</small>';btn.textContent='Надіслано ✓';toast('Обов’язкові елементи надіслано');
+    const ck=document.querySelector('#checklist input[data-key="compulsory"]');if(ck){ck.checked=true;localStorage.setItem('pc_compulsory','1');updateProgress();}
+  }catch(e){status.innerHTML='<b>Не вдалося надіслати форму.</b>';btn.disabled=false;btn.textContent='Підтвердити та надіслати';}
+});
+renderCompGroups();
 
 // checklist local storage
+
 document.querySelectorAll('#checklist input').forEach(i=>{const k='pc_'+i.dataset.key;i.checked=localStorage.getItem(k)==='1';i.onchange=()=>localStorage.setItem(k,i.checked?'1':'0')});
 // fee calculator
 const soloCount=document.getElementById('soloCount'),duetCount=document.getElementById('duetCount'),groupType=document.getElementById('groupType'),vpo=document.getElementById('vpo'),sumEl=document.getElementById('feeSum'),breakdown=document.getElementById('feeBreakdown'),feeNote=document.getElementById('feeNote');
