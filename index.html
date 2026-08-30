@@ -296,6 +296,174 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .collapsible-panel[open] .collapsible-toggle .when-open{display:inline}
 .collapsible-content{padding:0 22px 20px;border-top:1px solid #23262d}
 @media(max-width:600px){.collapsible-panel summary{align-items:flex-start;padding:16px}.collapsible-toggle{padding:8px 10px}.collapsible-content{padding:0 14px 14px}}
+
+/* --- MOBILE POLISH v1 --- */
+@media(max-width:700px){
+  html{scroll-padding-top:72px}
+  body{padding-bottom:76px}
+  main{padding:0 14px 54px}
+  .nav{padding:10px 14px}
+  .brand span{font-size:13px}
+  .brand-mark{width:38px;height:38px;border-radius:10px}
+  .mobile-menu{min-width:42px;min-height:42px;font-size:18px}
+  .navlinks.open{top:62px;left:10px;right:10px;padding:8px;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+  .navlinks.open a{padding:13px 14px;font-size:12px}
+
+  .hero{padding:28px 0 18px;gap:18px}
+  .hero h1{font-size:clamp(50px,17vw,68px);line-height:.86;margin:14px 0 16px}
+  .hero p{font-size:15px;line-height:1.55;margin:0}
+  .hero-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:18px}
+  .hero-actions .btn{width:100%;min-height:48px}
+  .source-note{margin-top:14px;font-size:11px;line-height:1.45;padding:11px 12px}
+  .hero-art{min-height:220px;margin-top:4px}
+  .hero-art img{width:100%;max-height:230px;object-fit:cover;border-radius:20px}
+  .hero-art:before{width:230px;height:230px}
+  .hero-art:after{width:170px;height:170px}
+  .kicker{right:8px;bottom:14px;font-size:10px;padding:8px 10px}
+
+  .section{padding:36px 0 8px;scroll-margin-top:72px}
+  .section-title{display:block;margin-bottom:16px}
+  .section-title .section-sub{margin-top:10px;font-size:13px;line-height:1.55}
+  .section h2{font-size:clamp(28px,9vw,40px);line-height:1.02}
+  .eyebrow{font-size:10px;letter-spacing:.1em}
+
+  /* compact deadlines: all three are visible without huge vertical cards */
+  #start>.grid{gap:8px!important;margin-bottom:24px!important}
+  .deadline{grid-column:1/-1!important;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;padding:14px 15px;border-radius:16px}
+  .deadline .mini{font-size:10px}
+  .deadline strong{font-size:22px;margin:0;text-align:right}
+  .deadline .count{grid-column:1/-1;font-size:11px}
+  .deadline:after{left:14px;right:14px}
+
+  .quick-grid{gap:10px}
+  .quick-card{grid-column:span 12;min-height:0;padding:17px;border-radius:18px}
+  .quick-top{margin-bottom:14px}
+  .quick-icon{width:38px;height:38px;border-radius:12px;font-size:17px}
+  .quick-card h3{font-size:19px;margin-bottom:6px}
+  .quick-card p{font-size:12px;line-height:1.5;margin-bottom:14px}
+  .quick-card .btn,.card-actions .btn{width:100%;min-height:46px}
+  .card-actions{display:grid!important;grid-template-columns:1fr;gap:8px}
+
+  .fee-builder{gap:12px}
+  .fee-block,.fee-choice,.fee-summary{padding:15px;border-radius:17px}
+  .fee-head{margin-bottom:10px}
+  .fee-summary .sum{font-size:44px;margin:6px 0 14px}
+  .fee-row{font-size:12px;gap:10px;align-items:flex-start}
+  .fee-row span{min-width:0}
+  .fee-row b{text-align:right;white-space:nowrap}
+  .fee-choice{grid-template-columns:auto 1fr auto!important;gap:10px}
+  .fee-choice strong{grid-column:auto!important;font-size:16px}
+  .fee-summary .btn{width:100%;min-height:48px}
+
+  .payment-main,.payment-side,.receipt-copy,.receipt-why{padding:15px;border-radius:18px}
+  .payment-card,.receipt-upload-card{gap:10px}
+  .bank-line{margin-bottom:12px}
+  .pay-row{padding:12px 0;gap:8px}
+  .pay-row b,.mono{font-size:13px;overflow-wrap:anywhere;word-break:break-word}
+  .copy-btn{min-height:42px}
+  .pay-purpose{padding:14px}
+  .pay-purpose strong{font-size:15px;overflow-wrap:anywhere}
+  .payment-side .btn{width:100%;min-height:46px}
+  .receipt-copy h3,.receipt-why h3{font-size:21px}
+  .receipt-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  .receipt-actions .btn{width:100%;min-height:48px}
+  .receipt-actions .mini{text-align:center}
+  input[type="file"]{width:100%;padding:8px!important;font-size:12px}
+  input[type="file"]::file-selector-button{
+    border:1px solid #3a4049;
+    background:#15181d;
+    color:#fff;
+    border-radius:10px;
+    padding:9px 11px;
+    margin-right:10px;
+    font-weight:800;
+    font-size:12px;
+  }
+
+  .category-grid{gap:10px}
+  .category-card{min-height:0;padding:16px;border-radius:17px}
+  .category-card h3{font-size:19px}
+  .age-strip{gap:6px}
+  .age-chip{font-size:10px;padding:7px 9px}
+
+  .compulsory-launch{gap:10px}
+  .compulsory-main,.compulsory-side{padding:16px;border-radius:18px}
+  .launch-count{font-size:38px}
+  .comp-form{padding:14px;border-radius:20px}
+  .comp-step-title{align-items:flex-start;margin-bottom:12px}
+  .comp-step-title>span{width:34px;height:34px;border-radius:10px;font-size:12px;flex:0 0 auto}
+  .comp-step-title b{font-size:17px}
+  .comp-meta,.comp-groups{grid-template-columns:1fr!important;gap:10px}
+  .comp-source-note{margin:12px 0 20px}
+  .comp-group{padding:13px;border-radius:15px}
+  .comp-preview.show{grid-template-columns:58px 1fr;gap:10px}
+  .comp-code{width:58px;height:58px;border-radius:13px;font-size:16px}
+  .order-row{grid-template-columns:32px 1fr;gap:9px;padding:10px}
+  .order-controls{grid-column:2;justify-content:flex-end}
+  .comp-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  .comp-actions .btn{width:100%;min-height:48px}
+
+  .field input,.field select,.field textarea{width:100%;min-height:46px;padding:12px 13px;font-size:16px;border-radius:11px}
+  .field textarea{min-height:110px}
+  .field label{font-size:11px}
+  .form-grid{gap:10px}
+
+  .collapsible-panel{border-radius:18px}
+  .collapsible-panel summary{padding:15px;gap:10px}
+  .collapsible-panel summary h2{font-size:24px}
+  .collapsible-panel summary p{font-size:11px;line-height:1.45}
+  .collapsible-toggle{font-size:10px;padding:8px 9px}
+  .collapsible-content{padding:0 10px 12px}
+  .table-wrap{margin:10px 0;border-radius:12px}
+  .data-table{min-width:560px}
+  .data-table th,.data-table td{padding:10px;font-size:11px}
+
+  .progress-shell{grid-template-columns:62px 1fr;gap:12px;padding:13px}
+  .progress-ring{width:58px;height:58px}
+  .progress-ring strong{font-size:15px}
+  .progress-copy b{font-size:15px}
+  .progress-copy p{font-size:11px}
+  .step{grid-template-columns:30px 1fr auto;gap:9px;padding:10px;border-radius:13px}
+  .step:before{width:28px;height:28px;font-size:12px}
+  .step label b{font-size:13px}
+  .step label span{font-size:10px}
+  .step input{width:19px;height:19px}
+
+  .agreement-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .agreement-tab{padding:10px 8px;font-size:11px}
+  .agreement-copy,.signature-card{padding:14px;border-radius:18px}
+  .legal-text{padding:13px;margin:14px 0}
+  .legal-text p{font-size:12px}
+  #sig{height:150px}
+  .sig-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  .sig-actions .btn{width:100%;min-height:46px}
+
+  .rules-download{padding:18px;border-radius:20px}
+  .rules-download .hero-actions{margin-top:14px}
+
+  /* bottom nav: fixed, readable and safe on iPhone */
+  .quick-dock{
+    left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));
+    transform:none;width:auto;max-width:none;overflow:visible;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:3px;
+    padding:5px;border-radius:16px
+  }
+  .quick-dock a{
+    min-width:0;padding:9px 3px;font-size:9px;line-height:1.1;
+    text-align:center;white-space:normal;display:grid;place-items:center
+  }
+
+  .footer{margin-top:48px;padding-bottom:10px;font-size:10px;line-height:1.45}
+}
+
+@media(max-width:390px){
+  main{padding-left:10px;padding-right:10px}
+  .hero h1{font-size:50px}
+  .brand span{font-size:12px}
+  .deadline strong{font-size:20px}
+  .fee-summary .sum{font-size:40px}
+  .quick-dock a{font-size:8.5px}
+}
 </style>
 </head>
 <body>
