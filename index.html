@@ -329,7 +329,7 @@ document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.query
 // countdowns
 function updateCountdowns(){const now=new Date();document.querySelectorAll('.count').forEach(el=>{const d=new Date(el.dataset.date);const ms=d-now;if(ms<=0){el.textContent='Дедлайн минув';return}const days=Math.floor(ms/86400000);const hrs=Math.floor((ms%86400000)/3600000);el.textContent=`залишилось ${days} дн. ${hrs} год.`})}updateCountdowns();setInterval(updateCountdowns,3600000);
 // compulsory elements constructor
-const COMPULSORY_BACKEND_READY=false;
+const COMPULSORY_BACKEND_READY=true;
 const compState={selected:{},order:[]};
 function compulsoryPreviewMode(){return new URLSearchParams(location.search).get('preview')==='1'}
 function updateCompulsoryLaunch(){
@@ -409,7 +409,7 @@ function validateComp(){
   const box=document.getElementById('compValidation'),submit=document.getElementById('compSubmit');
   if(ok){box.className='comp-validation ok';box.textContent=`✓ Форма заповнена: ${requiredGroups.length} із ${requiredGroups.length} груп. Порядок виконання можна змінити стрілками.`;}
   else{box.className='comp-validation';box.textContent=`Заповніть дані та оберіть по одному елементу з кожної групи (${chosen.length}/${requiredGroups.length||'—'}).`;}
-  if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent=COMPULSORY_BACKEND_READY?'Підтвердити та надіслати':'Автозбереження: потрібне оновлення Apps Script';}
+  if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent=COMPULSORY_BACKEND_READY?'Підтвердити та надіслати':'Підтвердити та надіслати';}
   return ok;
 }
 ['compAthlete','compAge'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateComp));
