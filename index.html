@@ -333,6 +333,32 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </div>
 </section>
 
+<section class="section" id="payment-details"><div class="section-title"><div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div><div class="section-sub">Після оплати обов’язково вкажіть призначення платежу та ПІБ учасника.</div></div>
+<div class="payment-card reveal">
+  <div class="payment-main">
+    <div class="bank-line"><span class="bank-badge">MONO</span><div><div class="mini">Банк</div><h3>Monobank</h3></div></div>
+    <div class="pay-row"><div><span>Отримувач</span><b>Катерина Кострікова</b></div><button class="copy-btn" onclick="copyText('Катерина Кострікова')">Копіювати</button></div>
+    <div class="pay-row"><div><span>ФОП / IBAN</span><b class="mono">UA923220010000026002320028334</b></div><button class="copy-btn" onclick="copyText('UA923220010000026002320028334')">Копіювати</button></div>
+    <div class="pay-row"><div><span>ЄДРПОУ</span><b>3160115847</b></div><button class="copy-btn" onclick="copyText('3160115847')">Копіювати</button></div>
+    <div class="pay-purpose"><div class="mini">Призначення платежу</div><strong>за участь у змаганнях ПІБ</strong><p>Замість «ПІБ» вкажіть прізвище, ім’я та по батькові учасника.</p><button class="btn pink" onclick="copyText('за участь у змаганнях ПІБ')">Скопіювати призначення</button></div>
+  </div>
+  <div class="payment-side">
+    <div class="pay-alert">ВАЖЛИВО</div>
+    <h3>Не забудьте призначення платежу</h3>
+    <p>Платіж без ПІБ учасника складніше ідентифікувати. Перед оплатою перевірте реквізити та правильність ПІБ.</p>
+    <button class="btn lime" onclick="copyPaymentDetails()">Скопіювати всі реквізити</button>
+  </div>
+</div>
+</section>
+
+<div class="receipt-upload-card reveal" id="receipt-upload">
+<div class="receipt-copy">
+<div class="eyebrow">Payment confirmation</div><h3>Завантажити квитанцію</h3><p>Квитанцію більше не потрібно надсилати в Telegram. Файл автоматично збережеться в окремій папці організатора, а запис — у таблиці оплат.</p>
+<div class="form-grid compact">
+<div class="field"><label>ПІБ спортсмена</label><input id="receiptAthlete" placeholder="Прізвище, ім’я, по батькові"></div>
+<div class="field"><label>Сума оплати, грн</label><input id="receiptAmount" type="number" min="1" step="1" placeholder="Наприклад, 11250"></div>
+</div>
+
 <section class="section" id="categories"><div class="section-title"><div><div class="eyebrow">Categories</div><h2>Категорії та <em>вік</em></h2></div><div class="section-sub">Натисни «Умови категорії», щоб швидко побачити ключові обмеження з документа. Повний текст правил залишається нижче.</div></div>
 <div class="category-grid reveal">
 <div class="category-card"><div class="category-level">Рівень 01</div><h3>Дебют</h3><p>Базовий досвід та елементи з найнижчою технічною вартістю.</p><button class="cat-toggle">Умови категорії +</button><div class="cat-more">Не допускається, якщо спортсмен раніше змагався в Аматор / Профі / Еліт; виступає у вищій категорії іншого снаряду; виконує елементи високої технічної складності; має статус тренера або є діючим тренером.</div></div>
@@ -451,31 +477,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <section class="section"><div class="section-title"><div><div class="eyebrow">Performance time</div><h2>Час <em>виступу</em></h2></div></div><div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div></section>
 
-<section class="section" id="payment-details"><div class="section-title"><div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div><div class="section-sub">Після оплати обов’язково вкажіть призначення платежу та ПІБ учасника.</div></div>
-<div class="payment-card reveal">
-  <div class="payment-main">
-    <div class="bank-line"><span class="bank-badge">MONO</span><div><div class="mini">Банк</div><h3>Monobank</h3></div></div>
-    <div class="pay-row"><div><span>Отримувач</span><b>Катерина Кострікова</b></div><button class="copy-btn" onclick="copyText('Катерина Кострікова')">Копіювати</button></div>
-    <div class="pay-row"><div><span>ФОП / IBAN</span><b class="mono">UA923220010000026002320028334</b></div><button class="copy-btn" onclick="copyText('UA923220010000026002320028334')">Копіювати</button></div>
-    <div class="pay-row"><div><span>ЄДРПОУ</span><b>3160115847</b></div><button class="copy-btn" onclick="copyText('3160115847')">Копіювати</button></div>
-    <div class="pay-purpose"><div class="mini">Призначення платежу</div><strong>за участь у змаганнях ПІБ</strong><p>Замість «ПІБ» вкажіть прізвище, ім’я та по батькові учасника.</p><button class="btn pink" onclick="copyText('за участь у змаганнях ПІБ')">Скопіювати призначення</button></div>
-  </div>
-  <div class="payment-side">
-    <div class="pay-alert">ВАЖЛИВО</div>
-    <h3>Не забудьте призначення платежу</h3>
-    <p>Платіж без ПІБ учасника складніше ідентифікувати. Перед оплатою перевірте реквізити та правильність ПІБ.</p>
-    <button class="btn lime" onclick="copyPaymentDetails()">Скопіювати всі реквізити</button>
-  </div>
-</div>
-</section>
 
-<div class="receipt-upload-card reveal" id="receipt-upload">
-<div class="receipt-copy">
-<div class="eyebrow">Payment confirmation</div><h3>Завантажити квитанцію</h3><p>Квитанцію більше не потрібно надсилати в Telegram. Файл автоматично збережеться в окремій папці організатора, а запис — у таблиці оплат.</p>
-<div class="form-grid compact">
-<div class="field"><label>ПІБ спортсмена</label><input id="receiptAthlete" placeholder="Прізвище, ім’я, по батькові"></div>
-<div class="field"><label>Сума оплати, грн</label><input id="receiptAmount" type="number" min="1" step="1" placeholder="Наприклад, 11250"></div>
-</div>
 <div class="field" style="margin-top:12px"><label>Квитанція (JPG, PNG, WEBP або PDF)</label><input id="receiptFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"></div>
 <div class="field" style="margin-top:12px"><label>Коментар — необов’язково</label><input id="receiptComment" placeholder="Наприклад: 1 соло + 2 дуети"></div>
 <div class="receipt-actions"><button class="btn lime" id="sendReceipt" type="button">Надіслати квитанцію</button><span class="mini">Файл до 8 МБ</span></div>
