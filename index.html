@@ -445,7 +445,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
   .quick-dock{
     left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));
     transform:none;width:auto;max-width:none;overflow:visible;
-    display:grid;grid-template-columns:repeat(5,1fr);gap:3px;
+    display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
     padding:5px;border-radius:16px
   }
   .quick-dock a{
@@ -457,6 +457,9 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 }
 
 @media(max-width:390px){
+  .quick-dock{gap:2px;padding:4px}
+  .quick-dock a{padding:8px 2px;font-size:7.8px}
+
   main{padding-left:10px;padding-right:10px}
   .hero h1{font-size:50px}
   .brand span{font-size:12px}
@@ -468,7 +471,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="#categories">Категорії</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
@@ -733,7 +736,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="full-rules"><div class="rules-download reveal"><div><div class="eyebrow">Official document</div><h2>Повні <em>правила</em></h2><p>Заборонені елементи, штрафи головного судді та всі інші детальні положення залишаються у повному офіційному документі.</p><div class="hero-actions"><a class="btn lime big-download" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a><a class="btn" href="rules-official-2026.docx" download>DOCX</a></div></div><div class="download-mark">36<span>сторінок</span></div></div></section>
 <footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2027» · Останнє оновлення: 30.08.2026</div></footer>
 </main>
-<div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#compulsory">Обов’язкові</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
+<div class="quick-dock"><a class="hot" href="https://polecompetition.com/" target="_blank" rel="noopener">Заявка</a><a href="#payment-details">Оплата</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
 <div class="toast" id="toast"></div>
 <script src="elements-data.js"></script>
