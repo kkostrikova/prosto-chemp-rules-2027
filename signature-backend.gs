@@ -11,10 +11,11 @@ const COMPULSORY_FOLDER_ID = '1Wki6yogM-b4H3fCGAcAhPtvRYqDzLTW2';
 const SIGNATURE_SHEET = 'Signatures';
 const PAYMENT_SHEET = 'Payments';
 const COMPULSORY_SHEET = 'Compulsory';
+const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
 
 function doGet(e) {
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'8'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'9'});
 }
 
 function doPost(e) {
@@ -131,8 +132,8 @@ function savePaymentReceipt_(data) {
 function saveCompulsoryForm_(data) {
   log_('compulsoryForm', 'START', data, 'OK', 'Request received');
 
-  if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus) {
-    throw new Error('Required athlete fields are missing.');
+  if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus || !data.routineDescription) {
+    throw new Error('Required athlete fields or routine description are missing.');
   }
 
   const elements = Array.isArray(data.elements) ? data.elements : [];
@@ -142,7 +143,17 @@ function saveCompulsoryForm_(data) {
   let sh = ss.getSheetByName(COMPULSORY_SHEET);
   if (!sh) {
     sh = ss.insertSheet(COMPULSORY_SHEET);
-    sh.appendRow(['ПІБ спортсмена','Снаряд','Категорія','PDF файл']);
+    sh.appendRow(['ПІБ спортсмена','Снаряд','Категорія','PDF файл','Вікова категорія','Опис номера для ведучої']);
+  } else {
+    sh.getRange(1, 5, 1, 2).setValues([['Вікова категорія','Опис номера для ведучої']]).setFontWeight('bold');
+  }
+
+  let hostSh = ss.getSheetByName(HOST_SHEET);
+  if (!hostSh) {
+    hostSh = ss.insertSheet(HOST_SHEET);
+    hostSh.appendRow(['ПІБ','Категорія','Вікова категорія','Снаряд','Опис номера для ведучої']);
+    hostSh.setFrozenRows(1);
+    hostSh.getRange(1,1,1,5).setFontWeight('bold');
   }
 
   const now = new Date();
@@ -229,9 +240,19 @@ function saveCompulsoryForm_(data) {
     data.athleteName || '',
     data.apparatus || '',
     data.category || '',
-    pdfFile.getUrl()
+    pdfFile.getUrl(),
+    data.ageCategory || '',
+    data.routineDescription || ''
   ]);
-  log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Row appended');
+
+  hostSh.appendRow([
+    data.athleteName || '',
+    data.category || '',
+    data.ageCategory || '',
+    data.apparatus || '',
+    data.routineDescription || ''
+  ]);
+  log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Compulsory + host rows appended');
 
   try { sourceFile.setTrashed(true); } catch (trashErr) {}
 
