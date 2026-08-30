@@ -111,9 +111,9 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media(max-width:700px){.comp-meta,.comp-groups{grid-template-columns:1fr}.order-row{grid-template-columns:36px 1fr}.order-controls{grid-column:2}.comp-form{padding:16px}}
 @media print{
  body.print-compulsory *{visibility:hidden!important}
- body.print-compulsory #compulsoryPrint,body.print-compulsory #compulsoryPrint *{visibility:visible!important}
+ body.print-compulsory #compulsory{display:block!important;visibility:visible!important;position:static!important;padding:0!important;margin:0!important}\n body.print-compulsory #compulsoryPrint,body.print-compulsory #compulsoryPrint *{visibility:visible!important}
  body.print-compulsory #compulsoryPrint{display:block!important;position:absolute;left:0;top:0;width:100%;padding:20px;background:#fff;color:#000}
- .comp-print h1{font-size:26px;margin:0 0 18px}.comp-print .print-meta{display:grid;grid-template-columns:1fr 1fr;border:1px solid #aaa;margin-bottom:18px}.comp-print .print-meta div{padding:9px;border:1px solid #aaa}.comp-print table{width:100%;border-collapse:collapse}.comp-print th,.comp-print td{border:1px solid #999;padding:8px;text-align:left;vertical-align:top}.comp-print th{background:#eee}.comp-print .pcode{font-weight:900;font-size:16px}.comp-print .pdesc{white-space:pre-line;font-size:10px}
+ .comp-print h1{font-size:26px;margin:0 0 18px}.comp-print .print-meta{display:grid;grid-template-columns:1fr 1fr;border:1px solid #aaa;margin-bottom:18px}.comp-print .print-meta div{padding:9px;border:1px solid #aaa}.comp-print table{width:100%;border-collapse:collapse}.comp-print th,.comp-print td{border:1px solid #999;padding:8px;text-align:left;vertical-align:top}.comp-print th{background:#eee}.comp-print .pcode{font-weight:900;font-size:16px}.comp-print .pimg{width:140px;text-align:center}.comp-print .pimg img{display:block;max-width:130px;max-height:180px;object-fit:contain;margin:auto}.comp-print .pdesc{white-space:pre-line;font-size:10px;line-height:1.35}.comp-print .print-foot{margin-top:14px;font-size:9px;color:#666}
 }
 
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
@@ -166,7 +166,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="compulsory">
 <div class="section-title">
   <div><div class="eyebrow">Compulsory elements</div><h2>Обов’язкові <em>елементи</em></h2></div>
-  <div class="section-sub">Конструктор автоматично відфільтровує елементи за снарядом, розрядом і групою та перевіряє повноту форми.</div>
+  <div class="section-sub">Конструктор автоматично відфільтровує елементи за снарядом, розрядом і групою. Для форми достатньо щонайменше одного обов’язкового елемента.</div>
 </div>
 
 <div class="compulsory-launch reveal" id="compulsoryGate">
@@ -203,7 +203,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     </div>
     <div class="comp-source-note" id="compSourceNote">Оберіть розряд і снаряд — система сформує потрібні групи автоматично.</div>
 
-    <div class="comp-step-title"><span>02</span><div><b>Вибір елементів</b><small>По одному елементу з кожної доступної групи.</small></div></div>
+    <div class="comp-step-title"><span>02</span><div><b>Вибір елементів</b><small>Оберіть щонайменше один елемент. Не обов’язково заповнювати всі групи.</small></div></div>
     <div class="comp-groups" id="compGroups"><div class="empty-state">Спочатку оберіть розряд і снаряд.</div></div>
 
     <div class="comp-step-title"><span>03</span><div><b>Порядок виконання</b><small>Розташуйте елементи саме в тому порядку, в якому вони будуть виконані у виступі.</small></div></div>
@@ -211,7 +211,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
     <div class="comp-validation" id="compValidation">Заповніть дані та оберіть елементи з усіх груп.</div>
     <div class="comp-actions">
-      <button class="btn" id="compPdf" type="button">Зберегти / друк PDF</button>
+      <button class="btn" id="compPdf" type="button">Переглянути / зберегти PDF</button>
       <button class="btn lime" id="compSubmit" type="button" disabled>Підключення автозбереження…</button>
     </div>
     <div class="receipt-status" id="compStatus"></div>
@@ -404,21 +404,42 @@ function compPayload(){
   };
 }
 function validateComp(){
-  const p=compPayload(),requiredGroups=[...new Set(compDataset().map(x=>x.group))],chosen=Object.keys(compState.selected);
-  const ok=!!p.athleteName&&!!p.ageCategory&&!!p.category&&!!p.apparatus&&requiredGroups.length>0&&requiredGroups.every(g=>chosen.includes(g));
+  const p=compPayload(),availableGroups=[...new Set(compDataset().map(x=>x.group))],chosen=Object.keys(compState.selected);
+  const ok=!!p.athleteName&&!!p.ageCategory&&!!p.category&&!!p.apparatus&&availableGroups.length>0&&chosen.length>=1&&p.elements.length>=1;
   const box=document.getElementById('compValidation'),submit=document.getElementById('compSubmit');
-  if(ok){box.className='comp-validation ok';box.textContent=`✓ Форма заповнена: ${requiredGroups.length} із ${requiredGroups.length} груп. Порядок виконання можна змінити стрілками.`;}
-  else{box.className='comp-validation';box.textContent=`Заповніть дані та оберіть по одному елементу з кожної групи (${chosen.length}/${requiredGroups.length||'—'}).`;}
-  if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent=COMPULSORY_BACKEND_READY?'Підтвердити та надіслати':'Підтвердити та надіслати';}
+  if(ok){
+    box.className='comp-validation ok';
+    box.textContent=`✓ Обрано елементів: ${p.elements.length}. Мінімальна вимога виконана. За потреби можна додати елементи з інших груп або змінити порядок виконання.`;
+  }else{
+    box.className='comp-validation';
+    box.textContent=`Заповніть дані спортсмена та оберіть щонайменше 1 обов’язковий елемент. Зараз обрано: ${p.elements.length}.`;
+  }
+  if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent='Підтвердити та надіслати';}
   return ok;
 }
 ['compAthlete','compAge'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateComp));
 ['compCategory','compApparatus'].forEach(id=>document.getElementById(id)?.addEventListener('change',renderCompGroups));
 
 function buildCompPrint(){
-  if(!validateComp()){toast('Спочатку заповніть усі групи');return false}
+  if(!validateComp()){toast('Оберіть щонайменше один елемент');return false}
   const p=compPayload(),target=document.getElementById('compulsoryPrint');
-  target.innerHTML=`<h1>ОБОВ'ЯЗКОВІ ЕЛЕМЕНТИ</h1><div class="print-meta"><div><b>СПОРТСМЕН</b><br>${p.athleteName}</div><div><b>ВІКОВА КАТЕГОРІЯ</b><br>${p.ageCategory}</div><div><b>РОЗРЯД</b><br>${p.category}</div><div><b>НАПРЯМОК</b><br>${p.apparatus}</div></div><table><thead><tr><th>№</th><th>Код</th><th>Група</th><th>Назва та опис</th></tr></thead><tbody>${p.elements.map((x,i)=>`<tr><td>${i+1}</td><td class="pcode">${x.code}</td><td>${x.group}</td><td><b>${x.title||''}</b><div class="pdesc">${x.description||''}</div></td></tr>`).join('')}</tbody></table>`;
+  target.innerHTML=`<h1>ОБОВ'ЯЗКОВІ ЕЛЕМЕНТИ</h1>
+  <div class="print-meta">
+    <div><b>СПОРТСМЕН</b><br>${p.athleteName}</div>
+    <div><b>ВІКОВА КАТЕГОРІЯ</b><br>${p.ageCategory}</div>
+    <div><b>РОЗРЯД</b><br>${p.category}</div>
+    <div><b>НАПРЯМОК</b><br>${p.apparatus}</div>
+  </div>
+  <table>
+    <thead><tr><th>№</th><th>Код</th><th>Візуальний приклад</th><th>Назва та опис</th></tr></thead>
+    <tbody>${p.elements.map((x,i)=>`<tr>
+      <td>${i+1}</td>
+      <td class="pcode">${x.code}</td>
+      <td class="pimg">${x.driveId?`<img src="https://drive.google.com/thumbnail?id=${x.driveId}&sz=w400" alt="${x.code}">`:''}</td>
+      <td><b>${x.title||''}</b><div class="pdesc">${x.description||''}</div></td>
+    </tr>`).join('')}</tbody>
+  </table>
+  <div class="print-foot">PROSTO CHEMP · форма сформована автоматично</div>`;
   return true;
 }
 document.getElementById('compPdf')?.addEventListener('click',()=>{if(!buildCompPrint())return;document.body.classList.add('print-compulsory');setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-compulsory'),400)},100)});
