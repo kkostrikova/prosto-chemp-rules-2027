@@ -283,6 +283,19 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
   body.print-compulsory #compulsoryPrint[data-count="8"]{zoom:.82!important}
 }
 
+
+/* compact expandable info */
+.collapsible-panel{border:1px solid #2b2f37;border-radius:22px;background:linear-gradient(145deg,#101218,#090a0d);overflow:hidden}
+.collapsible-panel summary{list-style:none;cursor:pointer;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.collapsible-panel summary::-webkit-details-marker{display:none}
+.collapsible-panel summary h2{font-size:clamp(26px,4vw,40px);margin:4px 0 0}
+.collapsible-panel summary p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.collapsible-toggle{white-space:nowrap;border:1px solid #3a3e47;border-radius:12px;padding:10px 13px;font-size:12px;font-weight:900;color:var(--lime)}
+.collapsible-toggle .when-open{display:none}
+.collapsible-panel[open] .collapsible-toggle .when-closed{display:none}
+.collapsible-panel[open] .collapsible-toggle .when-open{display:inline}
+.collapsible-content{padding:0 22px 20px;border-top:1px solid #23262d}
+@media(max-width:600px){.collapsible-panel summary{align-items:flex-start;padding:16px}.collapsible-toggle{padding:8px 10px}.collapsible-content{padding:0 14px 14px}}
 </style>
 </head>
 <body>
@@ -333,7 +346,12 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </div>
 </section>
 
-<section class="section" id="payment-details"><div class="section-title"><div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div><div class="section-sub">Після оплати обов’язково вкажіть призначення платежу та ПІБ учасника.</div></div>
+<section class="section" id="payment-details">
+<div class="section-title">
+  <div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div>
+  <div class="section-sub">Сплатіть внесок за реквізитами нижче, обов’язково вкажіть ПІБ учасника, а потім одразу завантажте квитанцію.</div>
+</div>
+
 <div class="payment-card reveal">
   <div class="payment-main">
     <div class="bank-line"><span class="bank-badge">MONO</span><div><div class="mini">Банк</div><h3>Monobank</h3></div></div>
@@ -349,15 +367,28 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <button class="btn lime" onclick="copyPaymentDetails()">Скопіювати всі реквізити</button>
   </div>
 </div>
-</section>
 
 <div class="receipt-upload-card reveal" id="receipt-upload">
-<div class="receipt-copy">
-<div class="eyebrow">Payment confirmation</div><h3>Завантажити квитанцію</h3><p>Квитанцію більше не потрібно надсилати в Telegram. Файл автоматично збережеться в окремій папці організатора, а запис — у таблиці оплат.</p>
-<div class="form-grid compact">
-<div class="field"><label>ПІБ спортсмена</label><input id="receiptAthlete" placeholder="Прізвище, ім’я, по батькові"></div>
-<div class="field"><label>Сума оплати, грн</label><input id="receiptAmount" type="number" min="1" step="1" placeholder="Наприклад, 11250"></div>
+  <div class="receipt-copy">
+    <div class="eyebrow">Payment confirmation</div>
+    <h3>Квитанція про оплату</h3>
+    <p>Після оплати завантажте квитанцію тут. Вона автоматично потрапить до реєстру оплат організатора — надсилати файл окремо не потрібно.</p>
+    <div class="form-grid compact">
+      <div class="field"><label>ПІБ спортсмена</label><input id="receiptAthlete" placeholder="Прізвище, ім’я, по батькові"></div>
+      <div class="field"><label>Сума оплати, грн</label><input id="receiptAmount" type="number" min="1" step="1" placeholder="Наприклад, 11250"></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Файл квитанції (JPG, PNG, WEBP або PDF)</label><input id="receiptFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"></div>
+    <div class="field" style="margin-top:12px"><label>Коментар — необов’язково</label><input id="receiptComment" placeholder="Наприклад: 1 соло + 2 дуети"></div>
+    <div class="receipt-actions"><button class="btn lime" id="sendReceipt" type="button">Надіслати квитанцію</button><span class="mini">Файл до 8 МБ</span></div>
+    <div class="receipt-status" id="receiptStatus"></div>
+  </div>
+  <div class="receipt-why">
+    <div class="pay-alert">ГОТОВО ЗА ХВИЛИНУ</div>
+    <h3>Квитанція одразу потрапить організатору</h3>
+    <p>Вкажіть ПІБ і суму, додайте файл — підтвердження оплати збережеться в реєстрі.</p>
+  </div>
 </div>
+</section>
 
 <section class="section" id="categories"><div class="section-title"><div><div class="eyebrow">Categories</div><h2>Категорії та <em>вік</em></h2></div><div class="section-sub">Натисни «Умови категорії», щоб швидко побачити ключові обмеження з документа. Повний текст правил залишається нижче.</div></div>
 <div class="category-grid reveal">
@@ -444,7 +475,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="art-description">
   <div class="section-title">
     <div><div class="eyebrow">ART · Host description</div><h2>Опис номера <em>для ведучої</em></h2></div>
-    <div class="section-sub">Окрема форма тільки для ART. Вона не пов’язана з обов’язковими елементами SPORT. <strong>Дедлайн: 1 січня 2027 року включно.</strong></div>
+    <div class="section-sub">Для учасників ART: коротко опишіть номер, щоб ведуча могла красиво представити ваш виступ. <strong>Дедлайн — 1 січня 2027 року включно.</strong></div>
   </div>
   <div class="comp-builder reveal" id="artFormWrap">
     <div class="comp-form">
@@ -475,16 +506,25 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 
 
-<section class="section"><div class="section-title"><div><div class="eyebrow">Performance time</div><h2>Час <em>виступу</em></h2></div></div><div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div></section>
+<section class="section" id="performance-time">
+<details class="collapsible-panel">
+  <summary>
+    <div>
+      <div class="eyebrow">Performance time</div>
+      <h2>Тривалість <em>музики / виступу</em></h2>
+      <p>Таблиця часу за категоріями та снарядами.</p>
+    </div>
+    <span class="collapsible-toggle"><span class="when-closed">Розгорнути ↓</span><span class="when-open">Згорнути ↑</span></span>
+  </summary>
+  <div class="collapsible-content">
+    <div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div>
+<div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div>
+  </div>
+</details>
+</section>
 
 
-<div class="field" style="margin-top:12px"><label>Квитанція (JPG, PNG, WEBP або PDF)</label><input id="receiptFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"></div>
-<div class="field" style="margin-top:12px"><label>Коментар — необов’язково</label><input id="receiptComment" placeholder="Наприклад: 1 соло + 2 дуети"></div>
-<div class="receipt-actions"><button class="btn lime" id="sendReceipt" type="button">Надіслати квитанцію</button><span class="mini">Файл до 8 МБ</span></div>
-<div class="receipt-status" id="receiptStatus"></div>
-</div>
-<div class="receipt-why"><div class="pay-alert">ПРОСТІШЕ</div><h3>Одна дія замість переписки</h3><p>Спортсмен заповнює ПІБ, суму та додає квитанцію. Організатор отримує файл і запис в одному реєстрі — без пошуку повідомлень у Telegram.</p></div>
-</div>
+
 
 <section class="section"><div class="section-title"><div><div class="eyebrow">My checklist</div><h2>Чекліст <em>спортсмена</em></h2></div><div class="section-sub">Відмітки зберігаються тільки у браузері користувача — без передачі на сервер.</div></div>
 <div class="progress-shell reveal"><div class="progress-ring" id="progressRing"><strong id="progressText">0/7</strong></div><div class="progress-copy"><b>Готовність до участі</b><p id="progressMessage">Відмічай виконані кроки — прогрес збережеться у цьому браузері.</p><div class="progress-bar"><span id="progressBar"></span></div></div></div>
