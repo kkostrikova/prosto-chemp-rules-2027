@@ -137,7 +137,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="fee-builder reveal">
 <div class="fee-options">
 <div class="fee-block active"><div class="fee-head"><span class="fee-badge">SOLO</span><b>Індивідуальні категорії</b></div><div class="field"><label>Кількість соло-категорій</label><input id="soloCount" type="number" min="0" max="10" value="1"></div><small>1 категорія — 2800 грн; 2 — 2500 грн кожна; 3+ — 2300 грн кожна.</small></div>
-<label class="fee-choice"><input id="hasDuet" type="checkbox"><span><b>Дует</b><small>Фіксовано 4500 грн. Знижка ВПО на дует не застосовується.</small></span><strong>4500 ₴</strong></label>
+<div class="fee-block"><div class="fee-head"><span class="fee-badge">DUET</span><b>Дуети</b></div><div class="field"><label>Кількість дуетів</label><input id="duetCount" type="number" min="0" max="10" value="0"></div><small>Кожен дует — 4500 грн. Знижка ВПО на дуети не застосовується.</small></div>
 <div class="fee-block"><div class="fee-head"><span class="fee-badge lime">GROUP</span><b>Група</b></div><div class="field"><label>Участь у групі</label><select id="groupType"><option value="none">Не беру участь</option><option value="small">Група до 4 людей — 5500 грн</option><option value="large">Група більше 4 людей — 7000 грн</option></select></div><small>Групова вартість фіксована та не зменшується через ВПО.</small></div>
 <label class="fee-choice vpo"><input id="vpo" type="checkbox"><span><b>Знижка ВПО 10%</b><small>За умови надання довідки. Знижка рахується тільки на соло-категорії.</small></span><strong>−10%</strong></label>
 </div>
@@ -153,7 +153,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <div class="bank-line"><span class="bank-badge">MONO</span><div><div class="mini">Банк</div><h3>Monobank</h3></div></div>
     <div class="pay-row"><div><span>Отримувач</span><b>Катерина Кострікова</b></div><button class="copy-btn" onclick="copyText('Катерина Кострікова')">Копіювати</button></div>
     <div class="pay-row"><div><span>ФОП / IBAN</span><b class="mono">UA923220010000026002320028334</b></div><button class="copy-btn" onclick="copyText('UA923220010000026002320028334')">Копіювати</button></div>
-    <div class="pay-row"><div><span>ЄРДПУ</span><b>3160115847</b></div><button class="copy-btn" onclick="copyText('3160115847')">Копіювати</button></div>
+    <div class="pay-row"><div><span>ЄДРПОУ</span><b>3160115847</b></div><button class="copy-btn" onclick="copyText('3160115847')">Копіювати</button></div>
     <div class="pay-purpose"><div class="mini">Призначення платежу</div><strong>за участь у змаганнях ПІБ</strong><p>Замість «ПІБ» вкажіть прізвище, ім’я та по батькові учасника.</p><button class="btn pink" onclick="copyText('за участь у змаганнях ПІБ')">Скопіювати призначення</button></div>
   </div>
   <div class="payment-side">
@@ -195,7 +195,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <script>
 const toast=(t)=>{const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)};
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Скопійовано'))}
-function copyPaymentDetails(){const t=`Monobank\nКатерина Кострікова\nФОП / IBAN: UA923220010000026002320028334\nЄРДПУ: 3160115847\nПризначення платежу: за участь у змаганнях ПІБ`;navigator.clipboard?.writeText(t).then(()=>toast('Реквізити скопійовано'))}
+function copyPaymentDetails(){const t=`Monobank\nКатерина Кострікова\nФОП / IBAN: UA923220010000026002320028334\nЄДРПОУ: 3160115847\nПризначення платежу: за участь у змаганнях ПІБ`;navigator.clipboard?.writeText(t).then(()=>toast('Реквізити скопійовано'))}
 // mobile menu
 document.querySelector('.mobile-menu').onclick=()=>document.querySelector('.navlinks').classList.toggle('open');
 document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.querySelector('.navlinks').classList.remove('open'));
@@ -204,32 +204,46 @@ function updateCountdowns(){const now=new Date();document.querySelectorAll('.cou
 // checklist local storage
 document.querySelectorAll('#checklist input').forEach(i=>{const k='pc_'+i.dataset.key;i.checked=localStorage.getItem(k)==='1';i.onchange=()=>localStorage.setItem(k,i.checked?'1':'0')});
 // fee calculator
-const soloCount=document.getElementById('soloCount'),hasDuet=document.getElementById('hasDuet'),groupType=document.getElementById('groupType'),vpo=document.getElementById('vpo'),sumEl=document.getElementById('feeSum'),breakdown=document.getElementById('feeBreakdown'),feeNote=document.getElementById('feeNote');
+const soloCount=document.getElementById('soloCount'),duetCount=document.getElementById('duetCount'),groupType=document.getElementById('groupType'),vpo=document.getElementById('vpo'),sumEl=document.getElementById('feeSum'),breakdown=document.getElementById('feeBreakdown'),feeNote=document.getElementById('feeNote');
 function calcFee(){
  if(!soloCount)return;
- const solo=Math.max(0,parseInt(soloCount.value||0)), duet=hasDuet.checked, group=groupType.value;
+ const solo=Math.max(0,parseInt(soloCount.value||0));
+ const duets=Math.max(0,parseInt(duetCount?.value||0));
+ const group=groupType.value;
+ const hasOther=duets>0 || group!=='none';
+
  let soloEach=0;
  if(solo>0){
    if(solo>=3) soloEach=2300;
    else if(solo===2) soloEach=2500;
-   else soloEach=(duet||group!=='none')?2500:2800;
+   else soloEach=hasOther?2500:2800;
  }
+
  let soloBase=solo*soloEach, soloFinal=soloBase;
  if(vpo.checked && solo>0) soloFinal=Math.round(soloBase*.9);
- const duetPrice=duet?4500:0;
+
+ const duetPrice=duets*4500;
  const groupPrice=group==='small'?5500:group==='large'?7000:0;
  const total=soloFinal+duetPrice+groupPrice;
+
  sumEl.textContent=total.toLocaleString('uk-UA')+' грн';
+
  let rows=[];
  if(solo>0) rows.push(`<div class="fee-row"><span>Соло: ${solo} × ${soloEach.toLocaleString('uk-UA')} грн${vpo.checked?' − 10% ВПО':''}</span><b>${soloFinal.toLocaleString('uk-UA')} грн</b></div>`);
- if(duet) rows.push('<div class="fee-row"><span>Дует · фіксована вартість</span><b>4 500 грн</b></div>');
+ if(duets>0) rows.push(`<div class="fee-row"><span>Дуети: ${duets} × 4 500 грн</span><b>${duetPrice.toLocaleString('uk-UA')} грн</b></div>`);
  if(group!=='none') rows.push(`<div class="fee-row"><span>${group==='small'?'Група до 4 людей':'Група більше 4 людей'} · фіксована вартість</span><b>${groupPrice.toLocaleString('uk-UA')} грн</b></div>`);
  if(!rows.length) rows.push('<div class="fee-row"><span>Оберіть хоча б один вид участі</span><b>0 грн</b></div>');
  breakdown.innerHTML=rows.join('');
- const extra=(duet||group!=='none');
- feeNote.textContent=solo===1&&extra?'Соло розраховано як друга категорія — 2500 грн до застосування знижки ВПО. Дует і група залишаються за фіксованою ціною.':vpo.checked?'Знижка ВПО 10% застосована тільки до соло. На дует і групу вона не поширюється.':'Дует і група не змінюють свою фіксовану вартість.';
+
+ if(solo===1 && hasOther){
+   feeNote.textContent='Одне соло разом із будь-якою кількістю дуетів та/або групою рахується як друга категорія: 2500 грн до застосування знижки ВПО. Кожен дует оплачується окремо по 4500 грн.';
+ } else if(vpo.checked){
+   feeNote.textContent='Знижка ВПО 10% застосована тільки до соло. На дуети та групу вона не поширюється.';
+ } else {
+   feeNote.textContent='Кожен дует коштує 4500 грн. Групова вартість фіксована. Знижка ВПО застосовується тільки до соло.';
+ }
 }
-[soloCount,hasDuet,groupType,vpo].filter(Boolean).forEach(x=>x.addEventListener('input',calcFee));calcFee();
+[soloCount,duetCount,groupType,vpo].filter(Boolean).forEach(x=>x.addEventListener('input',calcFee));calcFee();
 // legacy apparatus tabs removed
 // signature pad
 const canvas=document.getElementById('sig'),ctx=canvas.getContext('2d');let drawing=false,hasSig=false;function fit(){const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;const old=hasSig?canvas.toDataURL():null;canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.scale(dpr,dpr);ctx.lineWidth=2.2;ctx.lineCap='round';ctx.strokeStyle='#111';if(old){let im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=old}}fit();window.addEventListener('resize',fit);
