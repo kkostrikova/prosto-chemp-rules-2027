@@ -191,7 +191,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     display:block!important;
     width:auto!important;
     height:auto!important;
-    max-width:31mm!important;
+    max-width:38mm!important;
     max-height:29mm!important;
     object-fit:contain!important;
     margin:auto!important
@@ -226,53 +226,61 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     height:auto!important;
     max-height:282mm!important;
     overflow:hidden!important;
-    zoom:.78!important;
+    zoom:1!important;
   }
   body.print-compulsory .comp-print h1{
-    font-size:15pt!important;
-    margin:0 0 2.5mm!important;
+    font-size:20pt!important;
+    margin:0 0 4mm!important;
   }
   body.print-compulsory .comp-print .print-meta{
-    margin:0 0 2.5mm!important;
+    margin:0 0 4mm!important;
   }
   body.print-compulsory .comp-print .print-meta div{
-    padding:1.5mm!important;
-    font-size:7pt!important;
+    padding:2.2mm!important;
+    font-size:8.5pt!important;
     line-height:1.1!important;
   }
   body.print-compulsory .comp-print table{
-    font-size:6.7pt!important;
-    line-height:1.08!important;
+    font-size:8.2pt!important;
+    line-height:1.15!important;
   }
   body.print-compulsory .comp-print th,
   body.print-compulsory .comp-print td{
-    padding:1.2mm!important;
-    line-height:1.08!important;
+    padding:2mm!important;
+    line-height:1.15!important;
   }
   body.print-compulsory .comp-print th:nth-child(1),
-  body.print-compulsory .comp-print td:nth-child(1){width:6mm!important}
+  body.print-compulsory .comp-print td:nth-child(1){width:8mm!important}
   body.print-compulsory .comp-print th:nth-child(2),
-  body.print-compulsory .comp-print td:nth-child(2){width:14mm!important}
+  body.print-compulsory .comp-print td:nth-child(2){width:18mm!important}
   body.print-compulsory .comp-print th:nth-child(3),
   body.print-compulsory .comp-print td:nth-child(3){width:31mm!important}
-  body.print-compulsory .comp-print .pimg{width:31mm!important}
+  body.print-compulsory .comp-print .pimg{width:38mm!important}
   body.print-compulsory .comp-print .pimg img{
-    max-width:27mm!important;
-    max-height:24mm!important;
+    max-width:34mm!important;
+    max-height:34mm!important;
   }
   body.print-compulsory .comp-print .pdesc{
-    font-size:6.3pt!important;
-    line-height:1.08!important;
+    font-size:8pt!important;
+    line-height:1.15!important;
   }
-  body.print-compulsory .comp-print td>b{font-size:7pt!important}
+  body.print-compulsory .comp-print td>b{font-size:9pt!important}
   body.print-compulsory .comp-print .print-foot{
-    margin-top:1.5mm!important;
-    font-size:6pt!important;
+    margin-top:2.5mm!important;
+    font-size:7pt!important;
   }
   body.print-compulsory .comp-print tr{
     break-inside:avoid!important;
     page-break-inside:avoid!important;
   }
+}
+
+
+@media print{
+  body.print-compulsory #compulsoryPrint[data-count="5"]{zoom:.91!important}
+  body.print-compulsory #compulsoryPrint[data-count="6"],
+  body.print-compulsory #compulsoryPrint[data-count="7"],
+  body.print-compulsory #compulsoryPrint[data-count="8"]{zoom:.82!important}
 }
 
 </style>
@@ -581,6 +589,7 @@ function validateComp(){
 function buildCompPrint(){
   if(!validateComp()){toast('Оберіть щонайменше один елемент');return false}
   const p=compPayload(),target=document.getElementById('compulsoryPrint');
+  target.dataset.count=String(p.elements.length);
   target.innerHTML=`<h1>ОБОВ'ЯЗКОВІ ЕЛЕМЕНТИ</h1>
   <div class="print-meta">
     <div><b>СПОРТСМЕН</b><br>${p.athleteName}</div>
