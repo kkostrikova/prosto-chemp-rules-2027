@@ -15,7 +15,7 @@ const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
 
 function doGet(e) {
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'9'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'10'});
 }
 
 function doPost(e) {
@@ -28,6 +28,10 @@ function doPost(e) {
 
     if (data.submissionType === 'compulsoryForm') {
       return saveCompulsoryForm_(data);
+    }
+
+    if (data.submissionType === 'artRoutineDescription') {
+      return saveArtRoutineDescription_(data);
     }
 
     return saveAgreement_(data);
@@ -132,8 +136,8 @@ function savePaymentReceipt_(data) {
 function saveCompulsoryForm_(data) {
   log_('compulsoryForm', 'START', data, 'OK', 'Request received');
 
-  if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus || !data.routineDescription) {
-    throw new Error('Required athlete fields or routine description are missing.');
+  if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus) {
+    throw new Error('Required athlete fields are missing.');
   }
 
   const elements = Array.isArray(data.elements) ? data.elements : [];
@@ -143,17 +147,7 @@ function saveCompulsoryForm_(data) {
   let sh = ss.getSheetByName(COMPULSORY_SHEET);
   if (!sh) {
     sh = ss.insertSheet(COMPULSORY_SHEET);
-    sh.appendRow(['ПІБ спортсмена','Снаряд','Категорія','PDF файл','Вікова категорія','Опис номера для ведучої']);
-  } else {
-    sh.getRange(1, 5, 1, 2).setValues([['Вікова категорія','Опис номера для ведучої']]).setFontWeight('bold');
-  }
-
-  let hostSh = ss.getSheetByName(HOST_SHEET);
-  if (!hostSh) {
-    hostSh = ss.insertSheet(HOST_SHEET);
-    hostSh.appendRow(['ПІБ','Категорія','Вікова категорія','Снаряд','Опис номера для ведучої']);
-    hostSh.setFrozenRows(1);
-    hostSh.getRange(1,1,1,5).setFontWeight('bold');
+    sh.appendRow(['ПІБ спортсмена','Снаряд','Категорія','PDF файл']);
   }
 
   const now = new Date();
@@ -240,23 +234,39 @@ function saveCompulsoryForm_(data) {
     data.athleteName || '',
     data.apparatus || '',
     data.category || '',
-    pdfFile.getUrl(),
-    data.ageCategory || '',
-    data.routineDescription || ''
+    pdfFile.getUrl()
   ]);
+  log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Row appended');
 
-  hostSh.appendRow([
+  try { sourceFile.setTrashed(true); } catch (trashErr) {}
+
+  return json_({ok:true,type:'compulsoryForm',formId:formId,pdfUrl:pdfFile.getUrl()});
+}
+
+
+function saveArtRoutineDescription_(data) {
+  if (!data.athleteName || !data.category || !data.ageCategory || !data.apparatus || !data.routineDescription) {
+    throw new Error('All ART description fields are required.');
+  }
+
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(HOST_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(HOST_SHEET);
+    sh.appendRow(['ПІБ','Категорія','Вікова категорія','Снаряд','Опис номера для ведучої']);
+    sh.setFrozenRows(1);
+    sh.getRange(1,1,1,5).setFontWeight('bold');
+  }
+
+  sh.appendRow([
     data.athleteName || '',
     data.category || '',
     data.ageCategory || '',
     data.apparatus || '',
     data.routineDescription || ''
   ]);
-  log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Compulsory + host rows appended');
 
-  try { sourceFile.setTrashed(true); } catch (trashErr) {}
-
-  return json_({ok:true,type:'compulsoryForm',formId:formId,pdfUrl:pdfFile.getUrl()});
+  return json_({ok:true,type:'artRoutineDescription'});
 }
 
 function log_(type, stage, data, status, details) {
