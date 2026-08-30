@@ -26,7 +26,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:linear-gradient(180deg,#111319,#0a0b0e);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden}.card:hover{border-color:#444}.card:before{content:'';position:absolute;inset:0 auto auto 0;width:4px;height:100%;background:var(--pink);opacity:.9}.card.lime:before{background:var(--lime)}.card h3{margin:0 0 9px;font-size:18px}.card p{color:#b9bbc0;line-height:1.55;margin:0 0 15px;font-size:14px}.mini{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
 .deadline{grid-column:span 4;background:#0f1114;border:1px solid #262a31;border-radius:18px;padding:18px}.deadline strong{display:block;font-size:28px;margin:5px 0 8px}.deadline .count{color:var(--lime);font-size:12px;font-weight:800}
 .steps{counter-reset:step;display:grid;gap:10px}.step{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;background:#0c0e11;border:1px solid #23262d;border-radius:15px;padding:12px 14px}.step:before{counter-increment:step;content:counter(step);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#1b1e24;color:var(--lime);font-weight:900}.step label{display:flex;flex-direction:column;gap:3px}.step label span{color:#8e9299;font-size:12px}.step input{accent-color:var(--pink);width:20px;height:20px}
-.calc{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:12px;color:#aaa;font-weight:700}.field input,.field select{background:#0a0b0d;color:white;border:1px solid #30343c;border-radius:12px;padding:12px}.price{grid-column:1/-1;border:1px solid var(--lime);border-radius:14px;padding:16px;background:#101709}.price .sum{font-size:34px;font-weight:900;color:var(--lime)}
+.calc{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:12px;color:#aaa;font-weight:700}.field input,.field select,.field textarea{background:#0a0b0d;color:white;border:1px solid #30343c;border-radius:12px;padding:12px}.field textarea{min-height:120px;resize:vertical;line-height:1.5;font:inherit}.price{grid-column:1/-1;border:1px solid var(--lime);border-radius:14px;padding:16px;background:#101709}.price .sum{font-size:34px;font-weight:900;color:var(--lime)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{background:#101217;color:#bbb;border:1px solid #292d34;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer}.tab.active{background:var(--pink);color:white;border-color:var(--pink)}.tabpanels>.panel{display:none}.tabpanels>.panel.active{display:block}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.el-card{margin:0;background:white;border-radius:12px;padding:6px;min-height:130px;display:grid;place-items:center}.el-card img{max-width:100%;max-height:160px;object-fit:contain}
 .rule-reader{background:#08090b;border:1px solid #24272e;border-radius:26px;overflow:hidden}.reader-toolbar{position:sticky;top:67px;z-index:20;background:#0d0f13;border-bottom:1px solid #292c33;padding:14px;display:flex;gap:10px;align-items:center}.reader-toolbar input{flex:1;background:#050608;color:white;border:1px solid #343942;padding:12px 14px;border-radius:12px}.reader-nav{display:flex;gap:7px;overflow:auto;padding:12px 14px;border-bottom:1px solid #20232a}.reader-nav button{white-space:nowrap;background:#14171c;color:#bbb;border:1px solid #2b2f37;border-radius:999px;padding:9px 12px;cursor:pointer}.reader-nav button:hover{color:white;border-color:#555}.rules-body{padding:20px;max-height:760px;overflow:auto;scroll-behavior:smooth}.rule-section{padding:10px 0 25px;border-bottom:1px dashed #292d34}.rule-section h3,.rule-section h4,.rule-section h5{color:white;margin-top:24px}.rule-section h3{font-size:25px;color:var(--lime)}.rule-section h4{font-size:19px;color:#fff}.rule-section p,.rule-section li{color:#c9cbd0;line-height:1.7}.rule-section ul{padding-left:22px}.rule-callout{border-left:3px solid var(--pink);padding:10px 13px;background:#19040e;border-radius:8px;color:white!important}
 .table-wrap{overflow:auto;border:1px solid #2b2f37;border-radius:14px;margin:14px 0}.data-table{width:100%;border-collapse:collapse;min-width:670px;background:#0b0d10}.data-table th,.data-table td{padding:12px 13px;text-align:left;border-bottom:1px solid #252930;font-size:13px;vertical-align:top}.data-table th{background:#15181d;color:var(--lime);text-transform:uppercase;font-size:11px;letter-spacing:.06em}.data-table tr:last-child td{border-bottom:0}
@@ -378,6 +378,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
         <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option>Гамак</option>
       </select></div>
     </div>
+    <div class="field" style="margin-top:12px"><label>Опис номера для ведучої</label><textarea id="compDescription" placeholder="Коротко опишіть номер так, щоб ведуча могла представити виступ"></textarea></div>
     <div class="comp-source-note" id="compSourceNote">Оберіть розряд і снаряд — система сформує потрібні групи автоматично.</div>
 
     <div class="comp-step-title"><span>02</span><div><b>Вибір елементів</b><small>Оберіть щонайменше один елемент. Не обов’язково заповнювати всі групи.</small></div></div>
@@ -576,25 +577,26 @@ function compPayload(){
     ageCategory:document.getElementById('compAge').value,
     category:document.getElementById('compCategory').value,
     apparatus:document.getElementById('compApparatus').value,
+    routineDescription:document.getElementById('compDescription').value.trim(),
     rulesVersion:'2026/27',
     elements:compState.order.map(c=>byCode[c]).filter(Boolean)
   };
 }
 function validateComp(){
   const p=compPayload(),availableGroups=[...new Set(compDataset().map(x=>x.group))],chosen=Object.keys(compState.selected);
-  const ok=!!p.athleteName&&!!p.ageCategory&&!!p.category&&!!p.apparatus&&availableGroups.length>0&&chosen.length>=1&&p.elements.length>=1;
+  const ok=!!p.athleteName&&!!p.ageCategory&&!!p.category&&!!p.apparatus&&!!p.routineDescription&&availableGroups.length>0&&chosen.length>=1&&p.elements.length>=1;
   const box=document.getElementById('compValidation'),submit=document.getElementById('compSubmit');
   if(ok){
     box.className='comp-validation ok';
     box.textContent=`✓ Обрано елементів: ${p.elements.length}. Мінімальна вимога виконана. За потреби можна додати елементи з інших груп або змінити порядок виконання.`;
   }else{
     box.className='comp-validation';
-    box.textContent=`Заповніть дані спортсмена та оберіть щонайменше 1 обов’язковий елемент. Зараз обрано: ${p.elements.length}.`;
+    box.textContent=`Заповніть дані спортсмена, опис номера для ведучої та оберіть щонайменше 1 обов’язковий елемент. Зараз обрано: ${p.elements.length}.`;
   }
   if(submit){submit.disabled=!ok||!COMPULSORY_BACKEND_READY;submit.textContent='Підтвердити та надіслати';}
   return ok;
 }
-['compAthlete','compAge'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateComp));
+['compAthlete','compAge','compDescription'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateComp));
 ['compCategory','compApparatus'].forEach(id=>document.getElementById(id)?.addEventListener('change',renderCompGroups));
 
 function buildCompPrint(){
