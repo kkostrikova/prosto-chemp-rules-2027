@@ -117,6 +117,98 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 }
 
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
+
+@media print{
+  @page{size:A4 landscape;margin:7mm}
+  body.print-compulsory{background:#fff!important;color:#000!important;margin:0!important;padding:0!important}
+  body.print-compulsory .grain,
+  body.print-compulsory header,
+  body.print-compulsory .quick-dock,
+  body.print-compulsory footer{display:none!important}
+
+  body.print-compulsory main{display:block!important;margin:0!important;padding:0!important}
+  body.print-compulsory main>section{display:none!important}
+  body.print-compulsory main>#compulsory{display:block!important;margin:0!important;padding:0!important}
+  body.print-compulsory #compulsory>*{display:none!important}
+  body.print-compulsory #compulsoryPrint{
+    display:block!important;
+    visibility:visible!important;
+    position:static!important;
+    inset:auto!important;
+    width:auto!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    background:#fff!important;
+    color:#000!important;
+  }
+  body.print-compulsory #compulsoryPrint *{visibility:visible!important}
+
+  body.print-compulsory .comp-print h1{
+    font-size:17pt!important;
+    line-height:1!important;
+    margin:0 0 4mm!important;
+    text-align:center!important
+  }
+  body.print-compulsory .comp-print .print-meta{
+    display:grid!important;
+    grid-template-columns:1fr 1fr 1fr 1fr!important;
+    border:1px solid #777!important;
+    margin:0 0 4mm!important
+  }
+  body.print-compulsory .comp-print .print-meta div{
+    padding:2.2mm!important;
+    border-right:1px solid #999!important;
+    border-bottom:0!important;
+    font-size:8pt!important;
+    line-height:1.2!important
+  }
+  body.print-compulsory .comp-print .print-meta div:last-child{border-right:0!important}
+
+  body.print-compulsory .comp-print table{
+    width:100%!important;
+    table-layout:fixed!important;
+    border-collapse:collapse!important;
+    font-size:7.5pt!important
+  }
+  body.print-compulsory .comp-print th,
+  body.print-compulsory .comp-print td{
+    border:1px solid #888!important;
+    padding:1.7mm!important;
+    vertical-align:top!important;
+    page-break-inside:avoid!important
+  }
+  body.print-compulsory .comp-print th{background:#eee!important;font-size:7pt!important}
+  body.print-compulsory .comp-print th:nth-child(1),
+  body.print-compulsory .comp-print td:nth-child(1){width:8mm!important;text-align:center!important}
+  body.print-compulsory .comp-print th:nth-child(2),
+  body.print-compulsory .comp-print td:nth-child(2){width:16mm!important;text-align:center!important}
+  body.print-compulsory .comp-print th:nth-child(3),
+  body.print-compulsory .comp-print td:nth-child(3){width:34mm!important;text-align:center!important}
+  body.print-compulsory .comp-print .pcode{font-size:10pt!important}
+  body.print-compulsory .comp-print .pimg{width:34mm!important}
+  body.print-compulsory .comp-print .pimg img{
+    display:block!important;
+    width:auto!important;
+    height:auto!important;
+    max-width:31mm!important;
+    max-height:29mm!important;
+    object-fit:contain!important;
+    margin:auto!important
+  }
+  body.print-compulsory .comp-print .pdesc{
+    white-space:pre-line!important;
+    font-size:7pt!important;
+    line-height:1.15!important
+  }
+  body.print-compulsory .comp-print td>b{font-size:8pt!important}
+  body.print-compulsory .comp-print .print-foot{
+    margin-top:2mm!important;
+    font-size:6.5pt!important;
+    color:#666!important
+  }
+}
+
 </style>
 </head>
 <body>
