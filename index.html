@@ -95,7 +95,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media(max-width:600px){.form-grid.compact{grid-template-columns:1fr}.receipt-copy,.receipt-why{padding:16px}}
 
 
-.compulsory-launch{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.compulsory-launch{display:grid;grid-template-columns:1fr;gap:16px}
 .compulsory-main,.compulsory-side{border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:24px}
 .compulsory-main{border-color:#baff0045}.compulsory-main h3{font-size:30px;line-height:1.05;margin:14px 0 12px}.compulsory-main p,.compulsory-side p{color:#a6abb3;font-size:13px;line-height:1.6}
 .launch-badge{display:inline-block;padding:7px 10px;border-radius:999px;background:var(--lime);color:#080808;font-size:10px;font-weight:900;letter-spacing:.1em}
@@ -598,11 +598,6 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <div class="launch-note"><b>Важливо:</b> після відкриття спортсмен обере ПІБ, вік, розряд і снаряд, а система покаже лише допустимі елементи з відповідних груп.</div>
     <button class="btn lime" id="compulsoryLaunchBtn" type="button" disabled>Додаток відкриється 1 жовтня</button>
   </div>
-  <div class="compulsory-side">
-    <div class="mini">До відкриття додатка</div>
-    <div class="launch-count" id="compulsoryCountdown">рахуємо…</div>
-    <p>Для тестування до старту використовується службовий режим попереднього перегляду.</p>
-  </div>
 </div>
 
 <div class="comp-builder reveal" id="compBuilder" hidden>
@@ -763,20 +758,20 @@ const compState={selected:{},order:[]};
 function compulsoryPreviewMode(){return new URLSearchParams(location.search).get('preview')==='1'}
 function updateCompulsoryLaunch(){
   const btn=document.getElementById('compulsoryLaunchBtn'),count=document.getElementById('compulsoryCountdown'),builder=document.getElementById('compBuilder'),gate=document.getElementById('compulsoryGate');
-  if(!btn||!count||!builder)return;
+  if(!btn||!builder)return;
   const openDate=new Date('2026-10-01T00:00:00'),closeDate=new Date('2027-01-02T00:00:00'),now=new Date(),preview=compulsoryPreviewMode();
   if(now>=closeDate&&!preview){
-    count.textContent='ПРИЙОМ ЗАВЕРШЕНО';
+    if(count) count.textContent='ПРИЙОМ ЗАВЕРШЕНО';
     btn.disabled=true;
     btn.textContent='Прийом завершено';
     builder.hidden=true;
   }else if(now>=openDate||preview){
-    count.textContent=now>=openDate?'ВІДКРИТО':'PREVIEW';
+    if(count) count.textContent=now>=openDate?'ВІДКРИТО':'PREVIEW';
     btn.disabled=false;btn.textContent=now>=openDate?'Відкрити конструктор ↓':'Відкрити тестовий конструктор ↓';
     btn.onclick=()=>{builder.hidden=false;builder.scrollIntoView({behavior:'smooth',block:'start'})};
     if(preview) builder.hidden=false;
   }else{
-    const days=Math.ceil((openDate-now)/86400000);count.textContent=days+' дн.';btn.disabled=true;btn.textContent='Додаток відкриється 1 жовтня';
+    const days=Math.ceil((openDate-now)/86400000);if(count) count.textContent=days+' дн.';btn.disabled=true;btn.textContent='Додаток відкриється 1 жовтня';
   }
 }
 updateCompulsoryLaunch();setInterval(updateCompulsoryLaunch,3600000);
