@@ -31,7 +31,7 @@ function doGet(e) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
   }
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'12'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'13'});
 }
 
 function doPost(e) {
@@ -266,6 +266,11 @@ function saveCompulsoryForm_(data) {
 
 
 function saveArtRoutineDescription_(data) {
+  const artDeadline = new Date('2027-01-01T23:59:59+02:00');
+  if (new Date() > artDeadline) {
+    throw new Error('ART routine description deadline has passed.');
+  }
+
   if (!data.athleteName || !data.category || !data.ageCategory || !data.apparatus || !data.routineDescription) {
     throw new Error('All ART description fields are required.');
   }
