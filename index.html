@@ -364,7 +364,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
         <option value="">Оберіть</option><option>Дебют</option><option>Аматор</option><option>Напівпрофесіонал</option><option>Професіонал</option><option>Еліт</option>
       </select></div>
       <div class="field"><label>Снаряд</label><select id="compApparatus">
-        <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option value="Гамак" disabled>Гамак — база звіряється</option>
+        <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option>Гамак</option>
       </select></div>
     </div>
     <div class="comp-source-note" id="compSourceNote">Оберіть розряд і снаряд — система сформує потрібні групи автоматично.</div>
@@ -535,7 +535,7 @@ function renderCompGroups(){
     if(el){
       compState.selected[group]=el;
       prev.className='comp-preview show';
-      prev.innerHTML=`<div class="comp-code">${el.code}</div><div><h4>${el.title||'Назву не зазначено у структурованому джерелі'}</h4><p>${el.description||'Опис не витягнуто зі структурованого джерела.'}</p></div>`;
+      prev.innerHTML=`<div class="comp-code">${el.code}</div><div><h4>${el.title||`${el.code} · ${el.group}`}</h4><p>${el.description||'Опис не витягнуто зі структурованого джерела.'}</p></div>`;
     }else{delete compState.selected[group];prev.className='comp-preview';prev.innerHTML=''}
     syncCompOrder();renderCompOrder();validateComp();
   }));
@@ -553,7 +553,7 @@ function renderCompOrder(){
   const byCode=Object.fromEntries(all.map(x=>[x.code,x]));
   wrap.innerHTML=compState.order.map((code,i)=>{
     const x=byCode[code];if(!x)return'';
-    return `<div class="order-row"><div class="order-no">${i+1}</div><div class="order-copy"><b>${x.code} · ${x.title||'Без назви'}</b><small>${x.group}</small></div><div class="order-controls"><button type="button" data-move="-1" data-i="${i}" aria-label="Вгору">↑</button><button type="button" data-move="1" data-i="${i}" aria-label="Вниз">↓</button></div></div>`;
+    return `<div class="order-row"><div class="order-no">${i+1}</div><div class="order-copy"><b>${x.code}${x.title?' · '+x.title:''}</b><small>${x.group}</small></div><div class="order-controls"><button type="button" data-move="-1" data-i="${i}" aria-label="Вгору">↑</button><button type="button" data-move="1" data-i="${i}" aria-label="Вниз">↓</button></div></div>`;
   }).join('');
   wrap.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,j=i+(+b.dataset.move);if(j<0||j>=compState.order.length)return;[compState.order[i],compState.order[j]]=[compState.order[j],compState.order[i]];renderCompOrder();});
 }
