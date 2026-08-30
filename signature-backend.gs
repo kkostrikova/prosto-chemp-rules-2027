@@ -221,8 +221,8 @@ function saveCompulsoryForm_(data) {
     'th,td{border:1px solid #777;padding:2mm;vertical-align:top}' +
     'th{background:#e8e8e8;text-align:center;font-size:8.5pt}' +
     'tr{page-break-inside:avoid}' +
-    '.num{width:8mm;text-align:center}' +
-    '.code{width:15mm;text-align:center;font-weight:700}' +
+    '.num{width:6mm;text-align:center;font-size:8pt}' +
+    '.code{width:12mm;text-align:center;font-weight:700;font-size:8.5pt}' +
     '.visual{width:46mm;text-align:center;vertical-align:middle}' +
     '.visual img{display:block;max-width:43mm;max-height:48mm;width:auto;height:auto;margin:auto}' +
     '.no-image{font-size:7pt;color:#777}' +
