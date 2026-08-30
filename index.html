@@ -80,6 +80,11 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media(max-width:900px){.payment-card{grid-template-columns:1fr}}
 @media(max-width:600px){.payment-main,.payment-side{padding:16px}.pay-row{align-items:flex-start;flex-direction:column}.copy-btn{width:100%}}
 
+
+.pay-quick.open{grid-column:span 8}.quick-pay-details{display:none;margin-top:16px;padding-top:14px;border-top:1px dashed #3b4049;grid-template-columns:repeat(2,1fr);gap:10px}.pay-quick.open .quick-pay-details{display:grid}.quick-pay-details>div{padding:10px 12px;border:1px solid #2d323a;border-radius:12px;background:#0b0d10}.quick-pay-details span{display:block;color:#7f858e;font-size:9px;text-transform:uppercase;letter-spacing:.09em;font-weight:900;margin-bottom:5px}.quick-pay-details b{display:block;font-size:12px;overflow-wrap:anywhere}.quick-pay-details .quick-pay-actions{grid-column:1/-1;display:flex;gap:8px;background:transparent;border:0;padding:0}.quick-pay-actions .copy-btn{text-decoration:none;text-align:center}
+@media(max-width:900px){.pay-quick.open{grid-column:span 12}}
+@media(max-width:600px){.quick-pay-details{grid-template-columns:1fr}.quick-pay-details .quick-pay-actions{grid-column:1}.quick-pay-actions{flex-direction:column}}
+
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 </style>
 </head>
@@ -95,7 +100,16 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="start"><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
 <div class="quick-grid reveal">
 <div class="quick-card"><div class="quick-top"><span class="quick-num">01 · РЕЄСТРАЦІЯ</span><span class="quick-icon">↗</span></div><h3>Подати заявку</h3><p>Онлайн-реєстрація та кабінет спортсмена.</p><a class="btn pink" href="https://polecompetition.com/" target="_blank" rel="noopener">Відкрити кабінет ↗</a></div>
-<div class="quick-card lime"><div class="quick-top"><span class="quick-num">02 · ОПЛАТА</span><span class="quick-icon">₴</span></div><h3>Реквізити</h3><p>Monobank · ФОП Катерина Кострікова. Реквізити та призначення платежу можна скопіювати одним натисканням.</p><a class="btn lime" href="#payment-details">Відкрити реквізити ↓</a></div><h3>Реквізити</h3><p>Сплата реєстраційного внеску за посиланням, наведеним у правилах.</p><a class="btn lime" href="https://mssg.me/37p6h" target="_blank" rel="noopener">Відкрити реквізити ↗</a></div>
+
+<div class="quick-card lime pay-quick" id="payQuick"><div class="quick-top"><span class="quick-num">02 · ОПЛАТА</span><span class="quick-icon">₴</span></div><h3>Реквізити</h3><p>Monobank · ФОП Катерина Кострікова. Натисни — реквізити розгорнуться прямо у цьому блоці.</p><button class="btn lime" id="togglePayQuick" type="button">Показати реквізити ↓</button>
+<div class="quick-pay-details" id="quickPayDetails">
+<div><span>Отримувач</span><b>Катерина Кострікова</b></div>
+<div><span>IBAN</span><b class="mono">UA923220010000026002320028334</b></div>
+<div><span>ЄДРПОУ</span><b>3160115847</b></div>
+<div><span>Призначення</span><b>за участь у змаганнях ПІБ</b></div>
+<div class="quick-pay-actions"><button class="copy-btn" type="button" onclick="copyPaymentDetails()">Скопіювати все</button><a class="copy-btn" href="#payment-details">Детальніше ↓</a></div>
+</div></div>
+
 <div class="quick-card"><div class="quick-top"><span class="quick-num">03 · МУЗИКА / ФОН</span><span class="quick-icon">♫</span></div><h3>Матеріали виступу</h3><p>Відео/зображення, опис номера, фон та форми обов’язкових елементів.</p><a class="btn pink" href="https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit" target="_blank" rel="noopener">Відкрити форму ↗</a></div>
 <div class="quick-card lime"><div class="quick-top"><span class="quick-num">04 · ОБОВ’ЯЗКОВІ</span><span class="quick-icon">✓</span></div><h3>Comply</h3><p>Заповнення обов’язкових елементів та збереження у форматі PDF.</p><a class="btn lime" href="https://comply.org.ua/" target="_blank" rel="noopener">Перейти в Comply ↗</a></div>
 <div class="quick-card"><div class="quick-top"><span class="quick-num">05 · КВИТАНЦІЯ</span><span class="quick-icon">⌁</span></div><h3>Підтвердження оплати</h3><p>У правилах вказано Telegram +380675210316 (Катерина). У платежі зазначається ПІБ учасника та призначення.</p><button class="btn" onclick="copyText('+380675210316')">Скопіювати номер</button></div>
@@ -182,7 +196,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <label class="checkline"><input type="checkbox" class="parent-check"><span>Підтверджую, що прочитав/ла текст згоди та правила і погоджуюсь з ними.</span></label>
 </div>
 </div>
-<div class="signature-card"><div class="mini">Рукописний підпис на екрані</div><h3 id="signatureTitle">Підпис спортсмена</h3><canvas id="sig"></canvas><div class="sig-actions"><button class="btn" id="clearSig">Очистити</button><button class="btn lime" id="makeReceipt">Сформувати підпис</button></div><div class="receipt" id="receipt"></div><div class="storage-note">Форма та підпис уже працюють на сторінці. Для централізованого збору підписів у таблицю/сховище потрібно один раз підключити серверне збереження.</div></div>
+<div class="signature-card"><div class="mini">Рукописний підпис на екрані</div><h3 id="signatureTitle">Підпис спортсмена</h3><canvas id="sig"></canvas><div class="sig-actions"><button class="btn" id="clearSig">Очистити</button><button class="btn lime" id="makeReceipt">Надіслати згоду</button></div><div class="receipt" id="receipt"></div><div class="storage-note">Після натискання «Надіслати згоду» дані форми та рукописний підпис передаються до сховища організатора.</div></div>
 </div>
 </section>
 
@@ -194,8 +208,16 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="toast" id="toast"></div>
 <script>
 const toast=(t)=>{const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)};
+const SIGNATURE_ENDPOINT='https://script.google.com/macros/s/AKfycbx4wkYag-tnk_MmFlNuDyEg8X5hS73_3ze1fu-yFBdmmZtPplJ5aB74uFrK8laVfvkKgA/exec';
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Скопійовано'))}
 function copyPaymentDetails(){const t=`Monobank\nКатерина Кострікова\nФОП / IBAN: UA923220010000026002320028334\nЄДРПОУ: 3160115847\nПризначення платежу: за участь у змаганнях ПІБ`;navigator.clipboard?.writeText(t).then(()=>toast('Реквізити скопійовано'))}
+// expand payment requisites
+const payToggle=document.getElementById('togglePayQuick');
+payToggle?.addEventListener('click',()=>{
+  const card=document.getElementById('payQuick');
+  card.classList.toggle('open');
+  payToggle.textContent=card.classList.contains('open')?'Згорнути реквізити ↑':'Показати реквізити ↓';
+});
 // mobile menu
 document.querySelector('.mobile-menu').onclick=()=>document.querySelector('.navlinks').classList.toggle('open');
 document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.querySelector('.navlinks').classList.remove('open'));
@@ -249,7 +271,56 @@ function calcFee(){
 const canvas=document.getElementById('sig'),ctx=canvas.getContext('2d');let drawing=false,hasSig=false;function fit(){const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;const old=hasSig?canvas.toDataURL():null;canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.scale(dpr,dpr);ctx.lineWidth=2.2;ctx.lineCap='round';ctx.strokeStyle='#111';if(old){let im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=old}}fit();window.addEventListener('resize',fit);
 function pos(e){const r=canvas.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return [p.clientX-r.left,p.clientY-r.top]};function start(e){drawing=true;hasSig=true;ctx.beginPath();let [x,y]=pos(e);ctx.moveTo(x,y);e.preventDefault()}function move(e){if(!drawing)return;let [x,y]=pos(e);ctx.lineTo(x,y);ctx.stroke();e.preventDefault()}function end(){drawing=false}['mousedown','touchstart'].forEach(x=>canvas.addEventListener(x,start,{passive:false}));['mousemove','touchmove'].forEach(x=>canvas.addEventListener(x,move,{passive:false}));['mouseup','mouseleave','touchend'].forEach(x=>canvas.addEventListener(x,end));document.getElementById('clearSig').onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false};
 document.querySelectorAll('.agreement-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.agreement-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.agreement-panel').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById('agreement-'+btn.dataset.agreement).classList.add('active');document.getElementById('signatureTitle').textContent=btn.dataset.agreement==='adult'?'Підпис спортсмена':'Підпис батька / представника';document.getElementById('receipt').style.display='none';ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;}));
-document.getElementById('makeReceipt').onclick=()=>{const mode=document.querySelector('.agreement-tab.active')?.dataset.agreement||'adult',r=document.getElementById('receipt');let valid=false,name='';if(mode==='adult'){name=document.getElementById('adultAthlete').value.trim();valid=!!name&&document.querySelector('.adult-check').checked&&hasSig;}else{name=document.getElementById('parentName').value.trim();valid=!!name&&!!document.getElementById('childName').value.trim()&&document.querySelector('.parent-check').checked&&hasSig;}if(!valid){toast('Заповніть обов’язкові поля, підтвердження та підпис');return}const dt=new Date().toLocaleString('uk-UA');r.style.display='block';r.innerHTML=`<b>Підпис сформовано.</b><br>${name} · ${dt}<br><small>Наступний крок — підключення централізованого збереження, щоб кожна підписана згода автоматично надходила організаторам.</small>`;};
+document.getElementById('makeReceipt').onclick=async()=>{
+  const mode=document.querySelector('.agreement-tab.active')?.dataset.agreement||'adult';
+  const r=document.getElementById('receipt');
+  const btn=document.getElementById('makeReceipt');
+  let valid=false, payload={agreementType:mode==='adult'?'adult':'parent',rulesVersion:'2026/27'};
+
+  if(mode==='adult'){
+    const athlete=document.getElementById('adultAthlete').value.trim();
+    const dob=document.getElementById('adultDob').value;
+    const phone=document.getElementById('adultPhone').value.trim();
+    const email=document.getElementById('adultEmail').value.trim();
+    valid=!!athlete&&!!dob&&document.querySelector('.adult-check').checked&&hasSig;
+    payload={...payload,athleteName:athlete,athleteDob:dob,phone,email,representativeName:'',representativeRole:''};
+  }else{
+    const representative=document.getElementById('parentName').value.trim();
+    const role=document.getElementById('parentRole').value;
+    const athlete=document.getElementById('childName').value.trim();
+    const dob=document.getElementById('childDob').value;
+    const phone=document.getElementById('parentPhone').value.trim();
+    const email=document.getElementById('parentEmail').value.trim();
+    valid=!!representative&&!!athlete&&!!dob&&document.querySelector('.parent-check').checked&&hasSig;
+    payload={...payload,athleteName:athlete,athleteDob:dob,representativeName:representative,representativeRole:role,phone,email};
+  }
+
+  if(!valid){toast('Заповніть ПІБ, дату народження, підтвердження та підпис');return}
+
+  payload.signatureDataUrl=canvas.toDataURL('image/png');
+  btn.disabled=true;
+  btn.textContent='Надсилаємо…';
+  r.style.display='block';
+  r.innerHTML='<b>Зберігаємо згоду…</b>';
+
+  try{
+    await fetch(SIGNATURE_ENDPOINT,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload)
+    });
+    const dt=new Date().toLocaleString('uk-UA');
+    r.innerHTML=`<b>✓ Згоду надіслано.</b><br>${payload.athleteName} · ${dt}<br><small>Дані передані до сховища організатора. Збережіть цей екран до завершення реєстрації.</small>`;
+    toast('Згоду надіслано');
+    btn.textContent='Надіслано ✓';
+  }catch(err){
+    r.innerHTML='<b>Не вдалося надіслати згоду.</b><br><small>Перевірте інтернет і спробуйте ще раз.</small>';
+    toast('Помилка надсилання');
+    btn.disabled=false;
+    btn.textContent='Надіслати згоду';
+  }
+};
 
 // interactive categories
 document.querySelectorAll('.cat-toggle').forEach(btn=>btn.addEventListener('click',()=>{const card=btn.closest('.category-card');card.classList.toggle('open');btn.textContent=card.classList.contains('open')?'Згорнути −':'Умови категорії +';}));
