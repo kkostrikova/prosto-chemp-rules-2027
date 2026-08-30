@@ -60,15 +60,22 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 @media(max-width:900px){.quick-card{grid-column:span 6}.category-grid{grid-template-columns:repeat(2,1fr)}.penalty-finder{grid-template-columns:1fr}.quick-dock{max-width:calc(100vw - 18px);overflow:auto}.quick-dock a{white-space:nowrap}.hero{grid-template-columns:1fr;min-height:auto;padding-top:40px}.hero-art{min-height:320px}.hero-art:before{width:300px;height:300px}.hero-art:after{width:220px;height:220px}.card,.deadline{grid-column:span 6}.gallery{grid-template-columns:repeat(3,1fr)}.agree{grid-template-columns:1fr}.navlinks{display:none}.mobile-menu{display:block}.navlinks.open{display:flex;position:absolute;left:12px;right:12px;top:66px;background:#0b0c0e;border:1px solid #292d34;padding:10px;border-radius:16px;flex-direction:column}}
 @media(max-width:600px){.quick-card{grid-column:span 12}.category-grid{grid-template-columns:1fr}.category-card.open{grid-column:auto}.progress-shell{grid-template-columns:78px 1fr;padding:14px}.progress-ring{width:68px;height:68px}.progress-ring strong{font-size:17px}.quick-dock{bottom:8px}.quick-dock a{padding:9px 10px;font-size:10px}main{padding-left:12px;padding-right:12px}.hero h1{font-size:55px}.hero p{font-size:15px}.card,.deadline{grid-column:span 12}.grid{gap:10px}.section{padding-top:44px}.gallery{grid-template-columns:repeat(2,1fr)}.reader-toolbar{top:65px}.rules-body{padding:14px;max-height:none}.calc{grid-template-columns:1fr}.price{grid-column:1}.hero-art{min-height:260px}.hero-art img{max-height:260px}.step{grid-template-columns:34px 1fr auto;padding:11px}}
+
+/* --- focused platform v3 --- */
+.fee-builder{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:start}.fee-options{display:grid;gap:12px}.fee-block,.fee-choice,.fee-summary{border:1px solid #2c3038;border-radius:20px;background:linear-gradient(145deg,#11141a,#090a0d);padding:18px}.fee-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}.fee-badge{font-size:10px;letter-spacing:.12em;color:var(--pink);border:1px solid #ff0a7855;border-radius:999px;padding:6px 8px;font-weight:900}.fee-badge.lime{color:var(--lime);border-color:#baff0055}.fee-block small,.fee-choice small{display:block;color:#898e97;line-height:1.45;margin-top:8px}.fee-choice{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;cursor:pointer}.fee-choice input{width:22px;height:22px;accent-color:var(--pink)}.fee-choice strong{color:var(--lime);font-size:18px}.fee-choice.vpo{border-color:#baff0044}.fee-summary{position:sticky;top:92px;border-color:#baff0055;box-shadow:0 0 50px #baff000e}.fee-summary .sum{font-size:clamp(38px,6vw,64px);font-weight:900;color:var(--lime);letter-spacing:-.05em;margin:8px 0 18px}.fee-breakdown{display:grid;gap:8px}.fee-row{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px dashed #30343c;color:#c8cbd1;font-size:13px}.fee-row:last-child{border:0}.fee-row b{color:white}.fee-note{margin-top:14px;padding:11px 12px;border-radius:12px;background:#171309;color:#e4d88a;font-size:11px;line-height:1.5}
+.agreement-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.agreement-tab{border:1px solid #30343c;background:#101217;color:#b9bdc5;border-radius:999px;padding:11px 15px;font-weight:900;cursor:pointer}.agreement-tab.active{background:var(--pink);border-color:var(--pink);color:white}.agreement-form{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.agreement-copy,.signature-card{border:1px solid #2b2f37;border-radius:22px;background:linear-gradient(145deg,#11141a,#090a0d);padding:22px}.agreement-panel{display:none}.agreement-panel.active{display:block}.doc-kicker{font-size:10px;color:var(--lime);font-weight:900;letter-spacing:.13em}.agreement-panel h3,.signature-card h3{font-size:22px;margin:8px 0 18px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.legal-text{margin:18px 0;padding:16px;border-left:3px solid var(--pink);background:#16050c;border-radius:10px}.legal-text p{color:#c8cad0;font-size:13px;line-height:1.6;margin:0 0 10px}.legal-text p:last-child{margin-bottom:0}.signature-card{position:sticky;top:92px}.storage-note{margin-top:14px;color:#777d86;font-size:11px;line-height:1.45}.rules-download{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;border:1px solid #3a3e46;border-radius:28px;padding:34px;background:radial-gradient(circle at 80% 20%,#250011 0,transparent 30%),linear-gradient(145deg,#11141a,#08090b)}.rules-download p{color:#aeb2ba;max-width:700px;line-height:1.6}.big-download{font-size:15px;padding:16px 20px}.download-mark{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;align-content:center;border:1px solid #ff0a7866;box-shadow:inset 0 0 50px #ff0a7814;color:var(--pink);font-size:48px;font-weight:900}.download-mark span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--lime)}
+@media(max-width:900px){.fee-builder,.agreement-form{grid-template-columns:1fr}.fee-summary,.signature-card{position:static}.rules-download{grid-template-columns:1fr}.download-mark{display:none}}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.fee-choice{grid-template-columns:auto 1fr}.fee-choice strong{grid-column:2}.agreement-copy,.signature-card{padding:16px}}
+
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 </style>
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="#categories">Категорії</a><a href="#banned">Заборонено</a><a href="#penalties">Штрафи</a><a href="#agreements">Угоди</a><a href="#full-rules">Всі правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="#categories">Категорії</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
-<div><div class="eyebrow">Єдиний центр правил · сезон 2026/27</div><h1>RULES <span class="brush">HUB</span></h1><p>Правила, дедлайни, оплата, музика, форми, категорії, штрафи, чекліст спортсмена та блок підтвердження угод — в одному місці. Без пошуку по 36 сторінках.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.docx" download>Офіційний файл ↓</a></div><div class="source-note">Вміст платформи сформовано з наданого документа «Правила та положення 2026». Там, де в документі немає окремого посилання або тексту угоди, платформа не вигадує його.</div></div>
+<div><div class="eyebrow">Єдиний центр правил · сезон 2026/27</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.docx" download>Завантажити правила ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2026». Повний офіційний документ доступний для завантаження.</div></div>
 <div class="hero-art"><img src="https://cdn.creativeclaw.co/u/931444b3/images/89ab6d3b-5226-47bc-997d-052096b4d866.png" alt="Неонова спортивна ілюстрація PROSTO CHEMP"><div class="kicker">Sport · Art · Aerial</div></div>
 </section>
 
@@ -79,9 +86,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="quick-card"><div class="quick-top"><span class="quick-num">03 · МУЗИКА / ФОН</span><span class="quick-icon">♫</span></div><h3>Матеріали виступу</h3><p>Відео/зображення, опис номера, фон та форми обов’язкових елементів.</p><a class="btn pink" href="https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit" target="_blank" rel="noopener">Відкрити форму ↗</a></div>
 <div class="quick-card lime"><div class="quick-top"><span class="quick-num">04 · ОБОВ’ЯЗКОВІ</span><span class="quick-icon">✓</span></div><h3>Comply</h3><p>Заповнення обов’язкових елементів та збереження у форматі PDF.</p><a class="btn lime" href="https://comply.org.ua/" target="_blank" rel="noopener">Перейти в Comply ↗</a></div>
 <div class="quick-card"><div class="quick-top"><span class="quick-num">05 · КВИТАНЦІЯ</span><span class="quick-icon">⌁</span></div><h3>Підтвердження оплати</h3><p>У правилах вказано Telegram +380675210316 (Катерина). У платежі зазначається ПІБ учасника та призначення.</p><button class="btn" onclick="copyText('+380675210316')">Скопіювати номер</button></div>
-<div class="quick-card lime"><div class="quick-top"><span class="quick-num">06 · ПРАВИЛА</span><span class="quick-icon">⌕</span></div><h3>Знайти відповідь</h3><p>Пошук по структурованому тексту правил без гортання документа вручну.</p><a class="btn lime" href="#full-rules">Відкрити пошук ↓</a></div>
+<div class="quick-card lime"><div class="quick-top"><span class="quick-num">06 · ПРАВИЛА</span><span class="quick-icon">↓</span></div><h3>Офіційні правила</h3><p>Повний документ з усіма розділами, включно із забороненими елементами та штрафами головного судді.</p><a class="btn lime" href="rules-official-2026.docx" download>Завантажити правила ↓</a></div>
 </div>
-
 <div class="section-title" style="margin-top:36px"><div><div class="eyebrow">Deadlines</div><h2 style="font-size:34px">Дедлайни</h2></div></div>
 <div class="grid">
 <div class="deadline"><div class="mini">Заявка + внесок</div><strong>01.12.2026</strong><div class="count" data-date="2026-12-01T23:59:59">рахуємо…</div></div>
@@ -114,498 +120,45 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="age-strip reveal"><span class="age-chip special">5–6 · початківці / продовжуючі</span><span class="age-chip">7–9</span><span class="age-chip">10–11</span><span class="age-chip">12–14</span><span class="age-chip">15–17</span><span class="age-chip">18–25</span><span class="age-chip">25+</span></div>
 </section>
 
-<section class="section"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Рахує за сумами, прямо вказаними у правилах: 2800 / 2500 / 2300 грн для індивідуальних категорій; окремо дуети та групи.</div></div>
-<div class="card" style="max-width:760px;grid-column:auto"><div class="calc">
-<div class="field"><label>Тип участі</label><select id="feeType"><option value="individual">Індивідуально</option><option value="duet">Дует</option><option value="group4">Група до 4 людей</option><option value="group5">Група більше 4 людей</option></select></div>
-<div class="field" id="countField"><label>Кількість індивідуальних категорій</label><input id="catCount" type="number" min="1" max="10" value="1"></div>
-<div class="field"><label><input id="vpo" type="checkbox"> Знижка ВПО 10% (за умови довідки)</label></div>
-<div class="price"><div class="mini">До сплати</div><div class="sum" id="feeSum">2800 грн</div><div id="feeExplain" style="color:#aab0b6;font-size:12px;margin-top:5px"></div></div>
-</div></div>
-</section>
-
-<section class="section" id="banned"><div class="section-title"><div><div class="eyebrow">Safety</div><h2>Заборонені <em>елементи</em></h2></div><div class="section-sub">Для дітей 5–6 років (початківці), Дебют та Аматор у правилах діє заборона елементів високої технічної складності. За кожен заборонений елемент зазначено −5 балів.</div></div>
-<div class="tabs"><button class="tab active" data-tab="pole">Пілон</button><button class="tab" data-tab="silks">Полотна</button><button class="tab" data-tab="hoop">Кільце</button></div>
-<div class="tabpanels"><div class="panel active" id="pole"><div class="gallery"><figure class="el-card"><img loading="lazy" src="assets/image4.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image5.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image6.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image7.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image8.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image9.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image10.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image11.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image12.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image13.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image14.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image15.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image16.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image17.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image18.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure></div></div><div class="panel" id="silks"><div class="gallery"><figure class="el-card"><img loading="lazy" src="assets/image19.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image20.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image21.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image22.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image23.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image24.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image25.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image26.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image27.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image28.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image29.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image30.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image31.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure></div></div><div class="panel" id="hoop"><div class="gallery"><figure class="el-card"><img loading="lazy" src="assets/image32.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image33.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image34.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image35.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image36.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image37.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image38.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image39.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image40.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure><figure class="el-card"><img loading="lazy" src="assets/image41.jpeg" alt="Ілюстрація забороненого елемента з правил"></figure></div></div></div>
-<div class="source-note">Ілюстрації взяті безпосередньо з наданого файла правил. У самому документі вони позначені як орієнтовні: судді можуть оцінювати й інші елементи, що відповідають рівню Напівпрофі / Профі / Еліт.</div>
+<section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
+<div class="fee-builder reveal">
+<div class="fee-options">
+<div class="fee-block active"><div class="fee-head"><span class="fee-badge">SOLO</span><b>Індивідуальні категорії</b></div><div class="field"><label>Кількість соло-категорій</label><input id="soloCount" type="number" min="0" max="10" value="1"></div><small>1 категорія — 2800 грн; 2 — 2500 грн кожна; 3+ — 2300 грн кожна.</small></div>
+<label class="fee-choice"><input id="hasDuet" type="checkbox"><span><b>Дует</b><small>Фіксовано 4500 грн. Знижка ВПО на дует не застосовується.</small></span><strong>4500 ₴</strong></label>
+<div class="fee-block"><div class="fee-head"><span class="fee-badge lime">GROUP</span><b>Група</b></div><div class="field"><label>Участь у групі</label><select id="groupType"><option value="none">Не беру участь</option><option value="small">Група до 4 людей — 5500 грн</option><option value="large">Група більше 4 людей — 7000 грн</option></select></div><small>Групова вартість фіксована та не зменшується через ВПО.</small></div>
+<label class="fee-choice vpo"><input id="vpo" type="checkbox"><span><b>Знижка ВПО 10%</b><small>За умови надання довідки. Знижка рахується тільки на соло-категорії.</small></span><strong>−10%</strong></label>
+</div>
+<div class="fee-summary"><div class="mini">Розрахунок</div><div class="sum" id="feeSum">2 800 грн</div><div id="feeBreakdown" class="fee-breakdown"></div><div class="fee-note" id="feeNote"></div></div>
+</div>
 </section>
 
 <section class="section"><div class="section-title"><div><div class="eyebrow">Performance time</div><h2>Час <em>виступу</em></h2></div></div><div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div></section>
 
-<section class="section" id="penalties"><div class="section-title"><div><div class="eyebrow">Head judge</div><h2>Штрафи <em>головного судді</em></h2></div><div class="section-sub">Таблиця перенесена з розділу 8 документа. Значення збережені як у джерелі.</div></div><div class="penalty-finder reveal">
-<div class="penalty-control"><div class="mini">Швидка перевірка</div><h3 style="margin:6px 0">Знайти штраф</h3><select id="penaltySelect">
-<option value="forbidden">Заборонений елемент</option>
-<option value="music-age">Музика не відповідає віку</option>
-<option value="music-rules">Музика не відповідає правилам</option>
-<option value="choreo">Заборонена хореографія</option>
-<option value="coach">Підказування тренера</option>
-<option value="grip">Заборонені засоби зчеплення</option>
-<option value="category">Неправдива інформація щодо категорії</option>
-<option value="cables">Торкання тросової системи</option>
-</select></div>
-<div class="penalty-result"><div class="penalty-score" id="penaltyScore">−5</div><div><b id="penaltyTitle">Заборонений елемент</b><p id="penaltyExplain">За кожен заборонений елемент.</p></div></div>
+<section class="section" id="agreements"><div class="section-title"><div><div class="eyebrow">Agreements</div><h2>Згоди та <em>підписи</em></h2></div><div class="section-sub">Два окремі варіанти: для повнолітнього спортсмена та для батьків / законного представника неповнолітнього спортсмена.</div></div>
+<div class="agreement-tabs reveal"><button class="agreement-tab active" data-agreement="adult">18+ · Згода спортсмена</button><button class="agreement-tab" data-agreement="parent">До 18 · Згода батьків</button></div>
+<div class="agreement-form reveal">
+<div class="agreement-copy">
+<div class="agreement-panel active" id="agreement-adult">
+<div class="doc-kicker">PROSTO CHEMP · ЕЛЕКТРОННА ФОРМА</div><h3>ЗГОДА НА УЧАСТЬ У ЗМАГАННЯХ</h3>
+<div class="form-grid"><div class="field"><label>ПІБ спортсмена</label><input id="adultAthlete" placeholder="Прізвище, ім’я, по батькові"></div><div class="field"><label>Дата народження</label><input id="adultDob" type="date"></div><div class="field"><label>Телефон</label><input id="adultPhone" type="tel" placeholder="+380..."></div><div class="field"><label>Email</label><input id="adultEmail" type="email" placeholder="email@example.com"></div></div>
+<div class="legal-text"><p>Я підтверджую, що ознайомився/лась із Правилами та положеннями змагань PROSTO CHEMP і приймаю встановлені ними умови участі.</p><p>Я підтверджую добровільну участь, достовірність наданої інформації та усвідомлюю відповідальність за власний стан здоров’я і фізичну готовність до виступу.</p><p>Я погоджуюсь з умовами фото- та відеозйомки й використання матеріалів у межах, описаних у правилах змагань.</p></div>
+<label class="checkline"><input type="checkbox" class="adult-check"><span>Підтверджую, що прочитав/ла текст згоди та правила і погоджуюсь з ними.</span></label>
 </div>
-<div class="table-wrap"><table class="data-table"><tr><th>Назва списання</th><th>Бал</th><th>Пояснення</th></tr><tr><td>Виконаний заборонений елемент</td><td>-5</td><td>За кожен елемент</td></tr><tr><td>Музична композиція не відповідає віку</td><td>-3</td><td></td></tr><tr><td>Музика не відповідає правилам</td><td>-5</td><td></td></tr><tr><td>Заборонена правилами хореографія</td><td>-5</td><td>За кожен рух</td></tr><tr><td>Вимовляння слів під часвиступу в категорії спорт</td><td>-1</td><td>Кожен раз</td></tr><tr><td>Допомога тренера/підказування (викрикування)</td><td>-3</td><td>За кожен раз</td></tr><tr><td>Явна допомога тренера/ «підтанцьовки» під час виступу</td><td>-5</td><td></td></tr><tr><td>Костюм не відповідає правилам</td><td>- 1</td><td>Шорти менше 1/3; костюм заважає виступу</td></tr><tr><td></td><td>-3</td><td>Під костюмом немає спідньої білизни</td></tr><tr><td></td><td>-5</td><td>Вузька «ластовиця», не прикриті груди, тіло не прикрито на 70% та ін..</td></tr><tr><td></td><td>-3</td><td>Заборонені тканини та будь які пункти які не відповідають правилам змагань</td></tr><tr><td>Зачіска заважає виступу</td><td>-1</td><td>За кожен раз</td></tr><tr><td>Реквізит не прибрано зі сцени протягом 3 хв</td><td>-1</td><td></td></tr><tr><td>Реквізит не відповідає правилам змагань або після використання заважає виступу іншого учасника</td><td>-3</td><td></td></tr><tr><td>Використання заборонених засобів зчеплення</td><td>-10</td><td>або дискваліфікація</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Післявикористання засобівзчеплення залишились сліди на знарядді</th><th>-5</th><th></th></tr><tr><td>Неправдива інформація щодо категорії</td><td>-10</td><td>або дискваліфікація</td></tr><tr><td>Не спортивна поведінка: викрикування в адресу суддівської колегії не нормативної або образливої лексики, сперечання, бійка та інше.</td><td>-10</td><td>або дискваліфікація</td></tr><tr><td>Торкання тросової системи під час виступу</td><td>-1</td><td>за кожен раз</td></tr><tr><td>Макіяж або фарба на тілі що не відповідає правилам змагань абозалишає сліди на снаряді</td><td>-3</td><td></td></tr><tr><td>Розмова з партнером під час виконання програми</td><td>-1</td><td>За кожен випадок</td></tr><tr><td>Удар або не навмисний дотик стопою, долонею чи іншою частиною тіла партнера, що не передбачені програмою</td><td>-1</td><td>За кожен випадок</td></tr><tr><td>Будь які порушення правил змагань</td><td>від - 1 до - 10</td><td>в залежності від ситуації та тяжкості порушення</td></tr><tr><td>Використання російськомовного контенту та музики</td><td>Від - 1 до -100</td><td>одноразово</td></tr></table></div></section>
-
-<section class="section" id="agreements"><div class="section-title"><div><div class="eyebrow">Agreements</div><h2>Угоди та <em>підпис</em></h2></div><div class="section-sub">У правилах передбачене підтвердження прийняття правил, витрат, медіа-згоди та інших умов під час реєстрації. Нижче — прототип інтерфейсу. Централізоване збереження підписів потребує підключення бекенду (наприклад, Google Apps Script / база даних).</div></div>
-<div class="agree"><div class="agreement-box"><h3>Підтвердження</h3>
-<label class="checkline"><input type="checkbox" class="agree-check"> <span>Я прочитав/ла та приймаю правила і положення змагань.</span></label>
-<label class="checkline"><input type="checkbox" class="agree-check"> <span>Я підтверджую, що витрати спортсмена є відповідальністю спортсмена, а не організатора.</span></label>
-<label class="checkline"><input type="checkbox" class="agree-check"> <span>Я погоджуюсь з умовами фото/відеозйомки та використання матеріалів, описаними у правилах.</span></label>
-<label class="checkline"><input type="checkbox" class="agree-check"> <span>Я погоджуюсь дотримуватися правил проби знаряддя, часу виступу та бути присутнім/ньою на медальній церемонії, крім передбачених правилами випадків.</span></label>
-<div class="field" style="margin-top:15px"><label>ПІБ спортсмена / представника</label><input id="signName" placeholder="Введіть ПІБ"></div>
-</div><div class="agreement-box"><h3>Підпис на екрані</h3><canvas id="sig"></canvas><div class="sig-actions"><button class="btn" id="clearSig">Очистити</button><button class="btn lime" id="makeReceipt">Сформувати підтвердження</button></div><div class="receipt" id="receipt"></div></div></div>
+<div class="agreement-panel" id="agreement-parent">
+<div class="doc-kicker">PROSTO CHEMP · ЕЛЕКТРОННА ФОРМА</div><h3>ЗГОДА БАТЬКІВ / ЗАКОННОГО ПРЕДСТАВНИКА</h3>
+<div class="form-grid"><div class="field"><label>ПІБ батька / матері / представника</label><input id="parentName" placeholder="Прізвище, ім’я, по батькові"></div><div class="field"><label>Статус представника</label><select id="parentRole"><option>Мати</option><option>Батько</option><option>Законний представник</option><option>Уповноважений представник</option></select></div><div class="field"><label>ПІБ дитини-спортсмена</label><input id="childName" placeholder="Прізвище, ім’я, по батькові"></div><div class="field"><label>Дата народження дитини</label><input id="childDob" type="date"></div><div class="field"><label>Телефон представника</label><input id="parentPhone" type="tel" placeholder="+380..."></div><div class="field"><label>Email</label><input id="parentEmail" type="email" placeholder="email@example.com"></div></div>
+<div class="legal-text"><p>Я даю згоду на участь зазначеної вище дитини у змаганнях PROSTO CHEMP та підтверджую, що ознайомився/лась із Правилами та положеннями змагань.</p><p>Я підтверджую, що беру на себе відповідальність у межах, передбачених правилами, та усвідомлюю вимоги щодо стану здоров’я і готовності спортсмена до участі.</p><p>Я погоджуюсь з умовами фото- та відеозйомки й використання матеріалів у межах, описаних у правилах змагань.</p></div>
+<label class="checkline"><input type="checkbox" class="parent-check"><span>Підтверджую, що прочитав/ла текст згоди та правила і погоджуюсь з ними.</span></label>
+</div>
+</div>
+<div class="signature-card"><div class="mini">Рукописний підпис на екрані</div><h3 id="signatureTitle">Підпис спортсмена</h3><canvas id="sig"></canvas><div class="sig-actions"><button class="btn" id="clearSig">Очистити</button><button class="btn lime" id="makeReceipt">Сформувати підпис</button></div><div class="receipt" id="receipt"></div><div class="storage-note">Форма та підпис уже працюють на сторінці. Для централізованого збору підписів у таблицю/сховище потрібно один раз підключити серверне збереження.</div></div>
+</div>
 </section>
 
-<section class="section" id="full-rules"><div class="section-title"><div><div class="eyebrow">Full source</div><h2>Повні <em>правила</em></h2></div><div class="section-sub">Пошук працює по структурованому тексту з наданого документа. Офіційний DOCX доступний кнопкою у верхній частині сторінки.</div></div>
-<div class="rule-reader"><div class="reader-toolbar"><input id="ruleSearch" placeholder="Пошук: костюм, музика, дискваліфікація…"><button class="btn" onclick="window.print()">Друк</button></div><div class="reader-nav"><button data-scroll="r-apply">Заявка</button><button data-scroll="r-categories">Категорії</button><button data-scroll="r-banned">Заборонені</button><button data-scroll="r-scoring">Sport</button><button data-scroll="r-artistic">Artistic</button><button data-scroll="r-duets">Дуети / групи</button><button data-scroll="r-general">Загальні</button><button data-scroll="r-penalties">Штрафи</button><button data-scroll="r-glossary">Глосарій</button></div>
-<div class="rules-body" id="rulesBody">
-<article class="rule-section" id="r-apply"><h3>1. ПРОЦЕС ПОДАЧІ ЗАЯВКИ</h3><h4>Заявка</h4>
-<p class="">Заявка подається в он-лайн форматі до 1 грудня 2026р.</p>
-<h4>Реєстраційний внесок</h4>
-<p class="">Сплатити реєстраційний внесок за реквізитами https://mssg.me/37p6h до 1 грудня 2026 р.</p>
-<p class="">Реєстраційний внесок становить:</p>
-<p class="">2800 грн за одну категорію, дві 2500 грн кожна, три і більше 2300 грн кожна, дуети 4500 грн, групи до 4 людей 5500 грн, групи більше 4 людей 7000 грн.</p>
-<p class="">Діє знижка 10% для ВПО при умові надання довідки.</p>
-<p class="">Реквізити для сплати реєстраційного внеску: https://mssg.me/37p6h</p>
-<h4>Музичний супровід, форми та пояснення</h4>
-<p class="">Відправити музичний супровід до 10 грудня 2026 року за посиланням</p>
-<p class="">Заповнити форму для обов’язкової частини до 1січня 2027 року</p>
-<p class="">Копія свідоцтва про народження має бути представлена за запитом. Всі заявки повинні бути заповнені українською мовою.</p>
-<ul>
-<li>Трек необхідно надіслати у ФОРМАТІ MP3 до зазначеного терміну на платформу https://polecompetition.com/ у свій кабінет. У форматі підписаному тільки ЛАТИНЕЦЕЮ</li>
-<li>Приклад: Kateryna_Kostrikova_10_11_amateur_polesport_</li>
-<li>Якщо у вас музичний супровід накладено на відео або зображення, тоді ви надсилаєте його за посиланням https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit</li>
-<li>Опис номеру, а також фон для виступу (зображення, відео) та форми обовязкових елементів в форматі PDF (всі інші формати будуть оштрафовані головним суддею), якщо застосовується, відправляєте за посиланням https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit</li>
-<li>Заповнення обов&#x27;язкових елементів та зберігання у форматі PDF для завантаження за посиланням: https://comply.org.ua/</li>
-</ul>
-<p class="">Заявка вважається поданою при умові СПЛАТИ реєстраційного внеску</p>
-<p class="rule-callout">!ВАЖЛИВО вказати призначення платежу та ПІБ учасника. Надішліть будь ласка фото або скрін квитанції про сплату в телеграм +380675210316 (Катерина) або сторінка Ігстаграм</p>
-<p class="">Усі спортсмени мають бути в гарній формі та здоровими. За запитом спортсмен може звернутися до лікаря за документацією, в якості підтвердження гарного здоров&#x27;я та рівня фізичної підготовки. Вся інформація буде наводитися конфіденційно.</p>
-<p class="">Якщо спортсмен хоче виступати в рукавичках, він має надати довідку від лікаря, що хворіє на гіпергідроз (спітніли долоні).</p>
-<p class="">Усі спортсмени мають повідомити, якщо вони раніше були дискваліфіковані.</p>
-<p class="">Заявки не будуть повністю оброблені без задоволення всіх перерахованих вище вимог до заданого терміну.</p></article>
-<article class="rule-section" id="r-categories"><h3>2. КАТЕГОРІЇ</h3><h4>Дебют</h4>
-<p class="">Спортсмени з базовим рівнем досвіду та не мали великого досвіду у змаганнях, які можуть обирати елементи з найнижчою технічною вартістю, можуть подати заявку на участь в розряді Дебют</p>
-<p class="">Заявник НЕ МАЄ ПРАВА претендувати на розряд Дебют, якщо він/вона:</p>
-<ul>
-<li>Змагався в розрядах Аматор, Профі та Еліт в минулому в будь-яких національних змаганнях та в будь-яких видах снаряду.</li>
-<li>Якщо ви виступаєте в вищий категорії іншого снаряду. Приклад: якщо ви виступаєте в категорії Еліт пілон, ви не маєте право подати заявку Дебют кільце і т.д.</li>
-<li>Приймали участь у змаганнях в категорії Дебют та виконують елементи високої технічної складності</li>
-<li>Має статус тренера або є діючим тренером з будь-якого виду спорту</li>
-</ul>
-<p class="">.</p>
-<h4>Аматор</h4>
-<p class="">Спортсмени з середньо-низьким рівнем досвіду, які можуть обирати елементи з нижчою технічною вартістю, можуть подати заявку на участь в розряді Аматор.</p>
-<h5>Заявник НЕ МАЄ ПРАВА претендувати на розряд Аматор, якщо він/вона:</h5>
-<ul>
-<li>Змагався в розрядах Напівпрофі, Профі та Еліт в минулому в будь-яких національних змаганнях</li>
-<li>Входив в трійку переможців в розряді Аматор на національних змаганнях за останній рік більше ніж три рази</li>
-<li>Має статус тренера або є діючим тренером з будь-якого виду спорту</li>
-</ul>
-<h4>Напівпрофесіонали</h4>
-<p class="">Спортсмени з середнім рівнем досвіду, які обирають елементи з середньою технічною вартістю, можуть подавати заявку на участь у розряді Напівпрофесіонали. Спортсмени, які змагалися в розряді Аматор в минулому на національних змаганнях.</p>
-<p class="">Заявник НЕ МАЄ ПРАВА претендувати на розряд Напівпрофі, якщо він/вона:</p>
-<ul>
-<li>Спортсмени, які тричі входили в трійку</li>
-</ul>
-<p class="">призових місць на національних змаганнях в розряді Напівпрофі</p>
-<h3>Професіонали</h3>
-<p class="">Спортсмени з достатнім рівнем досвіду, які можуть обирати елементи з вищою технічною вартістю, можуть подавати заявку на участь у розряді Професіонали, якщо вони:</p>
-<ul>
-<li>Учні середнього/високого класу</li>
-<li>Спортсмени, які змагалися в розряді Професіонали в минулому на національних та міжнародних змаганнях</li>
-<li>Спортсмени, які тричі входили в трійку призових місць на національних та міжнародних змаганнях в розряді Напівпрофі</li>
-</ul>
-<h3>Еліт</h3>
-<p class="">Розряд Еліт розрахований на першокласних спортсменів, які можуть обирати елементи з найвищою технічною вартістю, і які змагаються з іншими першокласними спортсменами:</p>
-<ul>
-<li>Спортсмени/учні вищого класу</li>
-<li>Спортсмени, які в минулому змагались в Міжнародних та Світових чемпіонатах</li>
-<li>Спортсмени, які в минулому тричі входили в трійку переможців в розряді Професіонали</li>
-</ul>
-<h4>Вікові категорії</h4>
-<p class="">Вікова придатність для кожної категорії визначається віком спортсмена на кінець конкурсного року, в день проведення Чемпіонату України.</p>
-<ul>
-<li>Дорослі 25 +</li>
-<li>Дорослі 18-25</li>
-<li>Юніори 15-17 років</li>
-<li>Діти 12-14 років</li>
-<li>Діти 10-11 років</li>
-<li>Діти 7-9 років</li>
-<li>Діти 5-6 років (початківці та продовжуючі)</li>
-</ul>
-<p class="">Вікові групи застосовуються для категорій Дебют, Аматори, Профі та Еліт , окрім дітей 5-6 років.</p>
-<p class="">Вікова група 5-6 років розподіляється лише на дві категорії : початківці та продовжучі</p></article>
-<article class="rule-section" id="r-banned"><h3>3. ЗАБОРОНЕНІ ЕЛЕМЕНТИ</h3><h3>ПІЛОН</h3>
-<p class="">ЦЕ ОРІЄНТОВНА ТАБЛИЦЯ окрім вказаних елементів, будуть оцінюватись інші елементи, за рішенням суддів, які відповідають категорії НАПІВПРОФІ, ПРОФІ ТА ЕЛІТ</p>
-<h3>ПОЛОТНА</h3>
-<p class="">ЦЕ ОРІЄНТОВНА ТАБЛИЦЯ окрім вказаних елементів, будуть оцінюватись інші елементи, за рішенням суддів, які відповідають категорії НАПІВПРОФІ, ПРОФІ ТА ЕЛІТ</p>
-<h5>СПИСОК ЗАБОРОНЕНИХ ЕЛЕМЕНТІВ</h5>
-<ul>
-<li>двох і більше компонентні обриви, розкрутки, переворотибез фіксації полотен на корпусі</li>
-<li>балансові шпагати</li>
-<li>задні закладки, перехватибез додаткової фіксації</li>
-<li>обриви з переходом на руки, що фіксуються тільки утриманням хвата (як у замотці на зап&#x27;ясті, так і без), на одну щиколотку або стопу;</li>
-<li>сальто переднє і заднє, із замоткою через плече, що фіксуються тільки утриманням хвата, прольоти на полотні з</li>
-</ul>
-<p class="">відпусканням тканини і захопленням у нижній точці;</p>
-<ul>
-<li>всі елементиякі відповідають категоріям Напівпрофі, Профі та Еліт</li>
-</ul>
-<h3>КІЛЬЦЕ</h3>
-<p class="">ЗАБОРОНЕНІ ЕЛЕМЕНТИ, а саме:</p>
-<ul>
-<li>Зриви та перехвати з верхньої дуги (перекладини) на нижню з поворотом корпусу, всі складнокоординаційні перевороти та роли.</li>
-<li>Виси на одній та на двох стопі/п’яті</li>
-<li>Елементи високого рівня технічної складності, ЯКІ ВІДПОВІДАЮТЬ КАТЕГОРІЇ НАПІВПРОФІ, ПРОФІ ТА ЕЛІТ За невиконання даного правила, зі спортсмена будуть зніматися бали (-5 балів) за кожен заборонений елемент.</li>
-</ul>
-<p class="">ЦЕ ОРІЄНТОВНА ТАБЛИЦЯ окрім вказаних елементів, будуть оцінюватись інші елементи, за рішенням суддів, які відповідають категорії</p>
-<p class="">НАПІВПРОФІ, ПРОФІ ТА ЕЛІТ</p>
-<p class="">4. POLE &amp; AERIAL SPORT</p></article>
-<article class="rule-section" id="r-scoring"><h3>4. POLE & AERIAL SPORT</h3><h4>Технічна складність</h4>
-<p class="">Цей розділ включає оцінювання рівня складності всіх трюкових елементів на пілоні, комбінацій, переходів в та з трюків, а також рівня складності всіх парних синхронних/взаємопов’язаних елементів/ елементів на балансування і парних трюкових елементів. Судді звертають увагу на елементи, які виконуються легко та витончено. До технічної складності відносяться: акробатичні перехоплення, перехвати, динамічні переходи на динамічному та статичному пілонах, стрибки на/з пілон, обертання та статичному та динамічному пілонах, поєднання різних обертань на статичному та динамічному пілонах, поєднання обертань з іншими елементами на статичному пілоні, сальто, контактні сальто, зриви, каскади, комбінації та оргінальне виконання переходів в та з трюків, а також рівня складності всіх взаємопов’язаних елементів на балансування, рівновагу, намотки і т.д.</p>
-<h4>Списання або штрафи</h4>
-<p class="">Цей розділ призначений для списання балів за незадовільне виконання всіх елементів (включаючи обов’язкові). Судді також можуть списати бали за втрату рівноваги падіння, неестетичне виконання елементів й переходів та невиконання необхідного елемента з першого разу, наприклад, коли виконують декілька замахів для виходу у прапорець. Кількість списаних балів залежить від рівня порушення.</p>
-<p class="">В даному протоколі списання будуть додаватись, тобто спортсмен виходить і у нього вже є 30 балів (тобто абсолютна чистота). Після виступу у спортсмена від цих балів віднімаються бали, а залишок додається до загальної таблиці балів.</p>
-<p class="">Приклад : Не відтягнутий носок, за винятком випадків, де це необхідно або допустимо по техніці . У будь-якому варіанті виконання розслаблена стопа неприпустима;</p>
-<p class="">Приклад виконання елементів, де натягнутий на себе носок допустимо по техніці.</p>
-<p class="">Приклад позиції, який суперечить етичним нормам та дозволенні тільки у разі перехідного елементу без видимої фіксації</p>
-<h4>Артистичне та хореографічне виконання</h4>
-<p class="">В цьому розділі судді оцінюють артистичність спортсмена, музичну інтерпретацію та сценічний виступ. Артистичність передбачає спосіб представлення та самовираження спортсмена перед суддями. Судді оцінюють здатність спортсмена передавати емоції через рухи. Спортсмени повинні бути переконливими, захоплюючими, видовищними та демонструвати високий рівень сценічної чарівності, присутньої в кожному елементі виступу «на» та «поза» снарядом. Костюм, музичний супровід та виступ повинні відповідати один одному. Спортсмен повинен створити оригінальний виступ та продемонструвати свій унікальний стиль. Весь виступ повинен проходити послідовно та невимушено, демонструючи злети та падіння (відтінки).</p>
-<p class="">Хореографія включає всі рухи, виконувані навколо снаряду на сцені, але без контакту зі снарядом та</p>
-<p class="">«на» снаряді. Судді оцінюють здатність спортсмена виконувати танцювальні та гімнастичні комбінації та хореографію, здатність залучати уяву, плавність та своєрідність. ЗАБОРОНЕНО виконання рухів які є елементами в стилі &quot;тверк&quot; та елементів які використовуються в стилі Exotic pole dance, stripplastic тощо.</p>
-<p class="">Оцінюється уміння майстерно виконувати акробатичні елементи без предмету. Найпростіші акробатичні елементи будуть оцінюватися найнижчим балом.</p>
-<p class="">За наростаючою шкалою акробатичні елементи оцінюються:</p>
-<ul>
-<li>– кувирок, перекат через плече</li>
-<li>- колесо, місток, стійка на передпліччях, стійка на грудях</li>
-<li>- переворот назад і вперед, стійка на руках</li>
-<li>- фляк, махове</li>
-<li>– сальто, складні комбінації акробатичних елементів</li>
-</ul>
-<p class="">Суддя має право знижувати бал, за не зовсім чисте або не коректне виконання акробатичних трюків.</p>
-<h4>Обов’язкова програма</h4>
-<p class="">Усі спортсмени повинні виконувати встановлену кількість обов’язкових елементів. Оцінка ставиться за умови виконання мінімальних вимог, наприклад, утримання положення протягом двох секунд, відповідний Кут розкриття шпагату/нахилу тіла. Спортсмен несе відповідальність за чисте виконання обов’язкового елемента перед суддями. Якщо обов’язків елемент був зроблений на межі, його не буде зараховано. Обов’язкові елементи не повинні повторюватися (тобто, кожний окремий елемент може застосовуватися лише один раз). Обов’язкові елементи також повинні утримуватися у зафіксованому положенні, якщо інше не передбачено правилами. Всі обов’язкові елементи ви зазначаєте в порядку ВАШОГО виконання, а не в порядку як зазначено в таблиці елементів даних правил. За кожен виконаний елемент згідно мінімальних вимог ви отримуєте 1 бал.</p>
-<p class="">Для кожної категорії передбачені ОДНАКОВІ елементи та їх кількість. Кількість і складність ЧІТКО відповідає заявленій категорії, це означає, що неможна брати програму обов’язкових елементів яка відповідає категорії аматор в категорію профі або еліт та навпаки. Це робиться з метою зрівняння всіх виступаючих в категорії спорт. За невиконання обов’язкових елементів бали зніматись не будуть! але не нараховуватимуться додаткові бали за обов’язкові елементи.</p>
-<h5>Зверніть увагу, якщо спортсменом була обрана не відповідна категорія – спортсмена за рішенням суддівської колегії переводять у вищу категорію, тоді бали за обов’язкову програму анулюються.</h5>
-<p class="">POLE SPORT</p>
-<h5>В КАТЕГОРІЇ Діти 5-6 років ОБОВ’ЯЗКОВІ ЕЛЕМЕНТИ НЕ ПЕРЕДБАЧЕНІ</h5>
-<p class="">Під час виступу спортсмени оцінюватимуться по всіх чотирьох параметрах, відповідно, спортсмен, який показав найкращі результати по всім параметрам, буде нагороджений найбільшою кількістю балів під час проведення фінального оцінювання.</p>
-<p class="">Фінальне оцінювання – поєднання балів за виконання обов’язкової програми + технічні надбавки + технічні списання + артистичність та хореографічне виконання.</p>
-<p class="rule-callout">Важливо, щоб спортсмен поєднав всі частини у свій виступ з метою отримання найбільшої кількості балів. Система оцінювання не тільки сприяє гарному виконанню програми, але і надихає добре навченого та освіченого спортсмена.</p>
-<h5>ВАЖЛИВО! Всі обов’язкові елементи повинні виконуватися в тому порядку в якому вони записані у «Бланк Обов’язкових елементів».</h5>
-<p class="">Таблиця обовʼязкових елементів</p>
-<p class="">Додаткові позначення та пояснення:</p>
-<p class="">2 секунди - необхідний час утримання обовʼязкових елементів за один раз.</p>
-<p class="">Кут 160°, 180° - це кут розкриття шпагату, міряється по стегнових кістках, або по колінах. Для зарахування критерію кур повинен бути відповідний вимогам або перевищувати їх.</p>
-<p class="">Приклади з кутом розкриття менше 180°</p>
-<p class="">Кут розкриття 180° Кут розкриття більше 180°</p>
-<p class="">Обертання 360°- повний оберт по колу у зафіксованій позиції тіла. Для зарахування обовʼязкової крутки спортсмен повинен повин прокрутитися НЕ менше ніж 360°.</p>
-<p class="">Горизонт - вимога тримати елемент, або певні частини тіла паралельно землі.</p>
-<p class="">Дедліфт - силовий підйом без махового імпульсу</p>
-<p class="">Динамічна фаза - вимога до УСІХ динамічних елементів. Це різкий рух на інерції, без заминки чи зупинки. У динамічній фазі має прослідковуватися миттєва реакція, швидкість. Відсутність повільних силових виходів, пристосувань, зісковзувань тощо.</p>
-<p class="">За умови втрати балансу чи падіння після виконання динамічного елементу, може ставитися оцінка 0.</p>
-<p class="">Елементи які не мають динамічної фази, але вимагають її не зараховуються. Усі елементи на баланс вимагають впевненої фіксації без похитування.</p>
-<p class="">Всі елементи мають бути бездоганно виконані, з дотриманнями вимог, чисто і впевнено. За недотримання мінімальних вимог, елемент не буде зарахованим.</p>
-<p class="">Г - гнучкість С - сила</p>
-<p class="">К - крутка Ст - стійка</p>
-<p class="">Д - динамічний елемент Б - баланс</p>
-<p class="">Увага! Всі картинки є демонстративними, будете уважні до опису мінімальних критеріїв. Для більшої зручності розуміння точки фіксації, зверніться в глосарій даних правил (Розділ 9, с. 63)</p>
-<p class="">Обов’язкові елементи – будуть надані окремим файлом не пізніше 1 квітня 2025 року</p></article>
-<article class="rule-section" id="r-artistic"><h3>5. ARTISTIC & ORIGINAL GENRE</h3><h4>Основні положення</h4>
-<p class="">Програма може включати в себе різноманітні спортивні, хореографічні та театралізовані направлення , але техніка на снаряді повинна розглядатися протягом всього виступу. Дозволяється використання аксесуарів, реквізиту та декорацій, які спортсмен виносить та заносить самостійно в один прийом. Спортсмен рівня Аматор та Дебют при виборі елементів для виконання програми повинен дотримуватись тих же правил як і в Спорті, тобто в цій категорії діють заборонені елементи.</p>
-<h4>Оцінювання</h4>
-<p class="">Система категорії Артістік на знарядді включає чотири параметри, а саме: Хореографія, Рівень складності, Виконання та Презентація. Учасники оцінюються по всім чотирьом параметрам. Фінальна оцінка поєднує всі 4 параметри, а учасник з найвищим балом буде вважатися переможцем. Обов’язкові елементи відсутні, більше балів нараховується за навички виконання, а не технічні навички. Всі набрані бали будуть ділитися на кількість суддів, щоб унеможливити підсуджування.</p>
-<p class="">*Просимо звернути увагу на те, що судді кваліфіковані у сфері Системи оцінювання Арту, проте, слід знати, що через характер особистого стилю виконання, суб’єктивність не може бути повністю виключена. Оцінка суддів є кінцевою і не підлягає оскарженню.</p>
-<p class="">*ЗАБОРОНЕНО виконання рухів які є елементами в стилі &quot;тверк&quot; та елементів які використовуються у стилі «тверк», «stripplastic» та інших елементів з відвертим підтекстом, таких як Exotic pole dance, stripplasticтощо.</p>
-<p class="">Нижче наданий стислий перелік того, на що судді звертатимуть увагу.</p>
-<h5>Технічна складова</h5>
-<p class="">Цей розділ включає оцінювання якості виконання, контроль рухів, синхронність, динаміка та амплітуда рухів (кількість танцювальних та акробатичних рухів, швидкість виконання, завершеність рухів, широта махів, замахів і т.д.).</p>
-<p class="">Грація та осанка – у сукупності від загальної кількості виконаних вправ, оцінюється рівна спина та плечі, відсутність погляду у підлогу, як на снаряді так і у партері.</p>
-<p class="">Гнучкість та шпагати на снаряді та у партері.</p>
-<h5>Музична складова</h5>
-<p class="">Цей розділ включає оцінювання відповідності рухів та музики, відповідність міміки, харизми протягом усього виступу</p>
-<p class="">Музичність виконання танцю : ритм, темп, акценти</p>
-<p class="">Взаємозв’язок обраного стилю танцю з музикою – попадання у акценти музики, відповідність заявленого стилю танцю музиці</p>
-<h5>Презентація</h5>
-<p class="">До цього розділу відноситься</p>
-<ul>
-<li>складність хореографічної та акробатичної складових – плавність, складність, логічний зв&#x27;язок рухів, динаміка рухів</li>
-<li>збалансованість хореографії та трюків – відсоткове співвідношення хореографії та трюкової частини на протязі усього виступу</li>
-<li>початок та кінець виступу – оцінюється логічна точка у виступі, відповідна музиці та ідеї виступу , оригінальність початку та закінчення.</li>
-</ul>
-<h5>Рівень складності виконання</h5>
-<p class="">Цей розділ включає оцінювання рівня складності всіх трюкових елементів на пілоні та обраного стилю хореографії, якість виконання, контроль рухів, синхронність та амплітуда рухів і комбінацій, переходів в та з трюків, підтримки, а також рівня складності всіх парних синхронних/взаємопов’язаних елементів/ елементів на балансування і парних трюкових елементів. Судді звертають увагу на елементи, які виконуються легко та витончено.</p>
-<h5>ЗАГАЛЬНІ ХАРАКТЕРИСТИКИ ВИСТУПУ</h5>
-<ul>
-<li>Оригінальний жанр (повітряна петля (гамак) / стропи / куб / канат / трапеція / та інші оригінальні снаряди (підвісні, стаціонарні))</li>
-</ul>
-<p class="">Якщо набереться більше 5 людей в категоріях, снаряд буде винесено в окрему змагальну програму Оригінальний снаряд: Змагальна категорія, де учасники демонструють програму, основу якої становить акробатична композиція елементів на будь-якому з обраних снарядів оригінального</p>
-<p class="">зразка, підвішених на висоту мінімум 2 метри від підлоги.</p>
-<p class="">Наявність матів ОБОВ&#x27;ЯЗКОВО для всіх категорій учасників. У змагальної програми учасник демонструє акробатично-хореографічну композицію з чітко вираженим початком і закінченням. В ході виступу спортсмен показує техніку виконання елементів, вміння виконувати зв&#x27;язки, артистичну подачу.</p>
-<p class="">Партер в основному представлений вправами нерозривно пов&#x27;язаними зі снарядом. Спуски допускаються на розсуд учасника, але не варто забувати, що трюкова частина повинна бути на високому рівні з мінімальною кількістю спусків.</p>
-<p class="">На сцені знаходиться тільки один учасник змагальної програми. Якщо учасник підійшов до снаряду і схопився за нього, тоді обов&#x27;язково повинен виконати хоча б один елемент.</p>
-<h4>Система оцінювання оригінального жанру</h4>
-<p class="">Система оцінювання здійснюється за трьома параметрами:</p>
-<h5>Технічні надбавки.</h5>
-<p class="">Цей розділ включає оцінку рівня складності всіх трюкових елементів на повітряному снаряді: комбінацій, переходів в і з трюків, зривів / обривів, кручений / ролів та інше. Судді звертають увагу на елементи, які виконуються легко і витончено.Оцінюються елементи на баланс, силу і гнучкість. Для категорії Дует оцінюється синхронність / взаємопов&#x27;язаність елементів.</p>
-<p class="">Критерії технічного виконання:</p>
-<ul>
-<li>Точность і технічність виконання хватів, елементів і динамічний комбінацій</li>
-<li>Легкість і впевненість виконання елементів і рухів</li>
-<li>Баланс при виконанні елементів</li>
-</ul>
-<h5>Технічні списання</h5>
-<p class="">Цей розділ призначений для списання балів за незадовільне виконання елементів. Судді також можуть списати бали за втрату рівноваги, падіння, і невиконання необхідного елемента, наприклад, одного елемента на гнучкість. Натягнутість стоп, колін, пальців рук, утримання постави.</p>
-<p class="">Штрафні бали нараховуються: Відсутність обертання снаряда в ході програми, тобто снаряд перестає обертатися після початку виконання програми (виконано менш 3 елементів); занадто повільне обертання снаряда, після виконання заходу з подальшою зупинкою або повною втратою контролю над траєкторією обертання під час виконання програми; Додатковий сход зі снаряда - фіксується за кожен випадок</p>
-<p class="">Часткове використання снаряда або використання не повною висоти снаряда, одного ребра (куба, наприклад);</p>
-<p class="">Початкова або кінцева позиція на снаряді;</p>
-<h5>Артистичне і хореографічне виконання</h5>
-<p class="">У цьому розділі судді оцінюють артистичність спортсмена, музичну інтерпретацію і сценічне виступ. Артистичність передбачає спосіб представлення і самовираження спортсмена перед суддями. Судді оцінюють здатність спортсмена передавати емоції через рухи. Спортсмен повинні бути переконливим, захоплюючим, видовищним і демонструвати високий рівень сценічного чарівності, яка присутня в кожному елементі виступи на і поза снаряда. Костюм, музичний супровід і виступ повинні відповідати один одному. Спортсмен повинен створити оригінальний виступ і продемонструвати свій унікальний стиль. Весь виступ має проходити послідовно і невимушено. Дозволено реквізит. В програмі має бути присутньою подача, що включає жести, міміку, візуальний контакт з глядачем.</p>
-<p class="">Дуети та групи для створення суперництва змагаються без розподілення на категорії спорт та арт, це загальна категорія,. Оцінювання буде відбуватись за загальними протоколами по 4-х параметрах (техніка, списання, артистизм та хореграфія).</p></article>
-<article class="rule-section" id="r-duets"><h3>6. ДУЕТИ ТА ГРУПИ</h3><h4>Групи</h4>
-<p class="">Групою вважається кількість учасників мінімум 3 максимум 7 чоловік. Всі учасники повинні у однаковій відсотковій кількості виступати на снаряді/снарядах та партері.</p>
-<p class="">Всі учасники групи повинні бути задіяні у загальну постановку.</p>
-<p class="">Програма може включати в себе любі спортивні, хореографічні та театралізовані направлення , але техніка на снаряді повинна розглядатися протягом всього виступу. Дозволяється використання аксесуарів, реквізиту та декорацій, які спортсмени виносять та заносять самостійно в один прийом. Розбивка на рівні складності відсутня. Акцент робиться на сюжетній лінії та гармонійному виконанню.</p>
-<p class="">Система оцінювання включає чотири параметри, а саме: Хореографія, Рівень складності, Виконання та Презентація. Учасники оцінюються по всім чотирьом параметрам. Параметри оцінювання дивіться в категорії Оригінальний жанр.</p>
-<h4>Дуети</h4>
-<p class="">Змагальна категорія, де учасники демонструють програму, основу якої становить акробатична композиція елементів на снаряді в парі.</p>
-<p class="">У змагальної програми учасники демонструють акробатичну композицію з чітко вираженими початком і закінченням. В ході виступу вони показують техніку виконання елементів, вміння робити зв&#x27;язки, підтримки, синхронно виконувати елементи, артистичну подачу. Партер здебільшого представлений вправами нерозривно пов&#x27;язаними зі снарядом.</p>
-<p class="">Категорії:</p>
-<ul>
-<li>Діти (6 -14 років)</li>
-<li>Юніори ( 15-17 років)</li>
-<li>Дорослі (18+)</li>
-</ul>
-<h5>Артистизм та хореографія:</h5>
-<ul>
-<li>Загальне враження - поєднання музики, елементів на знарядді і на підлозі, костюма і стилю, а також вступ і фінальна поза.</li>
-<li>Подача - здатність висловити ідею створеної композиції, єдину тему програми від початку до кінця.</li>
-<li>Технічна композиція програми - гармонійна взаємозв&#x27;язок елементів на снаряді.</li>
-<li>Зв&#x27;язки і переходи - довжина зв&#x27;язок, різноманітність, оригінальність, ступінь складності, кількість, майстерність виконання. У компоненті «Зв&#x27;язки і переходи» суддя вправі додатково заохотити дует , якщо при виконанні програми були продемонстровані нові і / або оригінальні елементи танцю або акробатики.</li>
-</ul>
-<p class="">Техніка: Цей розділ призначений для нарахування балів за техніку виконання та складності елементів та комбінацій на знарядді.</p>
-<ul>
-<li>Під час виступу на майданчику може перебувати тільки дует та тренер.</li>
-<li>Початкова і кінцева позиції повинні бути на підлозі, кінцева без торкання снаряда.</li>
-<li>Якщо учасники підійшли до кільця і схопилися за нього його, то обов&#x27;язково повинні виконати хоча б один елемент.</li>
-<li>Компоненти змагальної програми:</li>
-</ul>
-<p class="">Частина елементів обов&#x27;язково повинні бути виконані з обертанням снаряда щодо поздовжньої осі і з відхиленням від вертикальної осі. Під час змагальної програми учасникам необхідно використовувати верхню дугу, нижню дугу, перекладину. У програмі має бути присутньою подача, що включає жести, міміку, візуальний контакт з глядачем. Учасникам дозволено використовувати додаткові страхувальні мати. Підсумкова оцінка складається з відносини техніка / артистизм 70/30 акробатики.</p>
-<p class="">Списання балів: Цей розділ призначений для списання балів за незадовільне виконання всіх елементів (включаючи обов’язкові). Судді також можуть списати бали за втрату рівноваги, падіння, та невиконання необхідного елемента з першого разу, наприклад, коли виконують декілька замахів для виходу у прапорець. Кількість списаних балів залежить від рівня порушення. Окрім цього будуть списані бали за наступні порушення:</p>
-<ul>
-<li>Розмова з партнером під час виконання програми - нараховується за кожний випадок даного порушення;</li>
-<li>Удар стопою, долонею чи іншою частиною тіла партнера - нараховується за кожний випадок даного порушення;</li>
-<li>Відсутність синхронного виконання елементів;</li>
-<li>Після торкання кільця хоча б одним з учасників не виконано жодного елемента</li>
-<li>Зовсім не виконано синхронних елементів.</li>
-<li>Не в рівному значенні партнери утримують один одного.</li>
-</ul>
-<p class="">В даному протоколі списання будуть додаватись, тобто спортсмен виходить і у нього вже є 30 балів (тобто абсолютна чистота). Після виступу у спортсмена від цих балів віднімаються бали, а залишок додається до загальної таблиці балів.</p></article>
-<article class="rule-section" id="r-general"><h3>7. ЗАГАЛЬНІ ПРАВИЛА ТА ПОЛОЖЕННЯ</h3><h4>Процес реєстрації</h4>
-<ul>
-<li>Всі спортсмени повинні прибути і зареєструватися в терміни, зазначені організаторами</li>
-<li>Всі спортсмени повинні придбати страхівку, яка страхує їх на час змагань. Вона повинна бути дійсною протягом всіх змагань.</li>
-<li>Всі спортсмени повинні мати при собі документ для підтвердження особистості</li>
-<li>Всі спортсмени повинні мати підтвердження наступних умов під час реєстрації:</li>
-<li>Вони прочитали та приймають правила та положення змагань .</li>
-<li>Усі витрати, понесені спортсменом, є відповідальністю спортсмена, а не організатора.</li>
-<li>Відмова від усіх прав на зображення, та погодження на те, що усі зображення будуть використані для просування повітряного спорту в Україні. Спортсмени не отримують ніякої компенсації за фотографії та відеоматеріали, зроблені під час змагань.</li>
-<li>Давати інтерв’ю, зніматись та фотографуватись зі ЗМІ.</li>
-<li>Поважати та слідувати правилам проби знаряддя та часом виступів.</li>
-<li>Бути присутнім на медальній церемонії, окрім випадку невідкладної медичної допомоги.</li>
-<li>Зверніть увагу: Підписувати документи та давати згоду на вищевказані умови мають право батьки, тренер або уповноважений представник спортсмена.</li>
-<li>У разі створення незручних ситуацій, конфліктів будь-якими членами команди, батьками, тренерами змаганням, неетичне поводження до інших , спортсмени можуть понести покарання та бути дискваліфікованими .</li>
-</ul>
-<h4>Вибір музичного супровіду</h4>
-<ul>
-<li>Спортсмени можуть обирати музику на свій власний розсуд, це може бути поєднання різноманітних стилів та артистів.</li>
-<li>Музика під час виступу може бути інструментальною, а також зі словами. ЗАБОРОНЯЄТЬСЯ ВИКОРИСТАННЯ РОСІЙСЬКОМОВНОГО КОНТЕНТУ та АРТИСТІВ КРАЇН АГРЕСОРІВ</li>
-<li>Музикальний супровід повинен відповідати етичним та моральним нормам, а також ВІКОВІЙ КАТЕГОРІЇ СПОРТСМЕНІВ.</li>
-<li>Музичний супровід необхідно представити до зазначеного терміну, інакше запис буде анульовано.</li>
-</ul>
-<h4>Костюм</h4>
-<ul>
-<li>Костюм має підходити до виду спорту. Він має покривати таз і сідниці для всіх спортсменів, та область грудей у жінок-спортсменів. Якщо костюм не відповідає наступним вимогам, спортсмени будуть покарані шляхом зняття балів:</li>
-<li>Щільно обтягувати шкіру, щоб судді могли бачити всі лінії тіла.</li>
-<li>Двоскладове балетне або відрізане трико допускається для всіх спортсменів, для чоловіків також допускається односкладове трико з нижньою частиною.</li>
-<li>Верхня частина має покривати область грудей у жінок, та не мати зайвого вирізу.</li>
-<li>Якщо топ з вирізом, лінія шиї має бути не нижче ніж вісімдесят- сто (80-100) міліметрів від самої</li>
-</ul>
-<p class="">нижньої частини ключиці.</p>
-<ul>
-<li>Для чоловіків є кращим видом костюма – короткий топ, жилет чи костюм з відкритою груддю.</li>
-<li>Покрій нижньої частини костюма має не перевищувати пахову складку попереду, та повністю закривати сідниці</li>
-<li>Шорти повинні бути не менше, ніж спортивні шорти, трико або спортивні штанці, які підходять для спортивних змагань.</li>
-<li>Чоловічі шорти повинні покривати повністю ягодині складки.</li>
-<li>Для дівчат дозволена спідниця, у разі коли вона не спускається нижче тазової області, щоб не заважати спортсмену чіплятися ногами за пілон. Спідниця має лежати на стегнах, занадто не виступаючи. Балетні пачки та спідниці по типу балетних пачок, не дозволяються для змагань.</li>
-<li>Костюм може складатись з топа і шортів, топа і легінсів, гімнастичного купальника, гімнастичного купальника і легінсів, комбінезона або будь-який інший варіант костюма який відповідає загальним та етичним правилам змагань.</li>
-<li>Дозволена довжина зав&#x27;язок, стрічок на костюмі не більше 5 см. Дозволена довжина воланів не більше 20 см</li>
-<li>Одяг, який використовується для додаткового зчеплення на тілі, руках чи ногах, не дозволяється, якщо не надана медична документація.</li>
-<li>Усі прикраси мають бути зафіксовані на костюмі (не зніматися), та не дозволяється додаткових аксесуарів та/або реквізиту в категорії Спорт.</li>
-<li>Не допускаються жодні аксесуари, які можуть призвести до небезпеки, та/чи відволікти спортсмена від виконання. Це стосується пірсингу, розпущеного волосся (окрім категорії Артістік), браслетів, сережок, намиста чи інших прикрас. Виняток становлять лише манжети/браслети, тейпи, які щільно прилягають і фіксуються та не бовтаються. Аксесуари на шию не допускаються.</li>
-<li>Не можна користуватися обмоткою, якщо це не медична обмотка.</li>
-<li>Взуття: спортсмен може виконувати програму босоніж, чи у гімнастичному/танцювальному взутті кольору шкіри. Балетки/тапочки та/ взуття по формі тапочок не допускаються.</li>
-<li>Костюм не включає:</li>
-<li>Білизну (мається на увазі – топи/бра та шорти/тріко які носять у повсякденному житті), але це не означає, що спортсмен повинен виступати без спідньої білизни.</li>
-<li>Купальники та бікіні.</li>
-<li>Прозорий одяг, який не покриває область грудей, органів таза та сідниць.</li>
-<li>Шкіряний одяг, латекс, одяг з ПВХ чи гуми.</li>
-<li>Прикраси будь-якого виду, за винятком маленьких сережок або сережок-гудзиків.</li>
-<li>Все що заважає під час виступу, та може заподіяти безпеці та здоров’ю.</li>
-<li>Тілесна фарба, або масло на частині тіла. Макіяж та орнамент на обличчі можна носити.</li>
-<li>Реквізит, такий як капелюхи, палиці та все, що не вважається прикріпленими до костюма, за винятком манжетів/браслетів (окрім категорії Артістік).</li>
-<li>Додаткові вимоги:</li>
-<li>Костюми для всіх можуть включати блискітки та стрази, окантовка та кисточки мають бути зведені до мінімуму.</li>
-<li>Прикраси для костюмів спортсменів мають співпадати з віком спортсмена.</li>
-<li>Категорично заборонено виступати у чому-небудь іншому, крім спеціального одягу. Недотримання цих правил може призвести до дискваліфікації.</li>
-</ul>
-<h4>Волосся та макіяж</h4>
-<ul>
-<li>Волосся необхідно убрати з обличчя та шиї, щоб судді могли добре бачити риси обличчя, вираз обличчя та лінії шиї (окрім категорії Artistic). Не повинно бути ніяких відволікань таких як - поправка волосся на обличчі чи шиї, падіння волосся на обличчя та ін.</li>
-<li>Макіяж у молодшій категорії може бути нанесений тільки для того, щоб виділити природні особливості, а тому нанесений легко (окрім категорії Artistic). Єдиний виняток з цього правила – це коли програма є тематичною.</li>
-<li>Макіяж може включати, але не обмежуватися, макіяж вій, прикраси, стрази. Але забороняється надягати маску (окрім категорії Artistic), та наносити тілесну фарбу будь-якого виду.</li>
-<li>Недотримання цих обмежень призводить до штрафів.</li>
-</ul>
-<h4>Продукти для поліпшення зчеплення</h4>
-<p class="">Для поліпшення захвату можна використовувати тільки рідку/суху магнезію. Нанесення віску, каніфолі на долоні та тіло заборонено. Якщо використовується віск для тіла, який не повинен залишати сліди на снарядізнарядді, за забруднино знаряддя будуть нараховані штрафні санкції. Жодний з продуктів НЕ можна наносити на знаряддя. Продукти для захвату застосовуються лише на тілі спортсмена.</p>
-<h4>Сцена та знаряддя</h4>
-<p class="">Сцена</p>
-<p class="">Сцена має як мінімум два (2) метра вільного місця попереду, збоку та позаду пілону.</p>
-<p class="">Пілон</p>
-<ul>
-<li>Пілон для змагання – це пілон з нержавіючої полірованої сталі, 42,5 мм товщиною, зроблено з</li>
-</ul>
-<p class="">одного куска металу, мають три з половиною/чотири (3,5-4) метри корисної висоти.</p>
-<ul>
-<li>Розташування пілонів, якщо дивитися зі сторони глядачів: праворуч динамічний пілон, ліворуч статичний пілон. Відстань між пілонами 3 метри.</li>
-<li>Спортсменам не можна чистити пілони своїми засобами для чистки. Виняток стосується тих спортсменів, які мають алергію, що підтверджено лікарською документацією.</li>
-</ul>
-<p class="">Повітряне кільце та полотна</p>
-<p class="">Організатору за потреби можуть представити власні знаряддя. Кожен учасник має право виступати на своєму знарядді.</p>
-<p class="">Кільце, оригінальні знаряддя та полотна будуть підвішені з одним центральним та/або двома боковими кріпленням, через обертальну машинку та з використанням автоматичної лебідки. Робоча висота мінімум 5 – 5,5 м.</p>
-<p class="">На підлозі під знаряддям знаходиться страхувальний мат товщиною не менше 10 см.</p>
-<h4>Зйомки</h4>
-<ul>
-<li>Всі спортсмени підтверджують, взявши участь у змаганні, що вони відмовляються від усіх прав на відео-та фотозйомку і не отримають жодної компенсації за фото і відео, які були зроблені під час заходу. Всі спортсмени погоджуються, що їхні зображення можуть бути використані для реклами, навчання, в рекламних і комерційних цілях.</li>
-<li>Всі спортсмени погоджуються давати інтерв’ю, бути сфотографованими, чи знятими на камеру засобами ЗМІ.</li>
-<li>Спортсмен погоджується на фото/відео зйомку під час будь-якого заходу перед, під час, або після змагань, який відноситься до змагань, наприклад, семінари, інтерв’ю, виступи, тощо.</li>
-<li>Фото- та відео зйомка у місцях переодягання забороняється, за винятком, коли на це дав згоду організатор.</li>
-<li>Усі фото та відео матеріали залишаються власністю організатора.</li>
-</ul>
-<h4>Результати та винагорода</h4>
-<ul>
-<li>Всі результати обробляються та сумуються за допомогою комп&#x27;ютера.</li>
-<li>Результати отримуються тільки після того, як завершив змагання останній спортсмен цього дня</li>
-</ul>
-<p class="">змагань.</p>
-<ul>
-<li>Всі результати оприлюднюються в соціальних мережах організатора протягом трьох (3) робочих днів після змагань.</li>
-</ul>
-<p class="">Винагорода</p>
-<ul>
-<li>На змаганнях спортсмен(и) виборюють титул Чемпіона України 2024, нагороджуються кубком та медаллю.</li>
-<li>Переможці та Учасники, які посіли друге та третє місце у кожній категорії отримують медалі.</li>
-<li>Усі інші спортсмени отримують сертифікат учасника змагань</li>
-<li>Подарунки від партнерів та організаторів.</li>
-</ul>
-<h4>Права та обов’язки спортсменів</h4>
-<ul>
-<li>Всі спортсмени мають ознайомитися з правилами, положеннями та будь-якими оновленнями до них, а також повинні підписати кодекс етики.</li>
-<li>Всі спортсмени повинні вести себе відповідно до правил.</li>
-<li>Спортсмени віком до 18 років повинні мати затвердженого наставника (батьків/уповноваженого юридичного представника/тренера) з правом підпису.</li>
-<li>Спортсмени повинні бути за лаштунками сцени для виступу перед виступом двох спортсменів до нього.</li>
-<li>Спортсмен має підійти до сцени та чекати поки його оголосять, після цього він може йти на сцену.</li>
-<li>Всі спортсмени несуть повну відповідальність за їхній особистий стан здоров&#x27;я та здатність змагатися. Щоб уникнути травм, всі спортсмени не повинні вживати рухів, в яких вони не повністю впевнені.</li>
-<li>Всі спортсмени беруть участь у змаганні на свій страх і ризик і розуміють, що будь-які травми або нещасні випадки, які можуть виникнути, є відповідальністю самого спортсмена.</li>
-<li>Вживання алкоголю або заборонених або контрольованих речовин до або під час змагань суворо заборонено.</li>
-<li>Усі витрати, понесені спортсменом, є відповідальністю самого спортсмена, а не організатора. В якості підтвердження цього, вимагається підпис під час реєстрації.</li>
-<li>В випадках проблемної ситуації під час виконання програми учасник повинен зазначити проблему, використовуючи жест, схрещенні руки над головою. Якщо учасник не подав жодного</li>
-</ul>
-<p class="">сигналу, вважається що він покинув сцену без поважної причини.</p>
-<h4>Права та обов’язки Організатора</h4>
-<p class="">Залишає за собою право на наступне:</p>
-<ul>
-<li>Змінювати правила і норми проведення змагань або додатків до них в будь-який час. Будь-яка зміна буде оприлюднена одразу</li>
-<li>Звертатися до Головного судді, у разі якщо будь-який спортсмен порушує норми і правила, для проведення розгляду можливих штрафів або дискваліфікації.</li>
-<li>Звертатися до Головного судді, у разі якщо будь-який суддя порушує норми і правила, або Кодекс етики, для проведення розгляду можливості дискваліфікації.</li>
-<li>Приймати рішення про будь-які рішення, які не були розглянуті у нормах і правилах до або під час проведення змагання.</li>
-<li>ВМКПСЕ надає медичну допомогу в разі травми. Медичний представник приймає остаточне</li>
-</ul>
-<p class="">рішення про те, чи запобігають травми спортсмену потрапити до змагань або продовжити змагання.</p>
-<ul>
-<li>ВМКПСЕ не несе відповідальність за втрату або пошкодження речей спортсменів або посадових осіб.</li>
-</ul>
-<p class="">Організатор зобов&#x27;язаний:</p>
-<ul>
-<li>Оприлюднити всі критерії змагань, як це визначено в главі 2 цих норм та правил</li>
-<li>Надавати спортсменам приміщення для зміни одягу та розігріву.</li>
-<li>Надати приміщення для проведення змагань з відповідними умовами.</li>
-<li>Перевірити та протестувати знаряддя та пілони.</li>
-<li>Надавати спортсмен можливість провести репетицію перед змаганнями.</li>
-<li>Проводити очищення пілонів перед кожним наступним учасником змагань.</li>
-<li>Надавати суддям всю необхідну інформацію про змагання.</li>
-<li>Забезпечити тимчасову першу допомоги в разі інциденту або аварії.</li>
-</ul>
-<h4>Покарання</h4>
-<p class="">Спортсмен може бути покараний головним суддею під час змагань за наступні порушення:</p>
-<ul>
-<li>Порушення норм, правил і Кодексу етики. Покарання залежать від тяжкості порушення.</li>
-<li>Надання неправдивої або неточної інформації у заявці. Покарання залежать від тяжкості</li>
-</ul>
-<p class="">порушення.</p>
-<ul>
-<li>Неспортивну чи антигромадську поведінку.</li>
-<li>Невиконання мінімальних або перевищення максимального часу, який надається для виступу.</li>
-<li>Торкання системи тросів та кріплень під час змагання.</li>
-<li>Безпосереднє спілкування з аудиторією зі сцени (наприклад, жести, розмова з глядачами і т.д.).</li>
-<li>Невідповідна хореографія, костюм, волосся та макіяж. Покарання залежать від тяжкості порушення.</li>
-<li>Запізнення на реєстрацію і репетицію без попередньої згоди.</li>
-<li>Запізнення за лаштунки під час змагань.</li>
-<li>Запізнення на сцену під час оголошення</li>
-</ul>
-<h4>Дискваліфікація</h4>
-<p class="">Спортсмен може бути автоматично дискваліфікований під час або після змагань. ВФСП додатково/або також залишає за собою право позбавити спортсмена титулу за наступні порушення:</p>
-<ul>
-<li>Порушення правил і норм і кодексу етики. Дискваліфікація залежить від тяжкості порушення.</li>
-<li>Надання неправдивої або неточної інформації у заявці. Дискваліфікація залежить від тяжкості порушення.</li>
-<li>Неспортивну поведінку або надання змаганням поганої слави.</li>
-<li>Загрози життю або здоров&#x27;ю спортсмена, організатора, судді чи глядача.</li>
-<li>Неможливість вийти на сцену.</li>
-<li>Використання заборонених засобів для поліпшення захвату.</li>
-<li>Невідповідна хореографія, костюм, волосся та макіяж</li>
-<li>Дискваліфікація залежать від тяжкості порушення.</li>
-<li>Навмисне видалення предметів одягу.</li>
-<li>Навмисне використання системи тросів та кріплень під час виступу.</li>
-<li>Будь-яке інша особа супроводжує спортсмена на сцені.</li>
-<li>Безпосередньо звертається до суддівської колегії для обговорення змагання або прямо або побічно впливає на суддівські рішення до або після змагань.</li>
-<li>Надання змаганням, за підтримки ВМКПСЕ, НОК України та ВФСП дурної слави.</li>
-<li>Використання ненормативної лексики до будь-яких посадових осіб</li>
-</ul>
-<h4>Суддівство</h4>
-<ul>
-<li>Суддям забороняється змінювати рахунок після того, як будуть зібрані таблиці з</li>
-<li>Після того, як суддівство закінчилося і все безпосередні заяви і скарги були оброблені, не можуть відбуватися жодні обговорення або прийматися жодні рахунки, для того щоб змінити результати.</li>
-<li>Бали попереднього змагання та фіналу не плюсуються.</li>
-<li>Таблиця з рахунками збираються після виступу усіх спортсменів.</li>
-<li>Судді не повинні розмовляти один з одним або радитись протягом виступу спортсмена. Судді можуть розмовляти, коли програма закінчилася, однак це не повинно бути про суддівство.</li>
-<li>Судді, які потребують допомоги, повинні підняти руку. Вони можуть говорити тільки головному судді між виступами.</li>
-<li>Судді повинні бути відокремлені від спортсменів і глядачів в будь-який час протягом змагань.</li>
-<li>Судді і спортсмени будуть дискваліфіковані, якщо вони будуть знайдені в процесі обговорення будь-яких питань разом в будь-який час під час змагань.</li>
-<li>Судді не повинні залишити своє місце в будь-який час, окрім випадків з дозволу головного судді або якщо вони захворіють, і в цьому випадку резервний суддя повинен зайняти їхнє місце.</li>
-<li>Судді повинні сидіти в такому положенні щоб отримати найкращий вид на спортсмена і на відстані від глядачів.</li>
-</ul>
-<h5>Процедура звернень і скарг.</h5>
-<ul>
-<li>Чемпіонат має вище журі для розглядання звернень. Спортсмени повинні подати своє звернення протягом 10 хвилин після передбачуваного порушення .</li>
-</ul></article>
-<article class="rule-section" id="r-penalties"><h3>8. ШТРАФИ ГОЛОВНОГО СУДДІ</h3><div class="table-wrap"><table class="data-table"><tr><th>Назва списання</th><th>Бал</th><th>Пояснення</th></tr><tr><td>Виконаний заборонений елемент</td><td>-5</td><td>За кожен елемент</td></tr><tr><td>Музична композиція не відповідає віку</td><td>-3</td><td></td></tr><tr><td>Музика не відповідає правилам</td><td>-5</td><td></td></tr><tr><td>Заборонена правилами хореографія</td><td>-5</td><td>За кожен рух</td></tr><tr><td>Вимовляння слів під часвиступу в категорії спорт</td><td>-1</td><td>Кожен раз</td></tr><tr><td>Допомога тренера/підказування (викрикування)</td><td>-3</td><td>За кожен раз</td></tr><tr><td>Явна допомога тренера/ «підтанцьовки» під час виступу</td><td>-5</td><td></td></tr><tr><td>Костюм не відповідає правилам</td><td>- 1</td><td>Шорти менше 1/3; костюм заважає виступу</td></tr><tr><td></td><td>-3</td><td>Під костюмом немає спідньої білизни</td></tr><tr><td></td><td>-5</td><td>Вузька «ластовиця», не прикриті груди, тіло не прикрито на 70% та ін..</td></tr><tr><td></td><td>-3</td><td>Заборонені тканини та будь які пункти які не відповідають правилам змагань</td></tr><tr><td>Зачіска заважає виступу</td><td>-1</td><td>За кожен раз</td></tr><tr><td>Реквізит не прибрано зі сцени протягом 3 хв</td><td>-1</td><td></td></tr><tr><td>Реквізит не відповідає правилам змагань або після використання заважає виступу іншого учасника</td><td>-3</td><td></td></tr><tr><td>Використання заборонених засобів зчеплення</td><td>-10</td><td>або дискваліфікація</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Післявикористання засобівзчеплення залишились сліди на знарядді</th><th>-5</th><th></th></tr><tr><td>Неправдива інформація щодо категорії</td><td>-10</td><td>або дискваліфікація</td></tr><tr><td>Не спортивна поведінка: викрикування в адресу суддівської колегії не нормативної або образливої лексики, сперечання, бійка та інше.</td><td>-10</td><td>або дискваліфікація</td></tr><tr><td>Торкання тросової системи під час виступу</td><td>-1</td><td>за кожен раз</td></tr><tr><td>Макіяж або фарба на тілі що не відповідає правилам змагань абозалишає сліди на снаряді</td><td>-3</td><td></td></tr><tr><td>Розмова з партнером під час виконання програми</td><td>-1</td><td>За кожен випадок</td></tr><tr><td>Удар або не навмисний дотик стопою, долонею чи іншою частиною тіла партнера, що не передбачені програмою</td><td>-1</td><td>За кожен випадок</td></tr><tr><td>Будь які порушення правил змагань</td><td>від - 1 до - 10</td><td>в залежності від ситуації та тяжкості порушення</td></tr><tr><td>Використання російськомовного контенту та музики</td><td>Від - 1 до -100</td><td>одноразово</td></tr></table></div></article>
-<article class="rule-section" id="r-glossary"><h3>9. ГЛОСАРІЙ ТОЧОК ФІКСАЦІЇ</h3><div class="gallery" style="grid-template-columns:repeat(2,1fr)"><figure class="el-card"><img src="assets/image50.jpeg" alt="Глосарій — передня поверхня тіла"></figure><figure class="el-card"><img src="assets/image51.jpeg" alt="Глосарій — задня поверхня тіла"></figure></div></article>
-</div></div>
-</section>
+<section class="section" id="full-rules"><div class="rules-download reveal"><div><div class="eyebrow">Official document</div><h2>Повні <em>правила</em></h2><p>Заборонені елементи, штрафи головного судді та всі інші детальні положення залишаються у повному офіційному документі.</p><div class="hero-actions"><a class="btn lime big-download" href="rules-official-2026.docx" download>Завантажити правила ↓</a></div></div><div class="download-mark">36<span>сторінок</span></div></div></section>
 <footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2026»</div></footer>
 </main>
-<div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#banned">Заборонено</a><a href="#penalties">Штрафи</a><a class="go" href="#full-rules">Пошук</a></div>
+<div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -618,19 +171,39 @@ document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.query
 function updateCountdowns(){const now=new Date();document.querySelectorAll('.count').forEach(el=>{const d=new Date(el.dataset.date);const ms=d-now;if(ms<=0){el.textContent='Дедлайн минув';return}const days=Math.floor(ms/86400000);const hrs=Math.floor((ms%86400000)/3600000);el.textContent=`залишилось ${days} дн. ${hrs} год.`})}updateCountdowns();setInterval(updateCountdowns,3600000);
 // checklist local storage
 document.querySelectorAll('#checklist input').forEach(i=>{const k='pc_'+i.dataset.key;i.checked=localStorage.getItem(k)==='1';i.onchange=()=>localStorage.setItem(k,i.checked?'1':'0')});
-// fee calc
-const feeType=document.getElementById('feeType'),catCount=document.getElementById('catCount'),vpo=document.getElementById('vpo'),sumEl=document.getElementById('feeSum'),exp=document.getElementById('feeExplain'),countField=document.getElementById('countField');
-function calcFee(){let type=feeType.value,n=Math.max(1,parseInt(catCount.value||1)),base,txt='';countField.style.display=type==='individual'?'flex':'none';if(type==='individual'){let each=n===1?2800:n===2?2500:2300;base=each*n;txt=`${n} × ${each} грн`;}else if(type==='duet'){base=4500;txt='Дует';}else if(type==='group4'){base=5500;txt='Група до 4 людей';}else{base=7000;txt='Група більше 4 людей';}if(vpo.checked){base=Math.round(base*.9);txt+=' − 10% ВПО';}sumEl.textContent=base.toLocaleString('uk-UA')+' грн';exp.textContent=txt;}[feeType,catCount,vpo].forEach(x=>x.addEventListener('input',calcFee));calcFee();
-// tabs
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
-// reader nav
-document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth',block:'start'}));
-// search sections
-const s=document.getElementById('ruleSearch'),articles=[...document.querySelectorAll('.rule-section')];s.addEventListener('input',()=>{let q=s.value.trim().toLowerCase();articles.forEach(a=>a.classList.remove('search-hit'));if(q.length<2)return;let found=articles.find(a=>a.innerText.toLowerCase().includes(q));if(found){found.classList.add('search-hit');found.scrollIntoView({behavior:'smooth',block:'center'});}});
+// fee calculator
+const soloCount=document.getElementById('soloCount'),hasDuet=document.getElementById('hasDuet'),groupType=document.getElementById('groupType'),vpo=document.getElementById('vpo'),sumEl=document.getElementById('feeSum'),breakdown=document.getElementById('feeBreakdown'),feeNote=document.getElementById('feeNote');
+function calcFee(){
+ if(!soloCount)return;
+ const solo=Math.max(0,parseInt(soloCount.value||0)), duet=hasDuet.checked, group=groupType.value;
+ let soloEach=0;
+ if(solo>0){
+   if(solo>=3) soloEach=2300;
+   else if(solo===2) soloEach=2500;
+   else soloEach=(duet||group!=='none')?2500:2800;
+ }
+ let soloBase=solo*soloEach, soloFinal=soloBase;
+ if(vpo.checked && solo>0) soloFinal=Math.round(soloBase*.9);
+ const duetPrice=duet?4500:0;
+ const groupPrice=group==='small'?5500:group==='large'?7000:0;
+ const total=soloFinal+duetPrice+groupPrice;
+ sumEl.textContent=total.toLocaleString('uk-UA')+' грн';
+ let rows=[];
+ if(solo>0) rows.push(`<div class="fee-row"><span>Соло: ${solo} × ${soloEach.toLocaleString('uk-UA')} грн${vpo.checked?' − 10% ВПО':''}</span><b>${soloFinal.toLocaleString('uk-UA')} грн</b></div>`);
+ if(duet) rows.push('<div class="fee-row"><span>Дует · фіксована вартість</span><b>4 500 грн</b></div>');
+ if(group!=='none') rows.push(`<div class="fee-row"><span>${group==='small'?'Група до 4 людей':'Група більше 4 людей'} · фіксована вартість</span><b>${groupPrice.toLocaleString('uk-UA')} грн</b></div>`);
+ if(!rows.length) rows.push('<div class="fee-row"><span>Оберіть хоча б один вид участі</span><b>0 грн</b></div>');
+ breakdown.innerHTML=rows.join('');
+ const extra=(duet||group!=='none');
+ feeNote.textContent=solo===1&&extra?'Соло розраховано як друга категорія — 2500 грн до застосування знижки ВПО. Дует і група залишаються за фіксованою ціною.':vpo.checked?'Знижка ВПО 10% застосована тільки до соло. На дует і групу вона не поширюється.':'Дует і група не змінюють свою фіксовану вартість.';
+}
+[soloCount,hasDuet,groupType,vpo].filter(Boolean).forEach(x=>x.addEventListener('input',calcFee));calcFee();
+// legacy apparatus tabs removed
 // signature pad
 const canvas=document.getElementById('sig'),ctx=canvas.getContext('2d');let drawing=false,hasSig=false;function fit(){const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;const old=hasSig?canvas.toDataURL():null;canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.scale(dpr,dpr);ctx.lineWidth=2.2;ctx.lineCap='round';ctx.strokeStyle='#111';if(old){let im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=old}}fit();window.addEventListener('resize',fit);
 function pos(e){const r=canvas.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return [p.clientX-r.left,p.clientY-r.top]};function start(e){drawing=true;hasSig=true;ctx.beginPath();let [x,y]=pos(e);ctx.moveTo(x,y);e.preventDefault()}function move(e){if(!drawing)return;let [x,y]=pos(e);ctx.lineTo(x,y);ctx.stroke();e.preventDefault()}function end(){drawing=false}['mousedown','touchstart'].forEach(x=>canvas.addEventListener(x,start,{passive:false}));['mousemove','touchmove'].forEach(x=>canvas.addEventListener(x,move,{passive:false}));['mouseup','mouseleave','touchend'].forEach(x=>canvas.addEventListener(x,end));document.getElementById('clearSig').onclick=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false};
-document.getElementById('makeReceipt').onclick=()=>{const ok=[...document.querySelectorAll('.agree-check')].every(x=>x.checked),name=document.getElementById('signName').value.trim(),r=document.getElementById('receipt');if(!ok||!name||!hasSig){toast('Заповніть ПІБ, усі згоди та підпис');return}const dt=new Date().toLocaleString('uk-UA');r.style.display='block';r.innerHTML=`<b>Підтвердження сформовано локально.</b><br>${name} · ${dt}<br><small>Цей прототип не надсилає дані організатору. Для офіційного збору підписів треба підключити серверне збереження.</small>`;};
+document.querySelectorAll('.agreement-tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.agreement-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.agreement-panel').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById('agreement-'+btn.dataset.agreement).classList.add('active');document.getElementById('signatureTitle').textContent=btn.dataset.agreement==='adult'?'Підпис спортсмена':'Підпис батька / представника';document.getElementById('receipt').style.display='none';ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;}));
+document.getElementById('makeReceipt').onclick=()=>{const mode=document.querySelector('.agreement-tab.active')?.dataset.agreement||'adult',r=document.getElementById('receipt');let valid=false,name='';if(mode==='adult'){name=document.getElementById('adultAthlete').value.trim();valid=!!name&&document.querySelector('.adult-check').checked&&hasSig;}else{name=document.getElementById('parentName').value.trim();valid=!!name&&!!document.getElementById('childName').value.trim()&&document.querySelector('.parent-check').checked&&hasSig;}if(!valid){toast('Заповніть обов’язкові поля, підтвердження та підпис');return}const dt=new Date().toLocaleString('uk-UA');r.style.display='block';r.innerHTML=`<b>Підпис сформовано.</b><br>${name} · ${dt}<br><small>Наступний крок — підключення централізованого збереження, щоб кожна підписана згода автоматично надходила організаторам.</small>`;};
 
 // interactive categories
 document.querySelectorAll('.cat-toggle').forEach(btn=>btn.addEventListener('click',()=>{const card=btn.closest('.category-card');card.classList.toggle('open');btn.textContent=card.classList.contains('open')?'Згорнути −':'Умови категорії +';}));
