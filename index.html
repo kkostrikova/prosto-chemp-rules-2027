@@ -67,6 +67,19 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media(max-width:900px){.fee-builder,.agreement-form{grid-template-columns:1fr}.fee-summary,.signature-card{position:static}.rules-download{grid-template-columns:1fr}.download-mark{display:none}}
 @media(max-width:600px){.form-grid{grid-template-columns:1fr}.fee-choice{grid-template-columns:auto 1fr}.fee-choice strong{grid-column:2}.agreement-copy,.signature-card{padding:16px}}
 
+
+/* --- payment details --- */
+.payment-card{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.payment-main,.payment-side{border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:22px}
+.payment-main{box-shadow:inset 0 0 0 1px #ffffff05}
+.bank-line{display:flex;align-items:center;gap:14px;margin-bottom:16px}.bank-line h3{margin:3px 0 0;font-size:24px}.bank-badge{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:#fff;color:#000;font-size:11px;font-weight:900;letter-spacing:.06em}
+.pay-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 0;border-bottom:1px dashed #30343c}.pay-row>div{min-width:0}.pay-row span{display:block;color:#858a93;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-bottom:5px}.pay-row b{display:block;color:#fff;font-size:16px;overflow-wrap:anywhere}.pay-row .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;letter-spacing:.02em}
+.copy-btn{border:1px solid #3a3f47;background:#0a0c10;color:#d9dce2;border-radius:11px;padding:9px 11px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}.copy-btn:hover{border-color:var(--pink);color:white}
+.pay-purpose{margin-top:18px;padding:17px;border:1px solid #ff0a7850;border-radius:16px;background:#17060d}.pay-purpose strong{display:block;font-size:19px;color:#fff;margin:7px 0}.pay-purpose p{font-size:12px;color:#9da1a9;line-height:1.5;margin:0 0 12px}
+.payment-side{position:relative;overflow:hidden;border-color:#baff0045}.payment-side:after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;right:-85px;bottom:-85px;background:radial-gradient(circle,#baff002c,transparent 68%)}.pay-alert{display:inline-block;background:var(--lime);color:#070707;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.1em}.payment-side h3{font-size:27px;line-height:1.05;margin:16px 0 12px}.payment-side p{color:#a6abb3;line-height:1.6;font-size:13px;max-width:380px}
+@media(max-width:900px){.payment-card{grid-template-columns:1fr}}
+@media(max-width:600px){.payment-main,.payment-side{padding:16px}.pay-row{align-items:flex-start;flex-direction:column}.copy-btn{width:100%}}
+
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 </style>
 </head>
@@ -82,7 +95,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="start"><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
 <div class="quick-grid reveal">
 <div class="quick-card"><div class="quick-top"><span class="quick-num">01 · РЕЄСТРАЦІЯ</span><span class="quick-icon">↗</span></div><h3>Подати заявку</h3><p>Онлайн-реєстрація та кабінет спортсмена.</p><a class="btn pink" href="https://polecompetition.com/" target="_blank" rel="noopener">Відкрити кабінет ↗</a></div>
-<div class="quick-card lime"><div class="quick-top"><span class="quick-num">02 · ОПЛАТА</span><span class="quick-icon">₴</span></div><h3>Реквізити</h3><p>Сплата реєстраційного внеску за посиланням, наведеним у правилах.</p><a class="btn lime" href="https://mssg.me/37p6h" target="_blank" rel="noopener">Відкрити реквізити ↗</a></div>
+<div class="quick-card lime"><div class="quick-top"><span class="quick-num">02 · ОПЛАТА</span><span class="quick-icon">₴</span></div><h3>Реквізити</h3><p>Monobank · ФОП Катерина Кострікова. Реквізити та призначення платежу можна скопіювати одним натисканням.</p><a class="btn lime" href="#payment-details">Відкрити реквізити ↓</a></div><h3>Реквізити</h3><p>Сплата реєстраційного внеску за посиланням, наведеним у правилах.</p><a class="btn lime" href="https://mssg.me/37p6h" target="_blank" rel="noopener">Відкрити реквізити ↗</a></div>
 <div class="quick-card"><div class="quick-top"><span class="quick-num">03 · МУЗИКА / ФОН</span><span class="quick-icon">♫</span></div><h3>Матеріали виступу</h3><p>Відео/зображення, опис номера, фон та форми обов’язкових елементів.</p><a class="btn pink" href="https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit" target="_blank" rel="noopener">Відкрити форму ↗</a></div>
 <div class="quick-card lime"><div class="quick-top"><span class="quick-num">04 · ОБОВ’ЯЗКОВІ</span><span class="quick-icon">✓</span></div><h3>Comply</h3><p>Заповнення обов’язкових елементів та збереження у форматі PDF.</p><a class="btn lime" href="https://comply.org.ua/" target="_blank" rel="noopener">Перейти в Comply ↗</a></div>
 <div class="quick-card"><div class="quick-top"><span class="quick-num">05 · КВИТАНЦІЯ</span><span class="quick-icon">⌁</span></div><h3>Підтвердження оплати</h3><p>У правилах вказано Telegram +380675210316 (Катерина). У платежі зазначається ПІБ учасника та призначення.</p><button class="btn" onclick="copyText('+380675210316')">Скопіювати номер</button></div>
@@ -128,11 +141,29 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="fee-block"><div class="fee-head"><span class="fee-badge lime">GROUP</span><b>Група</b></div><div class="field"><label>Участь у групі</label><select id="groupType"><option value="none">Не беру участь</option><option value="small">Група до 4 людей — 5500 грн</option><option value="large">Група більше 4 людей — 7000 грн</option></select></div><small>Групова вартість фіксована та не зменшується через ВПО.</small></div>
 <label class="fee-choice vpo"><input id="vpo" type="checkbox"><span><b>Знижка ВПО 10%</b><small>За умови надання довідки. Знижка рахується тільки на соло-категорії.</small></span><strong>−10%</strong></label>
 </div>
-<div class="fee-summary"><div class="mini">Розрахунок</div><div class="sum" id="feeSum">2 800 грн</div><div id="feeBreakdown" class="fee-breakdown"></div><div class="fee-note" id="feeNote"></div></div>
+<div class="fee-summary"><div class="mini">Розрахунок</div><div class="sum" id="feeSum">2 800 грн</div><div id="feeBreakdown" class="fee-breakdown"></div><div class="fee-note" id="feeNote"></div><div style="margin-top:14px"><a class="btn lime" href="#payment-details">Перейти до оплати ↓</a></div></div>
 </div>
 </section>
 
 <section class="section"><div class="section-title"><div><div class="eyebrow">Performance time</div><h2>Час <em>виступу</em></h2></div></div><div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div></section>
+
+<section class="section" id="payment-details"><div class="section-title"><div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div><div class="section-sub">Після оплати обов’язково вкажіть призначення платежу та ПІБ учасника.</div></div>
+<div class="payment-card reveal">
+  <div class="payment-main">
+    <div class="bank-line"><span class="bank-badge">MONO</span><div><div class="mini">Банк</div><h3>Monobank</h3></div></div>
+    <div class="pay-row"><div><span>Отримувач</span><b>Катерина Кострікова</b></div><button class="copy-btn" onclick="copyText('Катерина Кострікова')">Копіювати</button></div>
+    <div class="pay-row"><div><span>ФОП / IBAN</span><b class="mono">UA923220010000026002320028334</b></div><button class="copy-btn" onclick="copyText('UA923220010000026002320028334')">Копіювати</button></div>
+    <div class="pay-row"><div><span>ЄРДПУ</span><b>3160115847</b></div><button class="copy-btn" onclick="copyText('3160115847')">Копіювати</button></div>
+    <div class="pay-purpose"><div class="mini">Призначення платежу</div><strong>за участь у змаганнях ПІБ</strong><p>Замість «ПІБ» вкажіть прізвище, ім’я та по батькові учасника.</p><button class="btn pink" onclick="copyText('за участь у змаганнях ПІБ')">Скопіювати призначення</button></div>
+  </div>
+  <div class="payment-side">
+    <div class="pay-alert">ВАЖЛИВО</div>
+    <h3>Не забудьте призначення платежу</h3>
+    <p>Платіж без ПІБ учасника складніше ідентифікувати. Перед оплатою перевірте реквізити та правильність ПІБ.</p>
+    <button class="btn lime" onclick="copyPaymentDetails()">Скопіювати всі реквізити</button>
+  </div>
+</div>
+</section>
 
 <section class="section" id="agreements"><div class="section-title"><div><div class="eyebrow">Agreements</div><h2>Згоди та <em>підписи</em></h2></div><div class="section-sub">Два окремі варіанти: для повнолітнього спортсмена та для батьків / законного представника неповнолітнього спортсмена.</div></div>
 <div class="agreement-tabs reveal"><button class="agreement-tab active" data-agreement="adult">18+ · Згода спортсмена</button><button class="agreement-tab" data-agreement="parent">До 18 · Згода батьків</button></div>
@@ -164,6 +195,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <script>
 const toast=(t)=>{const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)};
 function copyText(t){navigator.clipboard?.writeText(t).then(()=>toast('Скопійовано'))}
+function copyPaymentDetails(){const t=`Monobank\nКатерина Кострікова\nФОП / IBAN: UA923220010000026002320028334\nЄРДПУ: 3160115847\nПризначення платежу: за участь у змаганнях ПІБ`;navigator.clipboard?.writeText(t).then(()=>toast('Реквізити скопійовано'))}
 // mobile menu
 document.querySelector('.mobile-menu').onclick=()=>document.querySelector('.navlinks').classList.toggle('open');
 document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.querySelector('.navlinks').classList.remove('open'));
