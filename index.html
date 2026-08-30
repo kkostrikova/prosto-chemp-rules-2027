@@ -353,6 +353,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <div class="launch-badge">СТАРТ · 01.10.2026</div>
     <h3>Заповнення обов’язкових елементів</h3>
     <p>Додаток буде відкрито для спортсменів <strong>1 жовтня 2026 року</strong>. До цієї дати публічне заповнення закрите.</p>
+    <div class="launch-note"><b>Дедлайн SPORT:</b> до <strong>1 січня 2027 року включно</strong>. Після дедлайну форма закриється автоматично.</div>
     <div class="launch-note"><b>Важливо:</b> після відкриття спортсмен обере ПІБ, вік, розряд і снаряд, а система покаже лише допустимі елементи з відповідних груп.</div>
     <button class="btn lime" id="compulsoryLaunchBtn" type="button" disabled>Додаток відкриється 1 жовтня</button>
   </div>
@@ -404,9 +405,9 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="art-description">
   <div class="section-title">
     <div><div class="eyebrow">ART · Host description</div><h2>Опис номера <em>для ведучої</em></h2></div>
-    <div class="section-sub">Окрема форма тільки для ART. Вона не пов’язана з обов’язковими елементами SPORT.</div>
+    <div class="section-sub">Окрема форма тільки для ART. Вона не пов’язана з обов’язковими елементами SPORT. <strong>Дедлайн: 1 січня 2027 року включно.</strong></div>
   </div>
-  <div class="comp-builder reveal">
+  <div class="comp-builder reveal" id="artFormWrap">
     <div class="comp-form">
       <div class="comp-step-title"><span>ART</span><div><b>Дані для ведучої</b><small>Усі 5 полів обов’язкові.</small></div></div>
       <div class="form-grid comp-meta">
@@ -517,7 +518,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </section>
 
 <section class="section" id="full-rules"><div class="rules-download reveal"><div><div class="eyebrow">Official document</div><h2>Повні <em>правила</em></h2><p>Заборонені елементи, штрафи головного судді та всі інші детальні положення залишаються у повному офіційному документі.</p><div class="hero-actions"><a class="btn lime big-download" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a><a class="btn" href="rules-official-2026.docx" download>DOCX</a></div></div><div class="download-mark">36<span>сторінок</span></div></div></section>
-<footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2026»</div></footer>
+<footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2026» · Останнє оновлення: 30.08.2026</div></footer>
 </main>
 <div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#compulsory">Обов’язкові</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
@@ -547,12 +548,17 @@ function compulsoryPreviewMode(){return new URLSearchParams(location.search).get
 function updateCompulsoryLaunch(){
   const btn=document.getElementById('compulsoryLaunchBtn'),count=document.getElementById('compulsoryCountdown'),builder=document.getElementById('compBuilder'),gate=document.getElementById('compulsoryGate');
   if(!btn||!count||!builder)return;
-  const openDate=new Date('2026-10-01T00:00:00'),now=new Date(),isOpen=now>=openDate||compulsoryPreviewMode();
-  if(isOpen){
+  const openDate=new Date('2026-10-01T00:00:00'),closeDate=new Date('2027-01-02T00:00:00'),now=new Date(),preview=compulsoryPreviewMode();
+  if(now>=closeDate&&!preview){
+    count.textContent='ПРИЙОМ ЗАВЕРШЕНО';
+    btn.disabled=true;
+    btn.textContent='Прийом завершено';
+    builder.hidden=true;
+  }else if(now>=openDate||preview){
     count.textContent=now>=openDate?'ВІДКРИТО':'PREVIEW';
     btn.disabled=false;btn.textContent=now>=openDate?'Відкрити конструктор ↓':'Відкрити тестовий конструктор ↓';
     btn.onclick=()=>{builder.hidden=false;builder.scrollIntoView({behavior:'smooth',block:'start'})};
-    if(compulsoryPreviewMode()) builder.hidden=false;
+    if(preview) builder.hidden=false;
   }else{
     const days=Math.ceil((openDate-now)/86400000);count.textContent=days+' дн.';btn.disabled=true;btn.textContent='Додаток відкриється 1 жовтня';
   }
@@ -680,32 +686,75 @@ function artPayload(){
     rulesVersion:'2026/27'
   };
 }
+function artDeadlinePassed(){
+  return new Date()>=new Date('2027-01-02T00:00:00');
+}
 function validateArt(){
   const p=artPayload();
   const desc=document.getElementById('artDescription'),count=document.getElementById('artDescriptionCount');
-  if(count&&desc) count.textContent=desc.value.length+'/100';
-  const ok=!!p.athleteName&&!!p.category&&!!p.ageCategory&&!!p.apparatus&&!!p.routineDescription&&p.routineDescription.length<=100;
-  const box=document.getElementById('artValidation'),btn=document.getElementById('artSubmit');
+  if(count&&desc){
+    const used=desc.value.length, left=100-used;
+    count.textContent=used>=80?used+'/100 · залишилось '+left:used+'/100';
+  }
+  const closed=artDeadlinePassed();
+  const ok=!closed&&!!p.athleteName&&!!p.category&&!!p.ageCategory&&!!p.apparatus&&!!p.routineDescription&&p.routineDescription.length<=100;
+  const box=document.getElementById('artValidation'),btn=document.getElementById('artSubmit'),wrap=document.getElementById('artFormWrap');
   if(box){
     box.className=ok?'comp-validation ok':'comp-validation';
-    box.textContent=ok?'✓ Усі дані заповнені. Можна надсилати опис ART.':'Заповніть усі 5 полів.';
+    box.textContent=closed?'Прийом описів ART завершено 1 січня 2027 року.':ok?'✓ Усі дані заповнені. Можна надсилати опис ART.':'Заповніть усі 5 полів.';
   }
-  if(btn) btn.disabled=!ok;
+  if(btn){
+    btn.disabled=!ok;
+    if(closed) btn.textContent='Прийом завершено';
+  }
+  if(wrap&&closed) wrap.classList.add('closed');
   return ok;
 }
 ['artAthlete','artDescription'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateArt));
 ['artCategory','artAge','artApparatus'].forEach(id=>document.getElementById(id)?.addEventListener('change',validateArt));
+function submitArtVerified(p){
+  return new Promise((resolve,reject)=>{
+    const callback='pcArtCb_'+Date.now()+'_'+Math.floor(Math.random()*100000);
+    const script=document.createElement('script');
+    const timer=setTimeout(()=>cleanup(new Error('timeout')),15000);
+    function cleanup(err,data){
+      clearTimeout(timer);
+      try{delete window[callback]}catch(e){window[callback]=undefined}
+      script.remove();
+      err?reject(err):resolve(data);
+    }
+    window[callback]=(data)=>cleanup(null,data);
+    const q=new URLSearchParams({
+      action:'artRoutineDescription',
+      athleteName:p.athleteName,
+      category:p.category,
+      ageCategory:p.ageCategory,
+      apparatus:p.apparatus,
+      routineDescription:p.routineDescription,
+      rulesVersion:p.rulesVersion,
+      callback:callback,
+      _:String(Date.now())
+    });
+    script.onerror=()=>cleanup(new Error('network'));
+    script.src=SIGNATURE_ENDPOINT+'?'+q.toString();
+    document.head.appendChild(script);
+  });
+}
 document.getElementById('artSubmit')?.addEventListener('click',async()=>{
   if(!validateArt())return;
   const p=artPayload(),btn=document.getElementById('artSubmit'),status=document.getElementById('artStatus');
   btn.disabled=true;btn.textContent='Надсилаємо…';status.classList.add('show');status.textContent='Зберігаємо опис номера…';
   try{
-    await fetch(SIGNATURE_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)});
-    status.innerHTML='<b>✓ Опис ART надіслано.</b><br><small>Дані передано до таблиці для ведучої.</small>';
-    btn.textContent='Надіслано ✓';
-    toast('Опис ART надіслано');
+    const result=await submitArtVerified(p);
+    if(!result||!result.ok) throw new Error(result?.error||'save failed');
+    const updated=result.action==='updated';
+    status.innerHTML=updated
+      ?'<b>✓ Опис ART оновлено.</b><br><small>Попередній запис замінено — дубль не створено.</small>'
+      :'<b>✓ Опис ART збережено.</b><br><small>Запис підтверджено таблицею для ведучої.</small>';
+    btn.textContent=updated?'Оновлено ✓':'Збережено ✓';
+    toast(updated?'Опис ART оновлено':'Опис ART збережено');
   }catch(e){
-    status.innerHTML='<b>Не вдалося надіслати опис.</b>';
+    status.innerHTML='<b>Не вдалося підтвердити збереження.</b><br><small>Спробуйте ще раз.</small>';
     btn.disabled=false;btn.textContent='Надіслати опис ART';
   }
 });
