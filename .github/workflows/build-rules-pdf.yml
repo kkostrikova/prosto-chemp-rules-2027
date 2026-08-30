@@ -1,0 +1,38 @@
+name: Build official rules PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "rules-official-2026.docx"
+      - ".github/workflows/build-rules-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice
+
+      - name: Convert DOCX to PDF
+        run: |
+          mkdir -p /tmp/pdfout
+          libreoffice --headless --convert-to pdf --outdir /tmp/pdfout "rules-official-2026.docx"
+          mv "/tmp/pdfout/rules-official-2026.pdf" "rules-official-2026.pdf"
+
+      - name: Commit generated PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rules-official-2026.pdf
+          git diff --cached --quiet || git commit -m "Build official rules PDF"
+          git push
