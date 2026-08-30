@@ -31,7 +31,7 @@ function doGet(e) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
   }
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'14'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'15'});
 }
 
 function doPost(e) {
@@ -222,11 +222,11 @@ function saveCompulsoryForm_(data) {
     'th{background:#e8e8e8;text-align:center;font-size:8.5pt}' +
     'tr{page-break-inside:avoid}' +
     '.num{width:8mm;text-align:center}' +
-    '.code{width:17mm;text-align:center;font-weight:700}' +
-    '.visual{width:38mm;text-align:center;vertical-align:middle}' +
-    '.visual img{display:block;max-width:34mm;max-height:31mm;width:auto;height:auto;margin:auto}' +
+    '.code{width:15mm;text-align:center;font-weight:700}' +
+    '.visual{width:46mm;text-align:center;vertical-align:middle}' +
+    '.visual img{display:block;max-width:43mm;max-height:48mm;width:auto;height:auto;margin:auto}' +
     '.no-image{font-size:7pt;color:#777}' +
-    '.copy{font-size:8.5pt;line-height:1.25}' +
+    '.copy{font-size:8.8pt;line-height:1.28}' +
     '.copy b{font-size:9pt}' +
     '.desc{white-space:pre-line;margin-top:1mm}' +
     '.foot{margin-top:3mm;text-align:right;color:#777;font-size:7pt}' +
