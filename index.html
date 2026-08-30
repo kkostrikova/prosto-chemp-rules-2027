@@ -119,7 +119,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 
 @media print{
-  @page{size:A4 landscape;margin:7mm}
+  @page{size:A4 portrait;margin:7mm}
   body.print-compulsory{background:#fff!important;color:#000!important;margin:0!important;padding:0!important}
   body.print-compulsory .grain,
   body.print-compulsory header,
@@ -206,6 +206,72 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     margin-top:2mm!important;
     font-size:6.5pt!important;
     color:#666!important
+  }
+}
+
+
+@media print{
+  html,body.print-compulsory{
+    width:210mm!important;
+    min-width:210mm!important;
+    height:297mm!important;
+    min-height:297mm!important;
+    max-height:297mm!important;
+    overflow:hidden!important;
+  }
+  body.print-compulsory #compulsoryPrint{
+    box-sizing:border-box!important;
+    width:196mm!important;
+    max-width:196mm!important;
+    height:auto!important;
+    max-height:282mm!important;
+    overflow:hidden!important;
+    zoom:.78!important;
+  }
+  body.print-compulsory .comp-print h1{
+    font-size:15pt!important;
+    margin:0 0 2.5mm!important;
+  }
+  body.print-compulsory .comp-print .print-meta{
+    margin:0 0 2.5mm!important;
+  }
+  body.print-compulsory .comp-print .print-meta div{
+    padding:1.5mm!important;
+    font-size:7pt!important;
+    line-height:1.1!important;
+  }
+  body.print-compulsory .comp-print table{
+    font-size:6.7pt!important;
+    line-height:1.08!important;
+  }
+  body.print-compulsory .comp-print th,
+  body.print-compulsory .comp-print td{
+    padding:1.2mm!important;
+    line-height:1.08!important;
+  }
+  body.print-compulsory .comp-print th:nth-child(1),
+  body.print-compulsory .comp-print td:nth-child(1){width:6mm!important}
+  body.print-compulsory .comp-print th:nth-child(2),
+  body.print-compulsory .comp-print td:nth-child(2){width:14mm!important}
+  body.print-compulsory .comp-print th:nth-child(3),
+  body.print-compulsory .comp-print td:nth-child(3){width:31mm!important}
+  body.print-compulsory .comp-print .pimg{width:31mm!important}
+  body.print-compulsory .comp-print .pimg img{
+    max-width:27mm!important;
+    max-height:24mm!important;
+  }
+  body.print-compulsory .comp-print .pdesc{
+    font-size:6.3pt!important;
+    line-height:1.08!important;
+  }
+  body.print-compulsory .comp-print td>b{font-size:7pt!important}
+  body.print-compulsory .comp-print .print-foot{
+    margin-top:1.5mm!important;
+    font-size:6pt!important;
+  }
+  body.print-compulsory .comp-print tr{
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
   }
 }
 
