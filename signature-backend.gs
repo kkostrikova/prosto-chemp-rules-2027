@@ -15,7 +15,7 @@ const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
 
 function doGet(e) {
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'10'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'11'});
 }
 
 function doPost(e) {
@@ -247,6 +247,10 @@ function saveCompulsoryForm_(data) {
 function saveArtRoutineDescription_(data) {
   if (!data.athleteName || !data.category || !data.ageCategory || !data.apparatus || !data.routineDescription) {
     throw new Error('All ART description fields are required.');
+  }
+  data.routineDescription = String(data.routineDescription).trim();
+  if (data.routineDescription.length > 100) {
+    throw new Error('ART routine description must be 100 characters or fewer.');
   }
 
   const ss = SpreadsheetApp.openById(SHEET_ID);
