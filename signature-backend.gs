@@ -15,7 +15,23 @@ const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
 
 function doGet(e) {
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'11'});
+  const p = (e && e.parameter) || {};
+  if (p.action === 'artRoutineDescription') {
+    try {
+      const result = saveArtRoutineDescription_({
+        athleteName:p.athleteName || '',
+        category:p.category || '',
+        ageCategory:p.ageCategory || '',
+        apparatus:p.apparatus || '',
+        routineDescription:p.routineDescription || '',
+        rulesVersion:p.rulesVersion || '2026/27'
+      });
+      return jsonp_(result, p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'12'});
 }
 
 function doPost(e) {
@@ -31,7 +47,7 @@ function doPost(e) {
     }
 
     if (data.submissionType === 'artRoutineDescription') {
-      return saveArtRoutineDescription_(data);
+      return json_(saveArtRoutineDescription_(data));
     }
 
     return saveAgreement_(data);
@@ -135,6 +151,11 @@ function savePaymentReceipt_(data) {
 
 function saveCompulsoryForm_(data) {
   log_('compulsoryForm', 'START', data, 'OK', 'Request received');
+
+  const sportDeadline = new Date('2027-01-01T23:59:59+02:00');
+  if (new Date() > sportDeadline) {
+    throw new Error('SPORT compulsory form deadline has passed.');
+  }
 
   if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus) {
     throw new Error('Required athlete fields are missing.');
@@ -248,29 +269,69 @@ function saveArtRoutineDescription_(data) {
   if (!data.athleteName || !data.category || !data.ageCategory || !data.apparatus || !data.routineDescription) {
     throw new Error('All ART description fields are required.');
   }
+
+  data.athleteName = String(data.athleteName).trim();
+  data.category = String(data.category).trim();
+  data.ageCategory = String(data.ageCategory).trim();
+  data.apparatus = String(data.apparatus).trim();
   data.routineDescription = String(data.routineDescription).trim();
+
   if (data.routineDescription.length > 100) {
     throw new Error('ART routine description must be 100 characters or fewer.');
   }
 
-  const ss = SpreadsheetApp.openById(SHEET_ID);
-  let sh = ss.getSheetByName(HOST_SHEET);
-  if (!sh) {
-    sh = ss.insertSheet(HOST_SHEET);
-    sh.appendRow(['ПІБ','Категорія','Вікова категорія','Снаряд','Опис номера для ведучої']);
-    sh.setFrozenRows(1);
-    sh.getRange(1,1,1,5).setFontWeight('bold');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    let sh = ss.getSheetByName(HOST_SHEET);
+    if (!sh) {
+      sh = ss.insertSheet(HOST_SHEET);
+      sh.appendRow(['ПІБ','Категорія','Вікова категорія','Снаряд','Опис номера для ведучої']);
+      sh.setFrozenRows(1);
+      sh.getRange(1,1,1,5).setFontWeight('bold');
+    }
+
+    const norm = function(v) {
+      return String(v || '').trim().toLocaleLowerCase('uk-UA').replace(/\s+/g,' ');
+    };
+    const key = [
+      norm(data.athleteName),
+      norm(data.category),
+      norm(data.ageCategory),
+      norm(data.apparatus)
+    ].join('|');
+
+    const lastRow = sh.getLastRow();
+    if (lastRow > 1) {
+      const rows = sh.getRange(2,1,lastRow-1,5).getValues();
+      for (let i = 0; i < rows.length; i++) {
+        const rowKey = [norm(rows[i][0]),norm(rows[i][1]),norm(rows[i][2]),norm(rows[i][3])].join('|');
+        if (rowKey === key) {
+          const targetRow = i + 2;
+          sh.getRange(targetRow,1,1,5).setValues([[
+            data.athleteName,
+            data.category,
+            data.ageCategory,
+            data.apparatus,
+            data.routineDescription
+          ]]);
+          return {ok:true,type:'artRoutineDescription',action:'updated',row:targetRow};
+        }
+      }
+    }
+
+    sh.appendRow([
+      data.athleteName,
+      data.category,
+      data.ageCategory,
+      data.apparatus,
+      data.routineDescription
+    ]);
+    return {ok:true,type:'artRoutineDescription',action:'created',row:sh.getLastRow()};
+  } finally {
+    lock.releaseLock();
   }
-
-  sh.appendRow([
-    data.athleteName || '',
-    data.category || '',
-    data.ageCategory || '',
-    data.apparatus || '',
-    data.routineDescription || ''
-  ]);
-
-  return json_({ok:true,type:'artRoutineDescription'});
 }
 
 function log_(type, stage, data, status, details) {
@@ -308,6 +369,16 @@ function extension_(name, mime) {
   if (mime === 'image/png') return '.png';
   if (mime === 'image/webp') return '.webp';
   return '.jpg';
+}
+
+function jsonp_(obj, callback) {
+  const cb = String(callback || '');
+  if (!/^[A-Za-z_$][0-9A-Za-z_$\.]*$/.test(cb)) {
+    return json_({ok:false,error:'Invalid callback'});
+  }
+  return ContentService
+    .createTextOutput(cb + '(' + JSON.stringify(obj) + ');')
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 
 function json_(obj) {
