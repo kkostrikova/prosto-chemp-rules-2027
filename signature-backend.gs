@@ -11,6 +11,11 @@ const COMPULSORY_FOLDER_ID = '1Wki6yogM-b4H3fCGAcAhPtvRYqDzLTW2';
 const SIGNATURE_SHEET = 'Signatures';
 const PAYMENT_SHEET = 'Payments';
 const COMPULSORY_SHEET = 'Compulsory';
+const LOG_SHEET = 'SystemLog';
+
+function doGet(e) {
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'8'});
+}
 
 function doPost(e) {
   try {
@@ -26,6 +31,16 @@ function doPost(e) {
 
     return saveAgreement_(data);
   } catch (err) {
+    try {
+      const failed = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+      log_(
+        failed.submissionType || 'unknown',
+        'doPost',
+        failed,
+        'ERROR',
+        String(err && err.stack ? err.stack : err)
+      );
+    } catch (logErr) {}
     return json_({ok:false,error:String(err)});
   }
 }
@@ -114,9 +129,12 @@ function savePaymentReceipt_(data) {
 
 
 function saveCompulsoryForm_(data) {
+  log_('compulsoryForm', 'START', data, 'OK', 'Request received');
+
   if (!data.athleteName || !data.ageCategory || !data.category || !data.apparatus) {
     throw new Error('Required athlete fields are missing.');
   }
+
   const elements = Array.isArray(data.elements) ? data.elements : [];
   if (!elements.length) throw new Error('No compulsory elements selected.');
 
@@ -124,9 +142,7 @@ function saveCompulsoryForm_(data) {
   let sh = ss.getSheetByName(COMPULSORY_SHEET);
   if (!sh) {
     sh = ss.insertSheet(COMPULSORY_SHEET);
-    sh.appendRow([
-      'ПІБ спортсмена','Снаряд','Категорія','PDF файл'
-    ]);
+    sh.appendRow(['ПІБ спортсмена','Снаряд','Категорія','PDF файл']);
   }
 
   const now = new Date();
@@ -134,9 +150,11 @@ function saveCompulsoryForm_(data) {
     Utilities.formatDate(now, Session.getScriptTimeZone() || 'Etc/GMT', 'yyyyMMdd-HHmmss') +
     '-' + Math.floor(1000 + Math.random() * 9000);
 
+  log_('compulsoryForm', 'DOC_CREATE', data, 'OK', formId);
   const doc = DocumentApp.create(formId + ' — ' + safe_(data.athleteName));
   const body = doc.getBody();
   body.clear();
+
   body.appendParagraph('PROSTO CHEMP').setHeading(DocumentApp.ParagraphHeading.HEADING2);
   body.appendParagraph('ОБОВ\'ЯЗКОВІ ЕЛЕМЕНТИ').setHeading(DocumentApp.ParagraphHeading.HEADING1);
 
@@ -151,20 +169,27 @@ function saveCompulsoryForm_(data) {
   body.appendParagraph('');
   body.appendParagraph('ПОРЯДОК ВИКОНАННЯ').setHeading(DocumentApp.ParagraphHeading.HEADING2);
 
+  let insertedImages = 0;
   elements.forEach(function(el, index) {
     const rowTitle = (index + 1) + '. ' + (el.code || '') + (el.title ? ' — ' + el.title : '');
     body.appendParagraph(rowTitle).setHeading(DocumentApp.ParagraphHeading.HEADING3);
 
     if (el.driveId) {
       try {
-        const blob = DriveApp.getFileById(el.driveId).getBlob();
+        const imageFile = DriveApp.getFileById(el.driveId);
+        const blob = imageFile.getBlob();
         const image = body.appendImage(blob);
-        const w = image.getWidth(), h = image.getHeight();
-        if (w > 220) {
-          const ratio = 220 / w;
-          image.setWidth(220).setHeight(Math.round(h * ratio));
+        insertedImages++;
+        const w = image.getWidth();
+        const h = image.getHeight();
+        if (w > 240) {
+          const ratio = 240 / w;
+          image.setWidth(240).setHeight(Math.round(h * ratio));
         }
-      } catch (imageErr) {}
+      } catch (imageErr) {
+        body.appendParagraph('[Зображення не вдалося вставити: ' + (el.code || '') + ']');
+        log_('compulsoryForm', 'IMAGE_' + (el.code || index), data, 'WARN', String(imageErr));
+      }
     }
 
     if (el.description) body.appendParagraph(el.description);
@@ -173,11 +198,15 @@ function saveCompulsoryForm_(data) {
 
   body.appendParagraph('Форма сформована автоматично на платформі PROSTO CHEMP.');
   doc.saveAndClose();
+  log_('compulsoryForm', 'DOC_SAVED', data, 'OK', 'Images inserted: ' + insertedImages + '/' + elements.length);
 
+  const sourceFile = DriveApp.getFileById(doc.getId());
   const pdfName = formId + '_' + safe_(data.athleteName) + '.pdf';
-  const pdfBlob = DriveApp.getFileById(doc.getId()).getBlob().getAs(MimeType.PDF).setName(pdfName);
-  const pdfFile = DriveApp.getFolderById(COMPULSORY_FOLDER_ID).createFile(pdfBlob);
-  DriveApp.getFileById(doc.getId()).setTrashed(true);
+  const pdfBlob = sourceFile.getAs(MimeType.PDF).setName(pdfName);
+
+  const targetFolder = DriveApp.getFolderById(COMPULSORY_FOLDER_ID);
+  const pdfFile = targetFolder.createFile(pdfBlob);
+  log_('compulsoryForm', 'PDF_CREATED', data, 'OK', pdfFile.getUrl());
 
   sh.appendRow([
     data.athleteName || '',
@@ -185,8 +214,32 @@ function saveCompulsoryForm_(data) {
     data.category || '',
     pdfFile.getUrl()
   ]);
+  log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Row appended');
+
+  try { sourceFile.setTrashed(true); } catch (trashErr) {}
 
   return json_({ok:true,type:'compulsoryForm',formId:formId,pdfUrl:pdfFile.getUrl()});
+}
+
+function log_(type, stage, data, status, details) {
+  try {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    let sh = ss.getSheetByName(LOG_SHEET);
+    if (!sh) {
+      sh = ss.insertSheet(LOG_SHEET);
+      sh.appendRow(['Дата/час','Тип','Етап','ПІБ','Снаряд','Категорія','Статус','Помилка/деталі']);
+    }
+    sh.appendRow([
+      new Date(),
+      type || '',
+      stage || '',
+      (data && data.athleteName) || '',
+      (data && data.apparatus) || '',
+      (data && data.category) || '',
+      status || '',
+      details || ''
+    ]);
+  } catch (ignore) {}
 }
 
 function safe_(value) {
