@@ -8,8 +8,8 @@
  * 4) Put the deployment URL into the website's SIGNATURE_ENDPOINT constant.
  */
 
-const SHEET_ID = 'PASTE_GOOGLE_SHEET_ID_HERE';
-const FOLDER_ID = 'PASTE_DRIVE_FOLDER_ID_HERE';
+const SHEET_ID = '13ncm5NW4SmAYWL6UALzEgugty4yxIH_IlWK4QKRZoYQ';
+const FOLDER_ID = '1D53NN34oJcOBi7SMm_2GPvV27H8hFQeM';
 const SHEET_NAME = 'Signatures';
 
 function doPost(e) {
