@@ -94,12 +94,23 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 @media(max-width:900px){.receipt-upload-card{grid-template-columns:1fr}}
 @media(max-width:600px){.form-grid.compact{grid-template-columns:1fr}.receipt-copy,.receipt-why{padding:16px}}
 
+
+.compulsory-launch{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.compulsory-main,.compulsory-side{border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:24px}
+.compulsory-main{border-color:#baff0045}.compulsory-main h3{font-size:30px;line-height:1.05;margin:14px 0 12px}.compulsory-main p,.compulsory-side p{color:#a6abb3;font-size:13px;line-height:1.6}
+.launch-badge{display:inline-block;padding:7px 10px;border-radius:999px;background:var(--lime);color:#080808;font-size:10px;font-weight:900;letter-spacing:.1em}
+.launch-note{margin:18px 0;padding:14px 15px;border-radius:14px;background:#171309;border:1px solid #baff0038;color:#e9ebd6;font-size:13px;line-height:1.55}.launch-note strong{color:var(--lime)}
+.compulsory-side{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;border-color:#ff0a7840;background:radial-gradient(circle at 85% 10%,#ff0a7820,transparent 32%),linear-gradient(145deg,#11141a,#090a0d)}
+.launch-count{font-size:clamp(34px,5vw,58px);font-weight:900;letter-spacing:-.05em;color:var(--pink);margin:8px 0}
+#compulsoryLaunchBtn:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:900px){.compulsory-launch{grid-template-columns:1fr}}
+
 @media print{header,.hero,.section:not(#full-rules),.reader-toolbar,.reader-nav,.footer{display:none!important}body{background:white;color:black}.rule-reader{border:0}.rules-body{max-height:none;overflow:visible}.rule-section p,.rule-section li{color:black}}
 </style>
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="#categories">Категорії</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="#categories">Категорії</a><a href="#compulsory">Обов’язкові</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2026/27</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2026». Повний офіційний документ доступний для завантаження.</div></div>
@@ -114,11 +125,13 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <div class="quick-card"><div class="quick-top"><span class="quick-num">03 · ОПЛАТА</span><span class="quick-icon">₴</span></div><h3>Оплата та квитанція</h3><p>Реквізити Monobank і окреме завантаження квитанції без Telegram.</p><div class="card-actions"><a class="btn pink" href="#payment-details">Реквізити ↓</a><a class="btn" href="#receipt-upload">Квитанція ↓</a></div></div>
 
-<div class="quick-card lime"><div class="quick-top"><span class="quick-num">04 · МАТЕРІАЛИ</span><span class="quick-icon">♫</span></div><h3>Матеріали та обов’язкові</h3><p>Музика, фон, відео, опис номера та PDF обов’язкових елементів.</p><div class="card-actions"><a class="btn lime" href="https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit" target="_blank" rel="noopener">Матеріали ↗</a><a class="btn" href="https://comply.org.ua/" target="_blank" rel="noopener">Comply ↗</a></div></div>
+<div class="quick-card lime"><div class="quick-top"><span class="quick-num">04 · МАТЕРІАЛИ</span><span class="quick-icon">♫</span></div><h3>Матеріали виступу</h3><p>Музика, фон, відео та опис номера.</p><a class="btn lime" href="https://docs.google.com/forms/d/130W2xyCmhyiFy1in_h19gRyArOEWCa7M1EgnJl0n4Ks/edit" target="_blank" rel="noopener">Відкрити форму ↗</a></div>
 
-<div class="quick-card"><div class="quick-top"><span class="quick-num">05 · УГОДИ</span><span class="quick-icon">✍</span></div><h3>Згоди та підписи</h3><p>Для повнолітнього спортсмена або батьків / представника неповнолітнього.</p><a class="btn pink" href="#agreements">Підписати ↓</a></div>
+<div class="quick-card"><div class="quick-top"><span class="quick-num">05 · ОБОВ’ЯЗКОВІ</span><span class="quick-icon">✓</span></div><h3>Обов’язкові елементи</h3><p>Окреме заповнення обов’язкової частини. Додаток буде відкрито 1 жовтня 2026 року.</p><a class="btn pink" href="#compulsory">Детальніше ↓</a></div>
 
-<div class="quick-card lime"><div class="quick-top"><span class="quick-num">06 · ПРАВИЛА</span><span class="quick-icon">↓</span></div><h3>Офіційні правила</h3><p>Повний PDF з усіма положеннями, забороненими елементами та штрафами.</p><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити PDF ↓</a></div>
+<div class="quick-card"><div class="quick-top"><span class="quick-num">06 · УГОДИ</span><span class="quick-icon">✍</span></div><h3>Згоди та підписи</h3><p>Для повнолітнього спортсмена або батьків / представника неповнолітнього.</p><a class="btn pink" href="#agreements">Підписати ↓</a></div>
+
+<div class="quick-card lime"><div class="quick-top"><span class="quick-num">07 · ПРАВИЛА</span><span class="quick-icon">↓</span></div><h3>Офіційні правила</h3><p>Повний PDF з усіма положеннями, забороненими елементами та штрафами.</p><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити PDF ↓</a></div>
 </div>
 <div class="section-title" style="margin-top:36px"><div><div class="eyebrow">Deadlines</div><h2 style="font-size:34px">Дедлайни</h2></div></div>
 <div class="grid">
@@ -137,6 +150,27 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="category-card"><div class="category-level">Рівень 05</div><h3>Еліт</h3><p>Найвища технічна вартість та першокласний рівень.</p><button class="cat-toggle">Умови категорії +</button><div class="cat-more">У правилах наведено: спортсмени/учні вищого класу; учасники міжнародних та світових чемпіонатів; або спортсмени, які тричі входили у трійку переможців у Профі.</div></div>
 </div>
 <div class="age-strip reveal"><span class="age-chip special">5–6 · початківці / продовжуючі</span><span class="age-chip">7–9</span><span class="age-chip">10–11</span><span class="age-chip">12–14</span><span class="age-chip">15–17</span><span class="age-chip">18–25</span><span class="age-chip">25+</span></div>
+</section>
+
+<section class="section" id="compulsory">
+<div class="section-title">
+  <div><div class="eyebrow">Compulsory elements</div><h2>Обов’язкові <em>елементи</em></h2></div>
+  <div class="section-sub">Окрема вкладка для заповнення обов’язкової частини виступу.</div>
+</div>
+<div class="compulsory-launch reveal">
+  <div class="compulsory-main">
+    <div class="launch-badge">СТАРТ · 01.10.2026</div>
+    <h3>Заповнення обов’язкових елементів</h3>
+    <p>Тут буде відкриватися окремий додаток для заповнення обов’язкових елементів та підготовки форми у потрібному форматі.</p>
+    <div class="launch-note"><b>Важливо:</b> додаток буде відкрито <strong>1 жовтня 2026 року</strong>.</div>
+    <button class="btn lime" id="compulsoryLaunchBtn" type="button" disabled>Додаток відкриється 1 жовтня</button>
+  </div>
+  <div class="compulsory-side">
+    <div class="mini">До відкриття додатка</div>
+    <div class="launch-count" id="compulsoryCountdown">рахуємо…</div>
+    <p>Після 1 жовтня кнопка автоматично стане активною та відкриватиме Comply.</p>
+  </div>
+</div>
 </section>
 
 <section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
@@ -194,7 +228,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="step"><label><b>Квитанція завантажена</b><span>Через платформу PROSTO CHEMP</span></label><input type="checkbox" data-key="receipt"></div>
 <div class="step"><label><b>MP3 завантажено</b><span>Назва латиницею</span></label><input type="checkbox" data-key="music"></div>
 <div class="step"><label><b>Опис / фон / відео надіслано</b><span>Якщо застосовується</span></label><input type="checkbox" data-key="visuals"></div>
-<div class="step"><label><b>Обов’язкові елементи підготовлено</b><span>PDF та у порядку фактичного виконання</span></label><input type="checkbox" data-key="compulsory"></div>
+<div class="step"><label><b>Обов’язкові елементи заповнено</b><span>Через окрему вкладку «Обов’язкові» після відкриття додатка</span></label><input type="checkbox" data-key="compulsory"></div>
 <div class="step"><label><b>Страхування та документ особи</b><span>Для реєстрації на змаганнях</span></label><input type="checkbox" data-key="insurance"></div>
 <div class="step"><label><b>Згода підписана</b><span>Спортсменом 18+ або батьками / представником</span></label><input type="checkbox" data-key="agreement"></div>
 </div>
@@ -225,7 +259,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="full-rules"><div class="rules-download reveal"><div><div class="eyebrow">Official document</div><h2>Повні <em>правила</em></h2><p>Заборонені елементи, штрафи головного судді та всі інші детальні положення залишаються у повному офіційному документі.</p><div class="hero-actions"><a class="btn lime big-download" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a><a class="btn" href="rules-official-2026.docx" download>DOCX</a></div></div><div class="download-mark">36<span>сторінок</span></div></div></section>
 <footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2026»</div></footer>
 </main>
-<div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
+<div class="quick-dock"><a class="hot" href="#start">Старт</a><a href="#categories">Категорії</a><a href="#compulsory">Обов’язкові</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -245,6 +279,29 @@ document.querySelector('.mobile-menu').onclick=()=>document.querySelector('.navl
 document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>document.querySelector('.navlinks').classList.remove('open'));
 // countdowns
 function updateCountdowns(){const now=new Date();document.querySelectorAll('.count').forEach(el=>{const d=new Date(el.dataset.date);const ms=d-now;if(ms<=0){el.textContent='Дедлайн минув';return}const days=Math.floor(ms/86400000);const hrs=Math.floor((ms%86400000)/3600000);el.textContent=`залишилось ${days} дн. ${hrs} год.`})}updateCountdowns();setInterval(updateCountdowns,3600000);
+// compulsory elements app launch
+function updateCompulsoryLaunch(){
+  const btn=document.getElementById('compulsoryLaunchBtn');
+  const count=document.getElementById('compulsoryCountdown');
+  if(!btn || !count) return;
+  const openDate=new Date('2026-10-01T00:00:00');
+  const now=new Date();
+  const ms=openDate-now;
+  if(ms<=0){
+    count.textContent='ВІДКРИТО';
+    btn.disabled=false;
+    btn.textContent='Відкрити додаток ↗';
+    btn.onclick=()=>window.open('https://comply.org.ua/','_blank','noopener');
+  }else{
+    const days=Math.ceil(ms/86400000);
+    count.textContent=days+' дн.';
+    btn.disabled=true;
+    btn.textContent='Додаток відкриється 1 жовтня';
+  }
+}
+updateCompulsoryLaunch();
+setInterval(updateCompulsoryLaunch,3600000);
+
 // checklist local storage
 document.querySelectorAll('#checklist input').forEach(i=>{const k='pc_'+i.dataset.key;i.checked=localStorage.getItem(k)==='1';i.onchange=()=>localStorage.setItem(k,i.checked?'1':'0')});
 // fee calculator
