@@ -295,6 +295,12 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </section>
 
 <section class="section" id="start"><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
+<div class="section-title" style="margin-top:8px"><div><div class="eyebrow">Deadlines</div><h2 style="font-size:34px">Дедлайни</h2></div></div>
+<div class="grid" style="margin-bottom:34px">
+<div class="deadline"><div class="mini">Заявка + внесок</div><strong>01.12.2026</strong><div class="count" data-date="2026-12-01T23:59:59">рахуємо…</div></div>
+<div class="deadline"><div class="mini">Музичний супровід</div><strong>10.12.2026</strong><div class="count" data-date="2026-12-10T23:59:59">рахуємо…</div></div>
+<div class="deadline"><div class="mini">ART-опис + SPORT</div><strong>01.01.2027</strong><div class="count" data-date="2027-01-01T23:59:59">рахуємо…</div></div>
+</div>
 <div class="quick-grid reveal">
 <div class="quick-card"><div class="quick-top"><span class="quick-num">01 · РЕЄСТРАЦІЯ</span><span class="quick-icon">↗</span></div><h3>Подати заявку</h3><p>Онлайн-реєстрація та кабінет спортсмена.</p><a class="btn pink" href="https://polecompetition.com/" target="_blank" rel="noopener">Відкрити кабінет ↗</a></div>
 
@@ -312,11 +318,18 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <div class="quick-card lime"><div class="quick-top"><span class="quick-num">08 · ПРАВИЛА</span><span class="quick-icon">↓</span></div><h3>Офіційні правила</h3><p>Повний PDF з усіма положеннями, забороненими елементами та штрафами.</p><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити PDF ↓</a></div>
 </div>
-<div class="section-title" style="margin-top:36px"><div><div class="eyebrow">Deadlines</div><h2 style="font-size:34px">Дедлайни</h2></div></div>
-<div class="grid">
-<div class="deadline"><div class="mini">Заявка + внесок</div><strong>01.12.2026</strong><div class="count" data-date="2026-12-01T23:59:59">рахуємо…</div></div>
-<div class="deadline"><div class="mini">Музичний супровід</div><strong>10.12.2026</strong><div class="count" data-date="2026-12-10T23:59:59">рахуємо…</div></div>
-<div class="deadline"><div class="mini">Обов’язкова частина</div><strong>01.01.2027</strong><div class="count" data-date="2027-01-01T23:59:59">рахуємо…</div></div>
+
+</section>
+
+<section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
+<div class="fee-builder reveal">
+<div class="fee-options">
+<div class="fee-block active"><div class="fee-head"><span class="fee-badge">SOLO</span><b>Індивідуальні категорії</b></div><div class="field"><label>Кількість соло-категорій</label><input id="soloCount" type="number" min="0" max="10" value="1"></div><small>1 категорія — 2800 грн; 2 — 2500 грн кожна; 3+ — 2300 грн кожна.</small></div>
+<div class="fee-block"><div class="fee-head"><span class="fee-badge">DUET</span><b>Дуети</b></div><div class="field"><label>Кількість дуетів</label><input id="duetCount" type="number" min="0" max="10" value="0"></div><small>Кожен дует — 4500 грн. Знижка ВПО на дуети не застосовується.</small></div>
+<div class="fee-block"><div class="fee-head"><span class="fee-badge lime">GROUP</span><b>Група</b></div><div class="field"><label>Участь у групі</label><select id="groupType"><option value="none">Не беру участь</option><option value="small">Група до 4 людей — 5500 грн</option><option value="large">Група більше 4 людей — 7000 грн</option></select></div><small>Групова вартість фіксована та не зменшується через ВПО.</small></div>
+<label class="fee-choice vpo"><input id="vpo" type="checkbox"><span><b>Знижка ВПО 10%</b><small>За умови надання довідки. Знижка рахується тільки на соло-категорії.</small></span><strong>−10%</strong></label>
+</div>
+<div class="fee-summary"><div class="mini">Розрахунок</div><div class="sum" id="feeSum">2 800 грн</div><div id="feeBreakdown" class="fee-breakdown"></div><div class="fee-note" id="feeNote"></div><div style="margin-top:14px"><a class="btn lime" href="#payment-details">Перейти до оплати ↓</a></div></div>
 </div>
 </section>
 
@@ -434,17 +447,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
   </div>
 </section>
 
-<section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
-<div class="fee-builder reveal">
-<div class="fee-options">
-<div class="fee-block active"><div class="fee-head"><span class="fee-badge">SOLO</span><b>Індивідуальні категорії</b></div><div class="field"><label>Кількість соло-категорій</label><input id="soloCount" type="number" min="0" max="10" value="1"></div><small>1 категорія — 2800 грн; 2 — 2500 грн кожна; 3+ — 2300 грн кожна.</small></div>
-<div class="fee-block"><div class="fee-head"><span class="fee-badge">DUET</span><b>Дуети</b></div><div class="field"><label>Кількість дуетів</label><input id="duetCount" type="number" min="0" max="10" value="0"></div><small>Кожен дует — 4500 грн. Знижка ВПО на дуети не застосовується.</small></div>
-<div class="fee-block"><div class="fee-head"><span class="fee-badge lime">GROUP</span><b>Група</b></div><div class="field"><label>Участь у групі</label><select id="groupType"><option value="none">Не беру участь</option><option value="small">Група до 4 людей — 5500 грн</option><option value="large">Група більше 4 людей — 7000 грн</option></select></div><small>Групова вартість фіксована та не зменшується через ВПО.</small></div>
-<label class="fee-choice vpo"><input id="vpo" type="checkbox"><span><b>Знижка ВПО 10%</b><small>За умови надання довідки. Знижка рахується тільки на соло-категорії.</small></span><strong>−10%</strong></label>
-</div>
-<div class="fee-summary"><div class="mini">Розрахунок</div><div class="sum" id="feeSum">2 800 грн</div><div id="feeBreakdown" class="fee-breakdown"></div><div class="fee-note" id="feeNote"></div><div style="margin-top:14px"><a class="btn lime" href="#payment-details">Перейти до оплати ↓</a></div></div>
-</div>
-</section>
+
 
 <section class="section"><div class="section-title"><div><div class="eyebrow">Performance time</div><h2>Час <em>виступу</em></h2></div></div><div class="table-wrap"><table class="data-table"><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00-4.00</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00-4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr></table></div><div class="table-wrap"><table class="data-table"><tr><th>Діти 5-6 років</th><th>Пілон</th><th>2.00 – 3.00 хв</th></tr><tr><td></td><td></td><td></td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальнийжанр</td><td>3.00 – 4.00 хв</td></tr></table></div></section>
 
