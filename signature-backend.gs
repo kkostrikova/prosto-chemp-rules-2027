@@ -125,9 +125,7 @@ function saveCompulsoryForm_(data) {
   if (!sh) {
     sh = ss.insertSheet(COMPULSORY_SHEET);
     sh.appendRow([
-      'Дата/час','ID форми','ПІБ спортсмена','Вікова категорія','Розряд','Снаряд',
-      'Порядок 1','Порядок 2','Порядок 3','Порядок 4','Порядок 5','Порядок 6',
-      'Кількість груп','Версія правил','Статус','Посилання на PDF'
+      'ПІБ спортсмена','Снаряд','Категорія','PDF файл'
     ]);
   }
 
@@ -181,20 +179,10 @@ function saveCompulsoryForm_(data) {
   const pdfFile = DriveApp.getFolderById(COMPULSORY_FOLDER_ID).createFile(pdfBlob);
   DriveApp.getFileById(doc.getId()).setTrashed(true);
 
-  const ordered = elements.map(function(el){ return (el.code || '') + (el.title ? ' — ' + el.title : ''); });
-  while (ordered.length < 6) ordered.push('');
-
   sh.appendRow([
-    now,
-    formId,
     data.athleteName || '',
-    data.ageCategory || '',
-    data.category || '',
     data.apparatus || '',
-    ordered[0], ordered[1], ordered[2], ordered[3], ordered[4], ordered[5],
-    elements.length,
-    data.rulesVersion || '2026/27',
-    'Отримано',
+    data.category || '',
     pdfFile.getUrl()
   ]);
 
