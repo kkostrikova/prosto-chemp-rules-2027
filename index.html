@@ -423,7 +423,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
           <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option>Гамак</option>
         </select></div>
       </div>
-      <div class="field" style="margin-top:12px"><label>Опис номера для ведучої</label><textarea id="artDescription" placeholder="Коротко опишіть образ, сюжет або ідею номера так, щоб ведуча могла представити виступ"></textarea></div>
+      <div class="field" style="margin-top:12px"><label>Опис номера для ведучої <span class="mini">до 100 знаків</span></label><textarea id="artDescription" maxlength="100" placeholder="Коротко опишіть образ, сюжет або ідею номера так, щоб ведуча могла представити виступ"></textarea><small id="artDescriptionCount">0/100</small></div>
       <div class="comp-validation" id="artValidation">Заповніть усі 5 полів.</div>
       <div class="comp-actions">
         <button class="btn lime" id="artSubmit" type="button" disabled>Надіслати опис ART</button>
@@ -682,7 +682,9 @@ function artPayload(){
 }
 function validateArt(){
   const p=artPayload();
-  const ok=!!p.athleteName&&!!p.category&&!!p.ageCategory&&!!p.apparatus&&!!p.routineDescription;
+  const desc=document.getElementById('artDescription'),count=document.getElementById('artDescriptionCount');
+  if(count&&desc) count.textContent=desc.value.length+'/100';
+  const ok=!!p.athleteName&&!!p.category&&!!p.ageCategory&&!!p.apparatus&&!!p.routineDescription&&p.routineDescription.length<=100;
   const box=document.getElementById('artValidation'),btn=document.getElementById('artSubmit');
   if(box){
     box.className=ok?'comp-validation ok':'comp-validation';
