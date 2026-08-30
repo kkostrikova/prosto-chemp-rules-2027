@@ -31,7 +31,7 @@ function doGet(e) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
   }
-  return json_({ok:true,service:'PROSTO CHEMP backend',version:'13'});
+  return json_({ok:true,service:'PROSTO CHEMP backend',version:'14'});
 }
 
 function doPost(e) {
@@ -176,80 +176,84 @@ function saveCompulsoryForm_(data) {
     Utilities.formatDate(now, Session.getScriptTimeZone() || 'Etc/GMT', 'yyyyMMdd-HHmmss') +
     '-' + Math.floor(1000 + Math.random() * 9000);
 
-  log_('compulsoryForm', 'SHEET_PDF_CREATE', data, 'OK', formId);
+  log_('compulsoryForm', 'HTML_PDF_CREATE', data, 'OK', formId);
 
-  // Build a temporary Google Sheet instead of Google Docs.
-  // This avoids the DocumentApp permission issue while keeping images private in Drive.
-  const temp = SpreadsheetApp.create(formId + ' — ' + safe_(data.athleteName));
-  const out = temp.getSheets()[0];
-  out.setName('Форма');
-
-  out.setColumnWidth(1, 42);
-  out.setColumnWidth(2, 75);
-  out.setColumnWidth(3, 170);
-  out.setColumnWidth(4, 430);
-
-  out.getRange('A1:D1').merge()
-    .setValue('PROSTO CHEMP — ОБОВ\'ЯЗКОВІ ЕЛЕМЕНТИ')
-    .setFontSize(18).setFontWeight('bold')
-    .setHorizontalAlignment('center');
-
-  out.getRange('A3:B3').merge().setValue('СПОРТСМЕН').setFontWeight('bold');
-  out.getRange('C3:D3').merge().setValue(data.athleteName);
-  out.getRange('A4:B4').merge().setValue('ВІКОВА КАТЕГОРІЯ').setFontWeight('bold');
-  out.getRange('C4:D4').merge().setValue(data.ageCategory);
-  out.getRange('A5:B5').merge().setValue('РОЗРЯД').setFontWeight('bold');
-  out.getRange('C5:D5').merge().setValue(data.category);
-  out.getRange('A6:B6').merge().setValue('СНАРЯД').setFontWeight('bold');
-  out.getRange('C6:D6').merge().setValue(data.apparatus);
-
-  out.getRange('A8:D8').setValues([['№','Код','Візуальний приклад','Назва та опис']])
-    .setFontWeight('bold').setHorizontalAlignment('center')
-    .setBackground('#e5e5e5');
-
-  let row = 9;
-  let insertedImages = 0;
-
-  elements.forEach(function(el, index) {
-    const title = (el.title ? el.title + '\n' : '') + (el.description || '');
-    out.getRange(row,1).setValue(index + 1).setHorizontalAlignment('center');
-    out.getRange(row,2).setValue(el.code || '').setFontWeight('bold').setHorizontalAlignment('center');
-    out.getRange(row,4).setValue(title).setWrap(true).setVerticalAlignment('top');
+  let availableImages = 0;
+  const elementRows = elements.map(function(el, index) {
+    let imageHtml = '<div class="no-image">—</div>';
 
     if (el.driveId) {
       try {
         const blob = DriveApp.getFileById(el.driveId).getBlob();
-        const image = out.insertImage(blob,3,row);
-        const w = image.getWidth();
-        const h = image.getHeight();
-        if (w > 150) {
-          const ratio = 150 / w;
-          image.setWidth(150).setHeight(Math.max(80, Math.round(h * ratio)));
-        }
-        insertedImages++;
+        const mime = blob.getContentType() || 'image/png';
+        const b64 = Utilities.base64Encode(blob.getBytes());
+        imageHtml = '<img src="data:' + escapeHtml_(mime) + ';base64,' + b64 + '" alt="' +
+          escapeHtml_(el.code || '') + '">';
+        availableImages++;
       } catch (imageErr) {
-        out.getRange(row,3).setValue('[Зображення недоступне]').setWrap(true);
+        imageHtml = '<div class="no-image">Зображення недоступне</div>';
         log_('compulsoryForm', 'IMAGE_' + (el.code || index), data, 'WARN', String(imageErr));
       }
     }
 
-    out.setRowHeight(row, 170);
-    row++;
-  });
+    const title = el.title ? '<b>' + escapeHtml_(el.title) + '</b>' : '';
+    const description = el.description ? '<div class="desc">' + escapeHtml_(el.description) + '</div>' : '';
 
-  const lastRow = Math.max(8,row-1);
-  out.getRange(3,1,lastRow-2,4).setBorder(true,true,true,true,true,true);
-  out.getRange(1,1,lastRow,4).setVerticalAlignment('top');
-  out.setFrozenRows(0);
+    return '<tr>' +
+      '<td class="num">' + (index + 1) + '</td>' +
+      '<td class="code">' + escapeHtml_(el.code || '') + '</td>' +
+      '<td class="visual">' + imageHtml + '</td>' +
+      '<td class="copy">' + title + description + '</td>' +
+      '</tr>';
+  }).join('');
 
-  SpreadsheetApp.flush();
-  log_('compulsoryForm', 'TEMP_SHEET_READY', data, 'OK', 'Images inserted: ' + insertedImages + '/' + elements.length);
+  const html =
+    '<!doctype html><html><head><meta charset="utf-8"><style>' +
+    '@page{size:A4 portrait;margin:9mm}' +
+    '*{box-sizing:border-box}' +
+    'body{font-family:Arial,sans-serif;color:#111;margin:0;font-size:10pt}' +
+    'h1{text-align:center;font-size:18pt;margin:0 0 6mm}' +
+    '.meta{display:grid;grid-template-columns:42mm 1fr;border:1px solid #777;margin-bottom:5mm}' +
+    '.meta div{padding:2.4mm 3mm;border-bottom:1px solid #aaa}' +
+    '.meta div:nth-last-child(-n+2){border-bottom:0}' +
+    '.label{font-weight:700;background:#f2f2f2}' +
+    'table{width:100%;border-collapse:collapse;table-layout:fixed}' +
+    'th,td{border:1px solid #777;padding:2mm;vertical-align:top}' +
+    'th{background:#e8e8e8;text-align:center;font-size:8.5pt}' +
+    'tr{page-break-inside:avoid}' +
+    '.num{width:8mm;text-align:center}' +
+    '.code{width:17mm;text-align:center;font-weight:700}' +
+    '.visual{width:38mm;text-align:center;vertical-align:middle}' +
+    '.visual img{display:block;max-width:34mm;max-height:31mm;width:auto;height:auto;margin:auto}' +
+    '.no-image{font-size:7pt;color:#777}' +
+    '.copy{font-size:8.5pt;line-height:1.25}' +
+    '.copy b{font-size:9pt}' +
+    '.desc{white-space:pre-line;margin-top:1mm}' +
+    '.foot{margin-top:3mm;text-align:right;color:#777;font-size:7pt}' +
+    '</style></head><body>' +
+    '<h1>PROSTO CHEMP — ОБОВ\'ЯЗКОВІ ЕЛЕМЕНТИ</h1>' +
+    '<div class="meta">' +
+      '<div class="label">СПОРТСМЕН</div><div>' + escapeHtml_(data.athleteName) + '</div>' +
+      '<div class="label">ВІКОВА КАТЕГОРІЯ</div><div>' + escapeHtml_(data.ageCategory) + '</div>' +
+      '<div class="label">РОЗРЯД</div><div>' + escapeHtml_(data.category) + '</div>' +
+      '<div class="label">СНАРЯД</div><div>' + escapeHtml_(data.apparatus) + '</div>' +
+    '</div>' +
+    '<table><thead><tr><th>№</th><th>Код</th><th>Візуальний приклад</th><th>Назва та опис</th></tr></thead>' +
+    '<tbody>' + elementRows + '</tbody></table>' +
+    '<div class="foot">PROSTO CHEMP · форма сформована автоматично · ' + escapeHtml_(formId) + '</div>' +
+    '</body></html>';
 
-  const sourceFile = DriveApp.getFileById(temp.getId());
   const pdfName = formId + '_' + safe_(data.athleteName) + '.pdf';
-  const pdfBlob = sourceFile.getAs(MimeType.PDF).setName(pdfName);
+  const pdfBlob = HtmlService.createHtmlOutput(html).getAs(MimeType.PDF).setName(pdfName);
   const pdfFile = DriveApp.getFolderById(COMPULSORY_FOLDER_ID).createFile(pdfBlob);
-  log_('compulsoryForm', 'PDF_CREATED', data, 'OK', pdfFile.getUrl());
+
+  log_(
+    'compulsoryForm',
+    'PDF_CREATED',
+    data,
+    'OK',
+    pdfFile.getUrl() + ' | Images: ' + availableImages + '/' + elements.length
+  );
 
   sh.appendRow([
     data.athleteName || '',
@@ -259,11 +263,8 @@ function saveCompulsoryForm_(data) {
   ]);
   log_('compulsoryForm', 'SHEET_SAVED', data, 'OK', 'Row appended');
 
-  try { sourceFile.setTrashed(true); } catch (trashErr) {}
-
   return json_({ok:true,type:'compulsoryForm',formId:formId,pdfUrl:pdfFile.getUrl()});
 }
-
 
 function saveArtRoutineDescription_(data) {
   const artDeadline = new Date('2027-01-01T23:59:59+02:00');
@@ -358,6 +359,15 @@ function log_(type, stage, data, status, details) {
       details || ''
     ]);
   } catch (ignore) {}
+}
+
+function escapeHtml_(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 
 function safe_(value) {
