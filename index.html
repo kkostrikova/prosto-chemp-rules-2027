@@ -591,12 +591,10 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <div class="compulsory-launch reveal" id="compulsoryGate">
   <div class="compulsory-main">
-    <div class="launch-badge">СТАРТ · 01.10.2026</div>
     <h3>Заповнення обов’язкових елементів</h3>
-    <p>Додаток буде відкрито для спортсменів <strong>1 жовтня 2026 року</strong>. До цієї дати публічне заповнення закрите.</p>
     <div class="launch-note"><b>Дедлайн SPORT:</b> до <strong>1 січня 2027 року включно</strong>. Після дедлайну форма закриється автоматично.</div>
     <div class="launch-note"><b>Важливо:</b> після відкриття спортсмен обере ПІБ, вік, розряд і снаряд, а система покаже лише допустимі елементи з відповідних груп.</div>
-    <button class="btn lime" id="compulsoryLaunchBtn" type="button" disabled>Додаток відкриється 1 жовтня</button>
+    <button class="btn lime" id="compulsoryLaunchBtn" type="button">Відкрити конструктор ↓</button>
   </div>
 </div>
 
@@ -755,24 +753,19 @@ function updateCountdowns(){const now=new Date();document.querySelectorAll('.cou
 // compulsory elements constructor
 const COMPULSORY_BACKEND_READY=true;
 const compState={selected:{},order:[]};
-function compulsoryPreviewMode(){return new URLSearchParams(location.search).get('preview')==='1'}
 function updateCompulsoryLaunch(){
-  const btn=document.getElementById('compulsoryLaunchBtn'),count=document.getElementById('compulsoryCountdown'),builder=document.getElementById('compBuilder'),gate=document.getElementById('compulsoryGate');
+  const btn=document.getElementById('compulsoryLaunchBtn'),builder=document.getElementById('compBuilder');
   if(!btn||!builder)return;
-  const openDate=new Date('2026-10-01T00:00:00'),closeDate=new Date('2027-01-02T00:00:00'),now=new Date(),preview=compulsoryPreviewMode();
-  if(now>=closeDate&&!preview){
-    if(count) count.textContent='ПРИЙОМ ЗАВЕРШЕНО';
+  const closeDate=new Date('2027-01-02T00:00:00'),now=new Date();
+  if(now>=closeDate){
     btn.disabled=true;
     btn.textContent='Прийом завершено';
     builder.hidden=true;
-  }else if(now>=openDate||preview){
-    if(count) count.textContent=now>=openDate?'ВІДКРИТО':'PREVIEW';
-    btn.disabled=false;btn.textContent=now>=openDate?'Відкрити конструктор ↓':'Відкрити тестовий конструктор ↓';
-    btn.onclick=()=>{builder.hidden=false;builder.scrollIntoView({behavior:'smooth',block:'start'})};
-    if(preview) builder.hidden=false;
-  }else{
-    const days=Math.ceil((openDate-now)/86400000);if(count) count.textContent=days+' дн.';btn.disabled=true;btn.textContent='Додаток відкриється 1 жовтня';
+    return;
   }
+  btn.disabled=false;
+  btn.textContent='Відкрити конструктор ↓';
+  btn.onclick=()=>{builder.hidden=false;builder.scrollIntoView({behavior:'smooth',block:'start'})};
 }
 updateCompulsoryLaunch();setInterval(updateCompulsoryLaunch,3600000);
 
