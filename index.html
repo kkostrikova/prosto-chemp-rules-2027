@@ -475,7 +475,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
-<div class="hero-art"><img src="https://cdn.creativeclaw.co/u/931444b3/images/89ab6d3b-5226-47bc-997d-052096b4d866.png" alt="Неонова спортивна ілюстрація PROSTO CHEMP"><div class="kicker">Sport · Art · Aerial</div></div>
+<div class="hero-art"><picture><source srcset="assets/hero.webp" type="image/webp"><img src="assets/hero.jpg" width="1448" height="1086" fetchpriority="high" decoding="async" alt="Неонова спортивна ілюстрація PROSTO CHEMP: спортсменки на кільці, полотнах і пілоні"></picture><div class="kicker">Sport · Art · Aerial</div></div>
 </section>
 
 <section class="section" id="start"><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
@@ -681,7 +681,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <span class="collapsible-toggle"><span class="when-closed">Розгорнути ↓</span><span class="when-open">Згорнути ↑</span></span>
   </summary>
   <div class="collapsible-content">
-    <div class="table-wrap"><table class="data-table"><thead><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr></thead><tbody><tr><td>Діти, Юніори, Дорослі</td><td>Пілон</td><td>3.00 – 4.00 хв</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00 – 4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr><tr><td>Діти 5-6 років</td><td>Пілон</td><td>2.00 – 3.00 хв</td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальний жанр</td><td>3.00 – 4.00 хв</td></tr></tbody></table></div>
+    <div class="table-wrap"><table class="data-table"><thead><tr><th>Категорія</th><th>Снаряд</th><th>Час виступу</th></tr></thead><tbody><tr><td>Дорослі</td><td>Пілон</td><td>3.00 – 4.00 хв</td></tr><tr><td>Діти 10-14, Юніори</td><td>Пілон</td><td>3.00 – 4.00 хв</td></tr><tr><td>Діти 7-9 років</td><td>Пілон</td><td>2.40 – 3.40 хв</td></tr><tr><td>Діти 5-6 років</td><td>Пілон</td><td>2.00 – 3.00 хв</td></tr><tr><td>Дуети</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.00 хв</td></tr><tr><td>Групи</td><td>Пілон, Кільце, Полотна</td><td>3.30 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Кільце</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Кільце</td><td>3.00 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Полотна</td><td>3.00 – 4.00 хв</td></tr><tr><td>Дуети</td><td>Полотна</td><td>3.00 – 4.10 хв</td></tr><tr><td>Діти, Юніори, Дорослі</td><td>Оригінальний жанр</td><td>3.00 – 4.00 хв</td></tr></tbody></table></div>
   </div>
 </details>
 </section>
@@ -1080,6 +1080,28 @@ const receiptStatus=document.getElementById('receiptStatus');
 const receiptAmountInput=document.getElementById('receiptAmount');
 receiptAmountInput?.addEventListener('input',()=>receiptAmountInput.dataset.userEdited='1');
 
+// Receipts are almost always phone photos, and base64 inflates whatever we send
+// by a third — an 8 MB photo would leave the browser as a ~10.7 MB request.
+// Re-encoding one to a 1600px JPEG brings that down to well under a megabyte.
+// PDFs and anything that fails to decode are sent untouched.
+const RECEIPT_MAX_EDGE=1600,RECEIPT_JPEG_QUALITY=.82;
+async function prepareReceipt(file){
+  const asIs=async()=>({dataUrl:await fileToDataUrl(file),fileName:file.name,mimeType:file.type});
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)||typeof createImageBitmap!=='function') return asIs();
+  try{
+    const bmp=await createImageBitmap(file);
+    const scale=Math.min(1,RECEIPT_MAX_EDGE/Math.max(bmp.width,bmp.height));
+    const w=Math.max(1,Math.round(bmp.width*scale)),h=Math.max(1,Math.round(bmp.height*scale));
+    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+    const cx=canvas.getContext('2d');
+    cx.fillStyle='#fff';cx.fillRect(0,0,w,h);           // PNG transparency would go black in JPEG
+    cx.drawImage(bmp,0,0,w,h);
+    bmp.close?.();
+    const dataUrl=canvas.toDataURL('image/jpeg',RECEIPT_JPEG_QUALITY);
+    if(!dataUrl.startsWith('data:image/jpeg')||dataUrl.length>=file.size*4/3) return asIs();
+    return {dataUrl,fileName:file.name.replace(/\.[^.]+$/,'')+'.jpg',mimeType:'image/jpeg'};
+  }catch(e){return asIs()}
+}
 function fileToDataUrl(file){
   return new Promise((resolve,reject)=>{
     const reader=new FileReader();
@@ -1109,14 +1131,14 @@ receiptBtn?.addEventListener('click',async()=>{
   receiptStatus.innerHTML='<b>Завантажуємо квитанцію…</b>';
 
   try{
-    const dataUrl=await fileToDataUrl(file);
+    const prepared=await prepareReceipt(file);
     const sent=await postSubmission({
       submissionType:'paymentReceipt',
       athleteName:athlete,
       amount:amount,
-      fileName:file.name,
-      mimeType:file.type,
-      receiptDataUrl:dataUrl,
+      fileName:prepared.fileName,
+      mimeType:prepared.mimeType,
+      receiptDataUrl:prepared.dataUrl,
       comment:comment
     });
 
