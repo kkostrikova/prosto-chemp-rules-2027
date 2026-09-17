@@ -1080,6 +1080,28 @@ const receiptStatus=document.getElementById('receiptStatus');
 const receiptAmountInput=document.getElementById('receiptAmount');
 receiptAmountInput?.addEventListener('input',()=>receiptAmountInput.dataset.userEdited='1');
 
+// Receipts are almost always phone photos, and base64 inflates whatever we send
+// by a third — an 8 MB photo would leave the browser as a ~10.7 MB request.
+// Re-encoding one to a 1600px JPEG brings that down to well under a megabyte.
+// PDFs and anything that fails to decode are sent untouched.
+const RECEIPT_MAX_EDGE=1600,RECEIPT_JPEG_QUALITY=.82;
+async function prepareReceipt(file){
+  const asIs=async()=>({dataUrl:await fileToDataUrl(file),fileName:file.name,mimeType:file.type});
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)||typeof createImageBitmap!=='function') return asIs();
+  try{
+    const bmp=await createImageBitmap(file);
+    const scale=Math.min(1,RECEIPT_MAX_EDGE/Math.max(bmp.width,bmp.height));
+    const w=Math.max(1,Math.round(bmp.width*scale)),h=Math.max(1,Math.round(bmp.height*scale));
+    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+    const cx=canvas.getContext('2d');
+    cx.fillStyle='#fff';cx.fillRect(0,0,w,h);           // PNG transparency would go black in JPEG
+    cx.drawImage(bmp,0,0,w,h);
+    bmp.close?.();
+    const dataUrl=canvas.toDataURL('image/jpeg',RECEIPT_JPEG_QUALITY);
+    if(!dataUrl.startsWith('data:image/jpeg')||dataUrl.length>=file.size*4/3) return asIs();
+    return {dataUrl,fileName:file.name.replace(/\.[^.]+$/,'')+'.jpg',mimeType:'image/jpeg'};
+  }catch(e){return asIs()}
+}
 function fileToDataUrl(file){
   return new Promise((resolve,reject)=>{
     const reader=new FileReader();
@@ -1109,14 +1131,14 @@ receiptBtn?.addEventListener('click',async()=>{
   receiptStatus.innerHTML='<b>Завантажуємо квитанцію…</b>';
 
   try{
-    const dataUrl=await fileToDataUrl(file);
+    const prepared=await prepareReceipt(file);
     const sent=await postSubmission({
       submissionType:'paymentReceipt',
       athleteName:athlete,
       amount:amount,
-      fileName:file.name,
-      mimeType:file.type,
-      receiptDataUrl:dataUrl,
+      fileName:prepared.fileName,
+      mimeType:prepared.mimeType,
+      receiptDataUrl:prepared.dataUrl,
       comment:comment
     });
 
