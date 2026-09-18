@@ -13,6 +13,15 @@ const PAYMENT_SHEET = 'Payments';
 const COMPULSORY_SHEET = 'Compulsory';
 const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
+const HUNT_SHEET = 'Гра P4';
+
+// Пошук семи знаків P4. Час рахує сервер: браузер не може надіслати вигаданий
+// результат, бо не він вирішує, скільки часу минуло.
+const HUNT_MARKS = 7;
+const HUNT_MIN_SECONDS = 20;    // швидше фізично не проскролити сторінку і не натиснути 7 знаків
+const HUNT_MAX_SECONDS = 3600;  // довші забіги вважаємо покинутими
+const HUNT_TOP = 10;
+
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -31,6 +40,30 @@ function doGet(e) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
   }
+  if (p.action === 'huntStart') {
+    try {
+      return jsonp_(huntStart_(), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'huntFinish') {
+    try {
+      return jsonp_(huntFinish_(p.token, p.nickname), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'huntTop') {
+    try {
+      return jsonp_(huntTop_(), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
   return json_({ok:true,service:'PROSTO CHEMP backend',version:'15'});
 }
 
@@ -338,6 +371,97 @@ function saveArtRoutineDescription_(data) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function huntSheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(HUNT_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(HUNT_SHEET);
+    sh.appendRow(['Дата/час','Instagram','Час, сек','Час','Спроб']);
+  }
+  return sh;
+}
+
+// Нік інстаграму, а не довільний текст: safe_ вирізав би крапки, дозволені в нікнеймах.
+function huntNick_(value) {
+  const raw = String(value || '').trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/^@/, '').replace(/\/.*$/, '');
+  return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
+}
+
+function huntFormat_(seconds) {
+  const m = Math.floor(seconds / 60), s = seconds % 60;
+  return m + ':' + ('0' + s).slice(-2);
+}
+
+// Видає токен забігу. Момент старту зберігається на сервері, браузер його не бачить
+// і не може змінити.
+function huntStart_() {
+  const token = Utilities.getUuid();
+  CacheService.getScriptCache().put('hunt_' + token, String(Date.now()), HUNT_MAX_SECONDS);
+  return {ok:true, token:token};
+}
+
+function huntFinish_(token, nickname) {
+  const cache = CacheService.getScriptCache();
+  const key = 'hunt_' + String(token || '');
+  const startedAt = cache.get(key);
+  if (!startedAt) {
+    return {ok:false, error:'expired', message:'Забіг не знайдено або він застарів. Почни пошук спочатку.'};
+  }
+  cache.remove(key); // токен одноразовий
+
+  const seconds = Math.round((Date.now() - Number(startedAt)) / 1000);
+  if (seconds < HUNT_MIN_SECONDS) {
+    log_('huntP4','finish',{athleteName:nickname},'REJECTED','seconds=' + seconds);
+    return {ok:false, error:'too_fast', message:'Такий час неможливий. Спробуй ще раз.'};
+  }
+  if (seconds > HUNT_MAX_SECONDS) {
+    return {ok:false, error:'too_slow', message:'Забіг тривав надто довго і не зарахований.'};
+  }
+
+  const name = huntNick_(nickname);
+  if (!name) {
+    return {ok:false, error:'no_nickname', message:'Вкажи свій Instagram — латиниця, крапки й підкреслення.'};
+  }
+
+  const sh = huntSheet_();
+  const rows = sh.getDataRange().getValues();
+  let targetRow = 0, previous = 0, attempts = 0;
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][1]).toLowerCase() === name.toLowerCase()) {
+      targetRow = i + 1;
+      previous = Number(rows[i][2]) || 0;
+      attempts = Number(rows[i][4]) || 1;
+      break;
+    }
+  }
+
+  if (targetRow) {
+    // один рядок на нікнейм — лишаємо найкращий час
+    if (previous && seconds >= previous) {
+      sh.getRange(targetRow, 5).setValue(attempts + 1);
+      return {ok:true, seconds:seconds, best:previous, improved:false, top:huntTop_().top};
+    }
+    sh.getRange(targetRow, 1, 1, 5).setValues([[
+      new Date(), name, seconds, huntFormat_(seconds), attempts + 1
+    ]]);
+    return {ok:true, seconds:seconds, best:seconds, improved:true, top:huntTop_().top};
+  }
+
+  sh.appendRow([new Date(), name, seconds, huntFormat_(seconds), 1]);
+  return {ok:true, seconds:seconds, best:seconds, improved:true, top:huntTop_().top};
+}
+
+// Публічна таблиця: тільки нік і час.
+function huntTop_() {
+  const rows = huntSheet_().getDataRange().getValues().slice(1);
+  const top = rows
+    .filter(function (r) { return r[1] && Number(r[2]) > 0; })
+    .map(function (r) { return {nickname:String(r[1]), seconds:Number(r[2]), time:huntFormat_(Number(r[2]))}; })
+    .sort(function (a, b) { return a.seconds - b.seconds; })
+    .slice(0, HUNT_TOP);
+  return {ok:true, top:top, marks:HUNT_MARKS};
 }
 
 function log_(type, stage, data, status, details) {
