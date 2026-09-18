@@ -22,7 +22,44 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;border-radius:13px;border:1px solid #333;padding:13px 16px;font-weight:800;font-size:13px;cursor:pointer;transition:.2s;background:#111;color:white}.btn:hover{transform:translateY(-2px);border-color:#555}.btn.pink{border-color:var(--pink);box-shadow:inset 0 0 0 1px #ff0a7833}.btn.lime{border-color:var(--lime);color:var(--lime)}
 .hero-art{position:relative;min-height:500px;display:flex;align-items:center;justify-content:center}.hero-art:before{content:'';position:absolute;width:430px;height:430px;border:1px solid #ff0a784d;border-radius:50%;box-shadow:0 0 70px #ff0a7827}.hero-art:after{content:'';position:absolute;width:320px;height:320px;border:1px dashed #baff0066;border-radius:50%;animation:spin 18s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.hero-art img{position:relative;z-index:2;width:min(100%,640px);max-width:100%;height:auto;border-radius:26px;filter:contrast(1.08) saturate(1.15);mix-blend-mode:normal;box-shadow:0 10px 40px rgba(0,0,0,.45),0 0 60px rgba(255,10,120,.14)}
 .kicker{position:absolute;right:0;bottom:45px;background:var(--lime);color:#0a0a0a;padding:10px 14px;font-weight:900;text-transform:uppercase;transform:rotate(-3deg);font-size:12px}
-.section{padding:60px 0 18px;scroll-margin-top:82px}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section h2{font-size:clamp(30px,5vw,54px);margin:0;letter-spacing:-.045em;text-transform:uppercase}.section h2 em{font-family:'Permanent Marker';color:var(--pink);font-style:normal;font-weight:400}.section-sub{color:var(--muted);max-width:650px;line-height:1.5}
+.section{padding:60px 0 18px;scroll-margin-top:82px}.section{position:relative}
+/* Hidden P4 hunt: marks sit in the section margins so they never cover text or controls. */
+.p4-find{position:absolute;width:30px;height:30px;padding:0;border:0;background:none;cursor:pointer;z-index:12;color:var(--lime);font:900 13px/30px Inter,Arial,sans-serif;text-align:center;opacity:.5;filter:drop-shadow(0 0 6px #baff0070);transition:opacity .25s ease,transform .25s ease}
+.p4-find:hover,.p4-find:focus-visible{opacity:1;transform:scale(1.25)}
+.p4-find:before{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid #baff0066;background:#baff000f}
+.p4-find span{position:relative}
+.p4-find.got{pointer-events:none;animation:p4pop .45s ease forwards}
+@keyframes p4pop{60%{opacity:1;transform:scale(1.9)}100%{opacity:0;transform:scale(.3)}}
+.p4-hud{position:fixed;right:14px;bottom:72px;z-index:46;display:none;align-items:center;gap:8px;padding:8px 12px;border:1px solid #31353d;border-radius:16px;background:rgba(8,9,11,.9);backdrop-filter:blur(14px);font-size:12px;font-weight:700;box-shadow:0 12px 34px rgba(0,0,0,.45)}
+.p4-hud.on{display:flex}
+.p4-hud b{color:var(--lime)}
+.p4-hud button{border:0;background:none;color:#7f858f;cursor:pointer;font-size:11px;text-decoration:underline;padding:0}
+.p4-win{position:fixed;inset:0;z-index:70;display:none;place-items:center;padding:18px;background:rgba(3,3,4,.82);backdrop-filter:blur(8px)}
+.p4-win.open{display:grid}
+.p4-win-card{max-width:400px;width:100%;text-align:center;padding:30px 24px;border:1px solid #2f333b;border-radius:24px;background:linear-gradient(150deg,#14171d,#08090b);box-shadow:0 22px 60px rgba(0,0,0,.6)}
+.p4-win-card .p4-badge{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--lime);color:#0a0a0a;font-weight:900;font-size:22px;margin-bottom:14px}
+.p4-win-card h3{margin:0 0 8px;font-size:23px}
+.p4-win-card p{margin:0 0 18px;color:#9aa0a9;font-size:13px;line-height:1.55}
+@media(max-width:600px){.p4-hud{right:10px;bottom:64px;padding:7px 10px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.p4-find,.p4-find.got{transition:none;animation:none}}
+.p4-panel{display:grid;grid-template-columns:1fr 1fr;gap:18px;border:1px solid #2c3038;border-radius:26px;background:linear-gradient(145deg,#11141a,#090a0d);padding:24px}
+.p4-how ol{margin:10px 0 0;padding-left:18px;color:#9aa0a9;font-size:13px;line-height:1.75}
+.p4-how h3{margin:0;font-size:17px}
+.p4-prize{margin-top:14px;padding:12px 14px;border:1px solid #baff0033;border-radius:14px;background:#baff000d;color:#d4e8a8;font-size:12.5px;line-height:1.6}
+.p4-lead h3{margin:0 0 10px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--lime)}
+.p4-lead table{width:100%;border-collapse:collapse;font-size:13px}
+.p4-lead th{text-align:left;padding:7px 8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#7f858f;border-bottom:1px solid #262a31}
+.p4-lead td{padding:9px 8px;border-bottom:1px solid #1d2026}
+.p4-lead tr:last-child td{border-bottom:0}
+.p4-lead .rank{width:30px;color:#7f858f;font-weight:900}
+.p4-lead .time{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+.p4-empty{color:#7f858f;font-size:12.5px;padding:10px 0}
+.p4-win-card .field{text-align:left;margin-bottom:10px}
+.p4-win-time{font-size:34px;font-weight:900;color:var(--lime);font-variant-numeric:tabular-nums;margin-bottom:4px}
+.p4-status{margin-top:12px;font-size:12.5px;color:#9aa0a9;line-height:1.6}
+@media(max-width:760px){.p4-panel{grid-template-columns:1fr}}
+
+.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section h2{font-size:clamp(30px,5vw,54px);margin:0;letter-spacing:-.045em;text-transform:uppercase}.section h2 em{font-family:'Permanent Marker';color:var(--pink);font-style:normal;font-weight:400}.section-sub{color:var(--muted);max-width:650px;line-height:1.5}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:linear-gradient(180deg,#111319,#0a0b0e);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden}.card:hover{border-color:#444}.card:before{content:'';position:absolute;inset:0 auto auto 0;width:4px;height:100%;background:var(--pink);opacity:.9}.card.lime:before{background:var(--lime)}.card h3{margin:0 0 9px;font-size:18px}.card p{color:#b9bbc0;line-height:1.55;margin:0 0 15px;font-size:14px}.mini{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
 .deadline{grid-column:span 4;background:#0f1114;border:1px solid #262a31;border-radius:18px;padding:18px}.deadline strong{display:block;font-size:28px;margin:5px 0 8px}.deadline .count{color:var(--lime);font-size:12px;font-weight:800}
 .steps{counter-reset:step;display:grid;gap:10px}.step{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;background:#0c0e11;border:1px solid #23262d;border-radius:15px;padding:12px 14px}.step:before{counter-increment:step;content:counter(step);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#1b1e24;color:var(--lime);font-weight:900}.step label{display:flex;flex-direction:column;gap:3px}.step label span{color:#8e9299;font-size:12px}.step input{accent-color:var(--pink);width:20px;height:20px}
@@ -471,14 +508,15 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#p4game">Гра</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
 <div class="hero-art"><picture><source srcset="assets/hero.webp" type="image/webp"><img src="assets/hero.jpg" width="1448" height="1086" fetchpriority="high" decoding="async" alt="Неонова спортивна ілюстрація PROSTO CHEMP: спортсменки на кільці, полотнах і пілоні"></picture><div class="kicker">Sport · Art · Aerial</div></div>
 </section>
 
-<section class="section" id="start"><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
+<section class="section" id="start">
+<button class="p4-find" data-p4="1" style="top:26px;right:4px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button><div class="section-title"><div><div class="eyebrow">Start here</div><h2>Все важливе <em>одразу</em></h2></div><div class="section-sub">Ключові дії та посилання з правил. Кнопки ведуть лише на адреси, які прямо вказані у документі.</div></div>
 <div class="section-title" style="margin-top:8px"><div><div class="eyebrow">Deadlines</div><h2 style="font-size:34px">Дедлайни</h2></div></div>
 <div class="grid" style="margin-bottom:34px">
 <div class="deadline"><div class="mini">Заявка + внесок</div><strong>01.12.2026</strong><div class="count" data-date="2026-12-01T23:59:59">рахуємо…</div></div>
@@ -505,7 +543,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 </section>
 
-<section class="section" id="fees"><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
+<section class="section" id="fees">
+<button class="p4-find" data-p4="2" style="top:64px;left:-2px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button><div class="section-title"><div><div class="eyebrow">Fee calculator</div><h2>Калькулятор <em>внеску</em></h2></div><div class="section-sub">Можна поєднати соло, дует і групу. Дует та група мають фіксовану вартість; знижка ВПО застосовується тільки до соло.</div></div>
 <div class="fee-builder reveal">
 <div class="fee-options">
 <div class="fee-block active"><div class="fee-head"><span class="fee-badge">SOLO</span><b>Індивідуальні категорії</b></div><div class="field"><label for="soloCount">Кількість соло-категорій</label><input id="soloCount" type="number" min="0" max="10" value="1"></div><small>1 категорія — 2800 грн; 2 — 2500 грн кожна; 3+ — 2300 грн кожна.</small></div>
@@ -518,6 +557,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </section>
 
 <section class="section" id="payment-details">
+<button class="p4-find" data-p4="3" style="top:40px;left:-4px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button>
 <div class="section-title">
   <div><div class="eyebrow">Payment details</div><h2>Реквізити <em>для оплати</em></h2></div>
   <div class="section-sub">Сплатіть внесок за реквізитами нижче, обов’язково вкажіть ПІБ учасника, а потім одразу завантажте квитанцію.</div>
@@ -561,7 +601,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </div>
 </section>
 
-<section class="section" id="categories"><div class="section-title"><div><div class="eyebrow">Categories</div><h2>Категорії та <em>вік</em></h2></div><div class="section-sub">Натисни «Умови категорії», щоб швидко побачити ключові обмеження з документа. Повний текст правил залишається нижче.</div></div>
+<section class="section" id="categories">
+<button class="p4-find" data-p4="4" style="top:30px;right:2px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button><div class="section-title"><div><div class="eyebrow">Categories</div><h2>Категорії та <em>вік</em></h2></div><div class="section-sub">Натисни «Умови категорії», щоб швидко побачити ключові обмеження з документа. Повний текст правил залишається нижче.</div></div>
 <div class="category-grid reveal">
 <div class="category-card"><div class="category-level">Рівень 01</div><h3>Дебют</h3><p>Базовий досвід та елементи з найнижчою технічною вартістю.</p><button class="cat-toggle">Умови категорії +</button><div class="cat-more">Не допускається, якщо спортсмен раніше змагався в Аматор / Профі / Еліт; виступає у вищій категорії іншого снаряду; виконує елементи високої технічної складності; має статус тренера або є діючим тренером.</div></div>
 <div class="category-card"><div class="category-level">Рівень 02</div><h3>Аматор</h3><p>Середньо-низький рівень та нижча технічна вартість.</p><button class="cat-toggle">Умови категорії +</button><div class="cat-more">Не допускається, якщо спортсмен змагався в Напівпрофі / Профі / Еліт; входив у трійку переможців Аматор на національних змаганнях за останній рік більше ніж три рази; має статус тренера або є діючим тренером.</div></div>
@@ -573,6 +614,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </section>
 
 <section class="section" id="compulsory">
+<button class="p4-find" data-p4="5" style="bottom:10px;left:2px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button>
 <div class="section-title">
   <div><div class="eyebrow">SPORT · Compulsory elements</div><h2>Обов’язкові <em>елементи SPORT</em></h2></div>
   <div class="section-sub">Ця форма призначена тільки для SPORT. Конструктор автоматично відфільтровує елементи за снарядом, розрядом і групою. Для форми достатньо щонайменше одного обов’язкового елемента.</div>
@@ -671,6 +713,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 
 <section class="section" id="performance-time">
+<button class="p4-find" data-p4="6" style="top:52px;right:6px" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button>
 <details class="collapsible-panel">
   <summary>
     <div>
@@ -689,6 +732,29 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 
 
+<section class="section" id="p4game">
+<div class="section-title">
+  <div><div class="eyebrow">Hidden hunt</div><h2>Полювання за <em>знаками P4</em></h2></div>
+  <div class="section-sub">На цій сторінці заховано сім знаків P4 — по одному в різних розділах. Знайди всі й потрап у таблицю лідерів.</div>
+</div>
+<div class="p4-panel reveal">
+  <div class="p4-how">
+    <h3>Як грати</h3>
+    <ol>
+      <li>Скрольте сторінку і шукайте маленькі лаймові знаки <b>P4</b> у полях розділів.</li>
+      <li>Час починається з першого знайденого знака і зупиняється на сьомому.</li>
+      <li>Наприкінці вкажіть свій Instagram — під ним результат потрапить у таблицю.</li>
+    </ol>
+    <div class="p4-prize">Переможниця отримує подарунок від організаторів PROSTO CHEMP.</div>
+  </div>
+  <div class="p4-lead">
+    <h3>Таблиця лідерів</h3>
+    <table><thead><tr><th class="rank">#</th><th>Нікнейм</th><th class="time">Час</th></tr></thead>
+    <tbody id="p4Top"></tbody></table>
+    <div class="p4-empty" id="p4TopEmpty">Завантажуємо результати…</div>
+  </div>
+</div>
+</section>
 <section class="section"><div class="section-title"><div><div class="eyebrow">My checklist</div><h2>Чекліст <em>спортсмена</em></h2></div><div class="section-sub">Відмітки зберігаються тільки у браузері користувача — без передачі на сервер.</div></div>
 <div class="progress-shell reveal"><div class="progress-ring" id="progressRing"><strong id="progressText">0/7</strong></div><div class="progress-copy"><b>Готовність до участі</b><p id="progressMessage">Відмічай виконані кроки — прогрес збережеться у цьому браузері.</p><div class="progress-bar"><span id="progressBar"></span></div></div></div>
 <div class="steps reveal" id="checklist">
@@ -704,7 +770,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </section>
 
 
-<section class="section" id="agreements"><div class="section-title"><div><div class="eyebrow">Agreements</div><h2>Згоди та <em>підписи</em></h2></div><div class="section-sub">Два окремі варіанти: для повнолітнього спортсмена та для батьків / законного представника неповнолітнього спортсмена.</div></div>
+<section class="section" id="agreements">
+<button class="p4-find" data-p4="7" style="top:28px;left:0" type="button" aria-label="Захований знак P4 — натисни, щоб зібрати"><span>P4</span></button><div class="section-title"><div><div class="eyebrow">Agreements</div><h2>Згоди та <em>підписи</em></h2></div><div class="section-sub">Два окремі варіанти: для повнолітнього спортсмена та для батьків / законного представника неповнолітнього спортсмена.</div></div>
 <div class="agreement-tabs reveal"><button class="agreement-tab active" data-agreement="adult">18+ · Згода спортсмена</button><button class="agreement-tab" data-agreement="parent">До 18 · Згода батьків</button></div>
 <div class="agreement-form reveal">
 <div class="agreement-copy">
@@ -728,6 +795,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <section class="section" id="full-rules"><div class="rules-download reveal"><div><div class="eyebrow">Official document</div><h2>Повні <em>правила</em></h2><p>Заборонені елементи, штрафи головного судді та всі інші детальні положення залишаються у повному офіційному документі.</p><div class="hero-actions"><a class="btn lime big-download" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a><a class="btn" href="rules-official-2026.docx" download>DOCX</a></div></div><div class="download-mark">36<span>сторінок</span></div></div></section>
 <footer class="footer"><div>PROSTO CHEMP · RULES HUB</div><div>Дані платформи: документ «Правила та положення 2027» · Останнє оновлення: 30.08.2026</div></footer>
 </main>
+<div class="p4-hud" id="p4Hud">Знайдено P4: <b id="p4Count">0</b>/7 <b id="p4Clock"></b><button type="button" id="p4Reset">почати спочатку</button></div>
+<div class="p4-win" id="p4Win"><div class="p4-win-card"><div class="p4-badge">P4</div><h3>Усі сім знайдено!</h3><div class="p4-win-time" id="p4Time">—</div><p>Вкажи свій Instagram — під ним результат з’явиться в таблиці лідерів, і за ним організатори зв’яжуться з переможницею.</p><div class="field"><label for="p4Nick">Instagram</label><input id="p4Nick" maxlength="34" placeholder="@nickname" autocomplete="off" autocapitalize="off" spellcheck="false"></div><button class="btn pink" type="button" id="p4Send">Надіслати результат</button> <button class="btn" type="button" id="p4Close">Закрити</button><div class="p4-status" id="p4Status"></div></div></div>
 <div class="quick-dock"><a class="hot" href="https://polecompetition.com/" target="_blank" rel="noopener">Заявка</a><a href="#payment-details">Оплата</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a class="go" href="#full-rules">Правила</a></div>
 <div class="img-modal" id="imgModal"><button class="img-close" id="imgClose" aria-label="Закрити">×</button><img id="imgModalPic" alt="Збільшене зображення"></div>
 <div class="toast" id="toast"></div>
@@ -925,11 +994,12 @@ function validateArt(){
 }
 ['artAthlete','artDescription'].forEach(id=>document.getElementById(id)?.addEventListener('input',validateArt));
 ['artCategory','artAge','artApparatus'].forEach(id=>document.getElementById(id)?.addEventListener('change',validateArt));
-function submitArtVerified(p){
+// GET до Apps Script із читанням відповіді. POST так не вміє: відповідь непрозора.
+function jsonpCall(params,timeoutMs=15000){
   return new Promise((resolve,reject)=>{
-    const callback='pcArtCb_'+Date.now()+'_'+Math.floor(Math.random()*100000);
+    const callback='pcCb_'+Date.now()+'_'+Math.floor(Math.random()*100000);
     const script=document.createElement('script');
-    const timer=setTimeout(()=>cleanup(new Error('timeout')),15000);
+    const timer=setTimeout(()=>cleanup(new Error('timeout')),timeoutMs);
     function cleanup(err,data){
       clearTimeout(timer);
       try{delete window[callback]}catch(e){window[callback]=undefined}
@@ -937,20 +1007,20 @@ function submitArtVerified(p){
       err?reject(err):resolve(data);
     }
     window[callback]=(data)=>cleanup(null,data);
-    const q=new URLSearchParams({
-      action:'artRoutineDescription',
-      athleteName:p.athleteName,
-      category:p.category,
-      ageCategory:p.ageCategory,
-      apparatus:p.apparatus,
-      routineDescription:p.routineDescription,
-      rulesVersion:p.rulesVersion,
-      callback:callback,
-      _:String(Date.now())
-    });
     script.onerror=()=>cleanup(new Error('network'));
-    script.src=SIGNATURE_ENDPOINT+'?'+q.toString();
+    script.src=SIGNATURE_ENDPOINT+'?'+new URLSearchParams({...params,callback,_:String(Date.now())}).toString();
     document.head.appendChild(script);
+  });
+}
+function submitArtVerified(p){
+  return jsonpCall({
+    action:'artRoutineDescription',
+    athleteName:p.athleteName,
+    category:p.category,
+    ageCategory:p.ageCategory,
+    apparatus:p.apparatus,
+    routineDescription:p.routineDescription,
+    rulesVersion:p.rulesVersion
   });
 }
 document.getElementById('artSubmit')?.addEventListener('click',async()=>{
@@ -1168,6 +1238,113 @@ function updateProgress(){const all=[...document.querySelectorAll('#checklist in
 document.querySelectorAll('#checklist input').forEach(i=>i.addEventListener('change',updateProgress));updateProgress();
 // image zoom
 const modal=document.getElementById('imgModal'),modalPic=document.getElementById('imgModalPic');document.addEventListener('click',e=>{const img=e.target.closest?.('.comp-thumb');if(!img)return;modalPic.src=img.src;modalPic.alt=img.alt||'Збільшене зображення';modal.classList.add('open');document.body.style.overflow='hidden';});function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}document.getElementById('imgClose')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+// hidden P4 hunt — seven marks tucked into the section margins down the page.
+// The clock runs on the server: the browser never decides how long a run took,
+// so a made-up time cannot be posted to the leaderboard.
+const P4_TOTAL=7,P4_KEY='pc_p4_found',P4_RUN='pc_p4_run';
+const p4Hud=document.getElementById('p4Hud'),p4Count=document.getElementById('p4Count'),
+      p4Win=document.getElementById('p4Win'),p4Clock=document.getElementById('p4Clock');
+function p4ReadJson(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch(e){return fallback}}
+function p4Write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}}
+const p4Found=new Set(p4ReadJson(P4_KEY,[]));
+let p4Run=p4ReadJson(P4_RUN,null); // {token, startedAt, seconds, sent}
+function p4Fmt(s){return Math.floor(s/60)+':'+('0'+Math.floor(s%60)).slice(-2)}
+function p4Elapsed(){return p4Run&&p4Run.startedAt?(Date.now()-p4Run.startedAt)/1000:0}
+
+function p4Render(){
+  if(p4Count)p4Count.textContent=p4Found.size;
+  if(p4Hud)p4Hud.classList.toggle('on',p4Found.size>0);
+  if(p4Clock)p4Clock.textContent=p4Run?p4Fmt(p4Run.seconds??p4Elapsed()):'';
+  document.querySelectorAll('.p4-find').forEach(b=>{
+    const got=p4Found.has(b.dataset.p4);
+    b.classList.toggle('got',false);
+    b.style.display=got?'none':'';
+  });
+}
+setInterval(()=>{if(p4Run&&p4Run.seconds==null&&p4Found.size<P4_TOTAL&&p4Clock)p4Clock.textContent=p4Fmt(p4Elapsed())},1000);
+
+async function p4Begin(){
+  p4Run={token:null,startedAt:Date.now(),seconds:null,sent:false};
+  p4Write(P4_RUN,p4Run);
+  try{
+    const r=await jsonpCall({action:'huntStart'},8000);
+    if(r&&r.ok&&r.token){p4Run.token=r.token;p4Write(P4_RUN,p4Run)}
+  }catch(e){/* без токена гра працює, але результат не зарахується */}
+}
+
+function p4Finish(){
+  p4Run=p4Run||{token:null,startedAt:Date.now(),seconds:null,sent:false};
+  p4Run.seconds=Math.round(p4Elapsed());
+  p4Write(P4_RUN,p4Run);
+  const timeEl=document.getElementById('p4Time'),status=document.getElementById('p4Status'),
+        send=document.getElementById('p4Send');
+  if(timeEl)timeEl.textContent=p4Fmt(p4Run.seconds);
+  if(status)status.textContent=p4Run.token?'':'Результат не зарахується: зв’язок із сервером не встановився на початку гри.';
+  if(send)send.disabled=!p4Run.token||p4Run.sent;
+  p4Win?.classList.add('open');
+}
+
+document.querySelectorAll('.p4-find').forEach(btn=>btn.addEventListener('click',()=>{
+  const id=btn.dataset.p4;
+  if(p4Found.has(id))return;
+  if(!p4Found.size)p4Begin();
+  p4Found.add(id);p4Write(P4_KEY,[...p4Found]);
+  btn.classList.add('got');
+  setTimeout(()=>{btn.style.display='none'},450);
+  if(p4Count)p4Count.textContent=p4Found.size;
+  if(p4Hud)p4Hud.classList.add('on');
+  if(p4Found.size>=P4_TOTAL)setTimeout(p4Finish,500);
+  else toast(`Знак P4 знайдено: ${p4Found.size} з ${P4_TOTAL}`);
+}));
+
+document.getElementById('p4Send')?.addEventListener('click',async()=>{
+  const nickEl=document.getElementById('p4Nick'),status=document.getElementById('p4Status'),
+        send=document.getElementById('p4Send');
+  const nick=(nickEl?.value||'').trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i,'').replace(/^@/,'').replace(/\/.*$/,'');
+  if(!/^[A-Za-z0-9._]{1,30}$/.test(nick)){status.textContent='Вкажи свій Instagram — латиниця, крапки й підкреслення.';return}
+  if(!p4Run?.token){status.textContent='Результат не зарахується: забіг не зареєстрований на сервері.';return}
+  send.disabled=true;send.textContent='Надсилаємо…';status.textContent='';
+  try{
+    const r=await jsonpCall({action:'huntFinish',token:p4Run.token,nickname:nick});
+    if(!r||!r.ok)throw new Error(r?.message||'save failed');
+    p4Run.sent=true;p4Write(P4_RUN,p4Run);
+    status.innerHTML=r.improved
+      ?`<b>✓ Результат зараховано:</b> ${p4Fmt(r.seconds)}.`
+      :`<b>✓ Зараховано.</b> Твій найкращий час лишається ${p4Fmt(r.best)}.`;
+    send.textContent='Надіслано ✓';
+    if(r.top)p4RenderTop(r.top,nick);
+  }catch(e){
+    status.textContent=String(e.message||e)==='timeout'?'Сервер не відповів. Спробуй ще раз.':String(e.message||'Не вдалося надіслати результат.');
+    send.disabled=false;send.textContent='Надіслати результат';
+  }
+});
+
+document.getElementById('p4Close')?.addEventListener('click',()=>p4Win?.classList.remove('open'));
+p4Win?.addEventListener('click',e=>{if(e.target===p4Win)p4Win.classList.remove('open')});
+document.getElementById('p4Reset')?.addEventListener('click',()=>{
+  p4Found.clear();p4Write(P4_KEY,[]);p4Run=null;p4Write(P4_RUN,null);
+  const send=document.getElementById('p4Send');if(send){send.disabled=false;send.textContent='Надіслати результат'}
+  p4Render();toast('Пошук почато спочатку');
+});
+
+function p4RenderTop(rows,mine){
+  const body=document.getElementById('p4Top'),empty=document.getElementById('p4TopEmpty');
+  if(!body)return;
+  if(!rows||!rows.length){body.innerHTML='';if(empty){empty.textContent='Поки що порожньо — стань першою.';empty.style.display=''}return}
+  if(empty)empty.style.display='none';
+  body.innerHTML=rows.map((r,i)=>{
+    const me=mine&&String(r.nickname).toLowerCase()===String(mine).toLowerCase();
+    return `<tr class="${me?'me':''}"><td class="rank">${i+1}</td><td>@${escapeHtml(r.nickname)}</td><td class="time">${escapeHtml(r.time)}</td></tr>`;
+  }).join('');
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+if(document.getElementById('p4Top')){
+  jsonpCall({action:'huntTop'},10000)
+    .then(r=>p4RenderTop(r&&r.ok?r.top:null))
+    .catch(()=>{const e=document.getElementById('p4TopEmpty');if(e)e.textContent='Не вдалося завантажити таблицю лідерів.'});
+}
+p4Render();
 // reveal on scroll
 const revealObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revealObs.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 
