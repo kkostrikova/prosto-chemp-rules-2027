@@ -35,6 +35,21 @@ const OSCAR_FOLDER_NAME = 'PROSTO CHEMP — OSCAR';
 
 const OSCAR_APPARATUS = ['Пілон','Кільце','Полотна','Оригінальний жанр'];
 
+// «Суддя року» — не подається студіями, склад визначають організатори. Список
+// лежить в аркуші «Судді OSCAR» і при першому запуску заповнюється цими іменами,
+// тож змінити його потім можна прямо в таблиці, без оновлення скрипта.
+const JUDGES_SHEET = 'Судді OSCAR';
+const OSCAR_JUDGES = [
+  'Анастасія Рудим',
+  'Крістіна Кіпко',
+  'Світлана Сова',
+  'Вікторія Лова',
+  'Каріна Алексенко',
+  'Юлія Ткаченко',
+  'Маргарита Сегеда',
+  'Ірина Ситнікова (Бексіт)'
+];
+
 // Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
 // на зимовий час усередині періоду.
 const NG_SUBMIT_FROM  = '';              // реєстрація в New Generation уже відкрита
@@ -594,6 +609,22 @@ function studioEntry_(value) {
   return {name:name, known:false};
 }
 
+function judges_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(JUDGES_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(JUDGES_SHEET);
+    sh.appendRow(['Суддя','Фото (ID)']);
+    OSCAR_JUDGES.forEach(function (name) { sh.appendRow([name, '']); });
+  }
+  return sh.getDataRange().getValues().slice(1)
+    .filter(function (r) { return String(r[0]).trim(); })
+    .map(function (r, i) {
+      return {id:'judge-' + (i + 1), name:String(r[0]).trim(), studio:'',
+              photo:String(r[1] || ''), category:'judge'};
+    });
+}
+
 function nominees_(track) {
   const ss = SpreadsheetApp.openById(SHEET_ID);
   const isNg = track === 'ng';
@@ -603,10 +634,11 @@ function nominees_(track) {
     : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
   const open = windowOpen_(phase.from, phase.until);
   const studios = studios_();
-  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until, nominees:[], studios:studios};
+  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until,
+                   nominees:isNg ? [] : judges_(), studios:studios};
 
   const rows = sh.getDataRange().getValues().slice(1);
-  const list = [];
+  let list = [];
   rows.forEach(function (r) {
     const studio = studio_(isNg ? r[4] : r[5]);
     if (String(r[8]) !== APPROVED) return;
@@ -615,6 +647,8 @@ function nominees_(track) {
       : {id:String(r[0]), name:String(r[4]), studio:studio, photo:String(r[7]),
          category:String(r[2]) === 'coach' ? 'coach' : String(r[3])});
   });
+
+  if (!isNg) list = list.concat(judges_());  // судді додаються до номінантів OSCAR
 
   return {ok:true, track:track, open:open, from:phase.from, until:phase.until,
           nominees:list, studios:studios};
@@ -647,8 +681,9 @@ function vote_(track, voterName, voterStudio, nomineeId) {
   const nominee = data.nominees.filter(function (n) { return n.id === String(nomineeId); })[0];
   if (!nominee) return {ok:false, error:'no_nominee', message:'Номінанта не знайдено.'};
 
-  // правило «за своїх не голосуємо» — перевіряє сервер, а не сторінка
-  if (nominee.studio.toLowerCase() === studio.toLowerCase()) {
+  // «за своїх не голосуємо» діє лише в OSCAR — там премія. У New Generation
+  // голосувати за свою студію можна. Перевіряє сервер, а не вимкнена кнопка.
+  if (!isNg && nominee.studio.toLowerCase() === studio.toLowerCase()) {
     return {ok:false, error:'own_studio', message:'За номінанта своєї студії голосувати не можна.'};
   }
 

@@ -47,6 +47,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .vote-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
 .vote-card{border:1px solid #2b2f37;border-radius:18px;background:#0b0d10;overflow:hidden;display:flex;flex-direction:column}
 .vote-card img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#15181d;display:block}
+.vote-blank{width:100%;aspect-ratio:3/4;display:grid;place-items:center;background:linear-gradient(150deg,#1a1d23,#101216);color:var(--pink);font-size:40px;font-weight:900}
 .vote-card .who{padding:11px 12px 0;flex:1}
 .vote-card b{display:block;font-size:13.5px;line-height:1.35}
 .vote-card small{display:block;color:#7f858f;font-size:11px;margin-top:2px}
@@ -731,11 +732,11 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <section class="section" id="newgen">
 <div class="section-title">
-  <div><div class="eyebrow">New Generation</div><h2>Дитяча <em>суддівська панель</em></h2></div>
+  <div><div class="eyebrow">Judging panel</div><h2>New Generation <em>суддівська панель</em></h2></div>
   <div class="section-sub">Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Реєстрація триває до 10 жовтня, з 11 жовтня до 1 листопада глядачі голосують — до панелі увійдуть п’ятеро.</div>
 </div>
 <div class="nom-card reveal">
-    <h3>New Generation — дитяча суддівська панель</h3>
+    <h3>New Generation — суддівська панель</h3>
     <p>Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Зареєструйся до 10 жовтня — з 11 жовтня по 1 листопада глядачі оберуть п’ятьох.</p>
     <div class="form-grid">
       <div class="field"><label for="ngName">Ім’я та прізвище дитини</label><input id="ngName" maxlength="80" placeholder="Софія Коваленко"></div>
@@ -754,20 +755,20 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="vote-id">
   <div class="field"><label for="ngVoteName">Ваше ім’я</label><input id="ngVoteName" class="vote-name" maxlength="80" placeholder="Прізвище Ім’я"></div>
   <div class="field"><label for="ngVoteStudio">Ваша студія</label><select id="ngVoteStudio" class="vote-studio"><option value="">Оберіть</option></select></div>
-  <div class="hint">Студія потрібна, щоб заблокувати голоси за своїх. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
+  <div class="hint">Студію вказуємо для обліку — тут голосувати за свою студію можна. Якщо ви не належите до студії, оберіть «Глядач».</div>
 </div>
 <div id="ngVoteBoard"></div>
 </section>
 <section class="section" id="oscar">
 <div class="section-title">
   <div><div class="eyebrow">OSCAR</div><h2>Премія <em>OSCAR</em></h2></div>
-  <div class="section-sub">Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Номінації приймаємо з 1 жовтня до 1 грудня, голосування триває з 2 грудня до 17 січня 2027 року.</div>
+  <div class="section-sub">Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Номінації приймаємо з 1 жовтня до 1 грудня, голосування триває з 2 грудня до 17 січня 2027 року. Номінантів на «Суддю року» визначають організатори.</div>
 </div>
 <div class="nom-card reveal">
     <h3>OSCAR — номінації від студії</h3>
     <p>Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Голосують глядачі та учасники змагань з 2 грудня до 17 січня. За номінантів своєї студії голосувати не можна.</p>
     <div class="oscar-cats">
-      <span>Спортсмен року pole sport</span><span>aerial hoop</span><span>aerial silk</span><span>original genre</span><span>Тренер року</span>
+      <span>Спортсмен року pole sport</span><span>aerial hoop</span><span>aerial silk</span><span>original genre</span><span>Тренер року</span><span>Суддя року</span>
     </div>
     <div class="form-grid">
       <div class="field"><label for="osKind">Номінація</label><select id="osKind">
@@ -1414,10 +1415,10 @@ document.getElementById('osSubmit')?.addEventListener('click',async function(){
 // Voting for New Generation and OSCAR. Totals are never sent to the page and
 // never rendered: only the organisers see them, in the spreadsheet.
 const VOTE_KEY='pc_votes',VOTE_WHO='pc_voter';
-const VOTE_LABELS={ng:'Суддівська панель New Generation',coach:'Тренер року',
+const VOTE_LABELS={ng:'Суддівська панель New Generation',coach:'Тренер року',judge:'Суддя року',
   'Пілон':'Спортсмен року · pole sport','Кільце':'Спортсмен року · aerial hoop',
   'Полотна':'Спортсмен року · aerial silk','Оригінальний жанр':'Спортсмен року · original genre'};
-const VOTE_ORDER=['ng','Пілон','Кільце','Полотна','Оригінальний жанр','coach'];
+const VOTE_ORDER=['ng','Пілон','Кільце','Полотна','Оригінальний жанр','coach','judge'];
 // Два незалежні табло: New Generation і OSCAR голосуються в різні місяці, тож
 // живуть кожне у своїй секції. Пари полів «ім’я + студія» дублюються, але стан
 // один — назвавшись в одній секції, людина не називається вдруге в іншій.
@@ -1456,11 +1457,12 @@ function voteRender(){
     if(!list.length)return;
     const myStudio=voteStudio().toLowerCase();
     const cards=list.map(n=>{
-      const mine=n.studio.toLowerCase()===myStudio&&myStudio;
+      const mine=track==='oscar'&&myStudio&&n.studio.toLowerCase()===myStudio;
       const done=voteCast.has(cat);
       const label=done?(voteCast.has(cat+'|'+n.id)?'Ваш голос ✓':'Вже проголосовано'):mine?'Своя студія':'Голосувати';
       return `<div class="vote-card${voteCast.has(cat+'|'+n.id)?' voted':''}">
-        ${n.photo?`<img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(n.photo)}&sz=w400" alt="${escapeHtml(n.name)}" loading="lazy">`:''}
+        ${n.photo?`<img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(n.photo)}&sz=w400" alt="${escapeHtml(n.name)}" loading="lazy">`
+          :`<div class="vote-blank" aria-hidden="true">${escapeHtml(n.name.trim()[0]||'?')}</div>`}
         <div class="who"><b>${escapeHtml(n.name)}</b><small>${escapeHtml(n.studio)}${n.age?' · '+n.age+' р.':''}</small></div>
         <button type="button" data-track="${track}" data-cat="${escapeHtml(cat)}" data-id="${escapeHtml(n.id)}"
           ${done||mine||!data.open?'disabled':''}>${label}</button></div>`;
