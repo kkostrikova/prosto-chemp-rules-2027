@@ -71,6 +71,9 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .nom-phase b{color:var(--lime)}
 .nom-phase.closed b{color:var(--danger)}
 .nom-phase small{display:block;margin-top:3px;color:#7f858f;font-size:11px}
+.form-grid,.vote-id{min-width:0}
+.form-grid>*,.vote-id>*{min-width:0}
+.field select{max-width:100%;min-width:0;text-overflow:ellipsis}
 .oscar-cats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .oscar-cats span{padding:5px 10px;border:1px solid #2b2f37;border-radius:999px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#9aa0a9}
 .vote-id{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;border:1px solid #2c3038;border-radius:20px;background:#0d0f13;padding:16px;margin-bottom:18px}
@@ -808,7 +811,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     </div>
     <div class="field" style="margin-top:12px"><label for="osPhoto">Фото номінанта</label><input id="osPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
     <div class="nom-phase" id="osPhase"></div>
-    <div class="nom-note">Від однієї студії — один спортсмен на снаряд і один тренер. Повторна подача в тій самій категорії не приймається.</div>
+    <div class="nom-note">Від однієї студії — один спортсмен на снаряд і один тренер. Повторна подача в тій самій категорії не приймається. Якщо вашої студії ще немає в списку — впишіть назву, наступні студії вже побачать її серед варіантів.</div>
     <button class="btn pink" id="osSubmit" type="button" style="margin-top:14px">Подати номінанта</button>
     <div class="nom-status" id="osStatus"></div>
   </div>
@@ -1372,7 +1375,7 @@ function fillStudios(selectId,otherId,list){
   sel.innerHTML='<option value="">Оберіть</option>'
     +extra.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
     +list.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
-    +`<option value="${STUDIO_OTHER}">Моєї студії немає в списку</option>`;
+    +`<option value="${STUDIO_OTHER}">Моєї студії немає в списку — вписати</option>`;
   if(other){
     sel.addEventListener('change',()=>{
       other.hidden=sel.value!==STUDIO_OTHER;

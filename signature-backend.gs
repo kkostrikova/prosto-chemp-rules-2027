@@ -23,10 +23,10 @@ const OSCAR_VOTES_SHEET = 'OSCAR голоси';
 // цей статус у таблиці. Усе нове лягає як 'На модерації'.
 const APPROVED = 'Підтверджено';
 
-// Перелік студій-учасниць. Організатор веде його в аркуші «Студії» — колонка A,
-// по одній назві в рядку. Звідти він потрапляє в усі три випадкові списки на
-// сторінці, тож назва студії скрізь написана однаково і блокування «за своїх»
-// не ламається через «ФД студія» проти «фд-студія».
+// Перелік студій-учасниць в аркуші «Студії», колонка A. Заповнюється сам із
+// поданих заявок; організатор може його впорядкувати перед голосуванням.
+// Потрібен, щоб назва студії скрізь була написана однаково, інакше блокування
+// «за своїх» ламається через «ФД студія» проти «фд-студія».
 const STUDIOS_SHEET = 'Студії';
 
 // Папки для фото створюються поряд із папкою квитанцій, щоб не заводити ID руками.
@@ -504,7 +504,7 @@ function saveNewGeneration_(data) {
   const photoId = savePhoto_(data.photoDataUrl, NG_FOLDER_NAME, name, data.mimeType);
   sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), name, age, studio,
     String(data.parentContact || '').slice(0,120), 'так', photoId,
-    entry.known ? 'На модерації' : 'На модерації · студії немає в переліку']);
+    entry.known ? 'На модерації' : 'На модерації · нова студія']);
   return {ok:true, type:'newGeneration'};
 }
 
@@ -545,7 +545,7 @@ function saveOscarNominee_(data) {
   const photoId = savePhoto_(data.photoDataUrl, OSCAR_FOLDER_NAME, name, data.mimeType);
   sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), kind, apparatus, name, studio,
     String(data.studioContact || '').slice(0,120), photoId,
-    entry.known ? 'На модерації' : 'На модерації · студії немає в переліку']);
+    entry.known ? 'На модерації' : 'На модерації · нова студія']);
   return {ok:true, type:'oscarNominee'};
 }
 
@@ -574,13 +574,22 @@ function studios_() {
   return list.sort(function (a, b) { return a.localeCompare(b, 'uk'); });
 }
 
-// Назва студії має збігатися зі списком; інакше приймаємо, але позначаємо —
-// організатор звірить і додасть студію в перелік.
+// Перелік студій не складається наперед — він наростає з поданих заявок. Якщо
+// студія вже є, підставляємо її написання зі списку, щоб «фд студія» і
+// «ФД Студія» не стали двома різними. Якщо немає — додаємо, і наступна студія
+// вже обиратиме її зі списку замість друкувати вручну.
 function studioEntry_(value) {
   const name = studio_(value);
   if (!name) return {name:'', known:false};
-  const match = studios_().filter(function (s) { return s.toLowerCase() === name.toLowerCase(); })[0];
-  return match ? {name:match, known:true} : {name:name, known:false};
+
+  const known = studios_(); // створює аркуш, якщо його ще немає
+  const match = known.filter(function (s) { return s.toLowerCase() === name.toLowerCase(); })[0];
+  if (match) return {name:match, known:true};
+
+  try {
+    SpreadsheetApp.openById(SHEET_ID).getSheetByName(STUDIOS_SHEET).appendRow([name]);
+  } catch (ignore) {}
+  return {name:name, known:false};
 }
 
 function nominees_(track) {
