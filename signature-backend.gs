@@ -23,6 +23,12 @@ const OSCAR_VOTES_SHEET = 'OSCAR голоси';
 // цей статус у таблиці. Усе нове лягає як 'На модерації'.
 const APPROVED = 'Підтверджено';
 
+// Перелік студій-учасниць. Організатор веде його в аркуші «Студії» — колонка A,
+// по одній назві в рядку. Звідти він потрапляє в усі три випадкові списки на
+// сторінці, тож назва студії скрізь написана однаково і блокування «за своїх»
+// не ламається через «ФД студія» проти «фд-студія».
+const STUDIOS_SHEET = 'Студії';
+
 // Папки для фото створюються поряд із папкою квитанцій, щоб не заводити ID руками.
 const NG_FOLDER_NAME = 'PROSTO CHEMP — New Generation';
 const OSCAR_FOLDER_NAME = 'PROSTO CHEMP — OSCAR';
@@ -86,6 +92,14 @@ function doGet(e) {
   if (p.action === 'huntFinish') {
     try {
       return jsonp_(huntFinish_(p.token, p.nickname), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'studios') {
+    try {
+      return jsonp_({ok:true, studios:studios_()}, p.callback);
     } catch (err) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
@@ -473,7 +487,8 @@ function saveNewGeneration_(data) {
 
   const name = String(data.childName || '').trim().slice(0, 80);
   const age = Number(data.childAge) || 0;
-  const studio = studio_(data.studio);
+  const entry = studioEntry_(data.studio);
+  const studio = entry.name;
   if (!name || !studio) throw new Error('Вкажіть ім’я та студію.');
   if (age < 6 || age > 17) throw new Error('Вік має бути від 6 до 17 років.');
   if (!data.parentConsent) throw new Error('Потрібна згода батьків.');
@@ -488,7 +503,8 @@ function saveNewGeneration_(data) {
 
   const photoId = savePhoto_(data.photoDataUrl, NG_FOLDER_NAME, name, data.mimeType);
   sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), name, age, studio,
-    String(data.parentContact || '').slice(0,120), 'так', photoId, 'На модерації']);
+    String(data.parentContact || '').slice(0,120), 'так', photoId,
+    entry.known ? 'На модерації' : 'На модерації · студії немає в переліку']);
   return {ok:true, type:'newGeneration'};
 }
 
@@ -507,7 +523,8 @@ function saveOscarNominee_(data) {
 
   const kind = data.kind === 'coach' ? 'coach' : 'athlete';
   const name = String(data.nomineeName || '').trim().slice(0, 80);
-  const studio = studio_(data.studio);
+  const entry = studioEntry_(data.studio);
+  const studio = entry.name;
   const apparatus = kind === 'athlete' ? String(data.apparatus || '') : '';
   if (!name || !studio) throw new Error('Вкажіть ім’я номінанта та студію.');
   if (kind === 'athlete' && OSCAR_APPARATUS.indexOf(apparatus) === -1) throw new Error('Оберіть снаряд.');
@@ -527,13 +544,45 @@ function saveOscarNominee_(data) {
 
   const photoId = savePhoto_(data.photoDataUrl, OSCAR_FOLDER_NAME, name, data.mimeType);
   sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), kind, apparatus, name, studio,
-    String(data.studioContact || '').slice(0,120), photoId, 'На модерації']);
+    String(data.studioContact || '').slice(0,120), photoId,
+    entry.known ? 'На модерації' : 'На модерації · студії немає в переліку']);
   return {ok:true, type:'oscarNominee'};
 }
 
 // Список номінантів для сторінки голосування. Віддаємо лише підтверджені
 // організатором записи і лише те, що можна показувати: ім’я, студію, фото.
 // Контакти й результати голосування назовні не виходять ніколи.
+function studios_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(STUDIOS_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(STUDIOS_SHEET);
+    sh.appendRow(['Студія']);
+    sh.appendRow(['↑ додавайте назви студій нижче, по одній у рядку']);
+  }
+  const rows = sh.getDataRange().getValues().slice(1);
+  const seen = {};
+  const list = [];
+  rows.forEach(function (r) {
+    const name = studio_(r[0]);
+    if (!name || name.indexOf('↑') === 0) return;
+    const key = name.toLowerCase();
+    if (seen[key]) return;
+    seen[key] = true;
+    list.push(name);
+  });
+  return list.sort(function (a, b) { return a.localeCompare(b, 'uk'); });
+}
+
+// Назва студії має збігатися зі списком; інакше приймаємо, але позначаємо —
+// організатор звірить і додасть студію в перелік.
+function studioEntry_(value) {
+  const name = studio_(value);
+  if (!name) return {name:'', known:false};
+  const match = studios_().filter(function (s) { return s.toLowerCase() === name.toLowerCase(); })[0];
+  return match ? {name:match, known:true} : {name:name, known:false};
+}
+
 function nominees_(track) {
   const ss = SpreadsheetApp.openById(SHEET_ID);
   const isNg = track === 'ng';
@@ -542,15 +591,14 @@ function nominees_(track) {
     ? {from:NG_VOTE_FROM, until:NG_VOTE_UNTIL}
     : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
   const open = windowOpen_(phase.from, phase.until);
-  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until, nominees:[], studios:[]};
+  const studios = studios_();
+  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until, nominees:[], studios:studios};
 
   const rows = sh.getDataRange().getValues().slice(1);
-  const studios = {};
   const list = [];
   rows.forEach(function (r) {
     const studio = studio_(isNg ? r[4] : r[5]);
-    if (studio) studios[studio] = true;           // список студій — з усіх поданих, не лише підтверджених
-    if (String(isNg ? r[8] : r[8]) !== APPROVED) return;
+    if (String(r[8]) !== APPROVED) return;
     list.push(isNg
       ? {id:String(r[0]), name:String(r[2]), age:Number(r[3]) || null, studio:studio, photo:String(r[7]), category:'ng'}
       : {id:String(r[0]), name:String(r[4]), studio:studio, photo:String(r[7]),
@@ -558,7 +606,7 @@ function nominees_(track) {
   });
 
   return {ok:true, track:track, open:open, from:phase.from, until:phase.until,
-          nominees:list, studios:Object.keys(studios).sort()};
+          nominees:list, studios:studios};
 }
 
 function votesSheet_(track) {

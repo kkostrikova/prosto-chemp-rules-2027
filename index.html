@@ -778,7 +778,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <div class="form-grid">
       <div class="field"><label for="ngName">Ім’я та прізвище дитини</label><input id="ngName" maxlength="80" placeholder="Софія Коваленко"></div>
       <div class="field"><label for="ngAge">Вік</label><input id="ngAge" type="number" min="6" max="17" placeholder="12"></div>
-      <div class="field"><label for="ngStudio">Студія</label><input id="ngStudio" maxlength="60" placeholder="Назва студії"></div>
+      <div class="field"><label for="ngStudio">Студія</label><select id="ngStudio"><option value="">Оберіть</option></select><input id="ngStudioOther" maxlength="60" placeholder="Назва студії" hidden style="margin-top:8px"></div>
       <div class="field"><label for="ngContact">Контакт батьків</label><input id="ngContact" maxlength="120" placeholder="+380... або @nickname"></div>
     </div>
     <div class="field" style="margin-top:12px"><label for="ngPhoto">Фото дитини</label><input id="ngPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
@@ -803,7 +803,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
         <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option>Оригінальний жанр</option>
       </select></div>
       <div class="field"><label for="osName">Ім’я номінанта</label><input id="osName" maxlength="80" placeholder="Прізвище Ім’я"></div>
-      <div class="field"><label for="osStudio">Студія</label><input id="osStudio" maxlength="60" placeholder="Назва студії"></div>
+      <div class="field"><label for="osStudio">Студія</label><select id="osStudio"><option value="">Оберіть</option></select><input id="osStudioOther" maxlength="60" placeholder="Назва студії" hidden style="margin-top:8px"></div>
       <div class="field"><label for="osContact">Контакт студії</label><input id="osContact" maxlength="120" placeholder="+380... або @nickname"></div>
     </div>
     <div class="field" style="margin-top:12px"><label for="osPhoto">Фото номінанта</label><input id="osPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
@@ -1362,6 +1362,39 @@ function applyPhase(key,phaseId,btnId,openText){
 applyPhase('ng','ngPhase','ngSubmit','Подача завершена');
 applyPhase('oscar','osPhase','osSubmit','Подача завершена');
 
+// Список студій веде організатор в аркуші «Студії»; сторінка лише показує його.
+// Якщо студії там ще немає, лишається запасний варіант із вписуванням назви.
+const STUDIO_OTHER='__other__';
+function fillStudios(selectId,otherId,list){
+  const sel=document.getElementById(selectId),other=document.getElementById(otherId);
+  if(!sel)return;
+  const extra=selectId==='voteStudio'?['Глядач']:[];
+  sel.innerHTML='<option value="">Оберіть</option>'
+    +extra.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
+    +list.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
+    +`<option value="${STUDIO_OTHER}">Моєї студії немає в списку</option>`;
+  if(other){
+    sel.addEventListener('change',()=>{
+      other.hidden=sel.value!==STUDIO_OTHER;
+      if(!other.hidden)other.focus();
+    });
+  }
+}
+function studioValue(selectId,otherId){
+  const sel=document.getElementById(selectId),other=document.getElementById(otherId);
+  if(!sel)return '';
+  return sel.value===STUDIO_OTHER?(other?.value||'').trim():sel.value;
+}
+if(document.getElementById('ngStudio')||document.getElementById('osStudio')){
+  jsonpCall({action:'studios'},10000)
+    .then(r=>{
+      const list=r&&r.ok&&Array.isArray(r.studios)?r.studios:[];
+      fillStudios('ngStudio','ngStudioOther',list);
+      fillStudios('osStudio','osStudioOther',list);
+    })
+    .catch(()=>{fillStudios('ngStudio','ngStudioOther',[]);fillStudios('osStudio','osStudioOther',[])});
+}
+
 function nomStatus(el,text,ok){el.className='nom-status show '+(ok?'ok':'err');el.innerHTML=text}
 
 async function nomPhoto(input,status){
@@ -1395,7 +1428,7 @@ document.getElementById('ngSubmit')?.addEventListener('click',async function(){
   btn.dataset.label=btn.dataset.label||btn.textContent;
   const name=document.getElementById('ngName').value.trim();
   const age=Number(document.getElementById('ngAge').value);
-  const studio=document.getElementById('ngStudio').value.trim();
+  const studio=studioValue('ngStudio','ngStudioOther');
   const contact=document.getElementById('ngContact').value.trim();
   if(!name||!studio){nomStatus(status,'Вкажіть ім’я дитини та студію.',false);return}
   if(!(age>=6&&age<=17)){nomStatus(status,'Вік має бути від 6 до 17 років.',false);return}
@@ -1414,7 +1447,7 @@ document.getElementById('osSubmit')?.addEventListener('click',async function(){
   btn.dataset.label=btn.dataset.label||btn.textContent;
   const kind=osKind.value;
   const name=document.getElementById('osName').value.trim();
-  const studio=document.getElementById('osStudio').value.trim();
+  const studio=studioValue('osStudio','osStudioOther');
   const contact=document.getElementById('osContact').value.trim();
   const apparatus=document.getElementById('osApparatus').value;
   if(!name||!studio){nomStatus(status,'Вкажіть ім’я номінанта та студію.',false);return}
@@ -1443,16 +1476,13 @@ const voteCast=new Set(p4ReadJson(VOTE_KEY,[]));   // категорії, де �
 function voteWho(){const w=p4ReadJson(VOTE_WHO,null);return w&&w.name?w:null}
 (function restoreVoter(){const w=voteWho();if(w&&voteNameEl)voteNameEl.value=w.name})();
 
-function voteStudios(){
-  const all=new Set(['Глядач']);
-  ['ng','oscar'].forEach(t=>{const s=voteData[t]?.studios;if(Array.isArray(s))s.forEach(x=>all.add(x))});
-  return [...all].sort((a,b)=>a==='Глядач'?-1:b==='Глядач'?1:a.localeCompare(b,'uk'));
-}
 function renderStudios(){
   if(!voteStudioEl)return;
+  const all=new Set();
+  ['ng','oscar'].forEach(t=>{const s=voteData[t]?.studios;if(Array.isArray(s))s.forEach(x=>all.add(x))});
   const chosen=voteStudioEl.value||voteWho()?.studio||'';
-  voteStudioEl.innerHTML='<option value="">Оберіть</option>'+
-    voteStudios().map(s=>`<option${s===chosen?' selected':''}>${escapeHtml(s)}</option>`).join('');
+  fillStudios('voteStudio',null,[...all].sort((a,b)=>a.localeCompare(b,'uk')));
+  if(chosen)voteStudioEl.value=chosen;
 }
 
 function voteRender(){
