@@ -13,6 +13,56 @@ const PAYMENT_SHEET = 'Payments';
 const COMPULSORY_SHEET = 'Compulsory';
 const HOST_SHEET = 'Для ведучої';
 const LOG_SHEET = 'SystemLog';
+const HUNT_SHEET = 'Гра P4';
+const NG_SHEET = 'New Generation';
+const OSCAR_SHEET = 'OSCAR номінанти';
+const NG_VOTES_SHEET = 'New Generation голоси';
+const OSCAR_VOTES_SHEET = 'OSCAR голоси';
+
+// Номінант потрапляє в голосування лише після того, як організатор поставить
+// цей статус у таблиці. Усе нове лягає як 'На модерації'.
+const APPROVED = 'Підтверджено';
+
+// Перелік студій-учасниць в аркуші «Студії», колонка A. Заповнюється сам із
+// поданих заявок; організатор може його впорядкувати перед голосуванням.
+// Потрібен, щоб назва студії скрізь була написана однаково, інакше блокування
+// «за своїх» ламається через «ФД студія» проти «фд-студія».
+const STUDIOS_SHEET = 'Студії';
+
+// Папки для фото створюються поряд із папкою квитанцій, щоб не заводити ID руками.
+const NG_FOLDER_NAME = 'PROSTO CHEMP — New Generation';
+const OSCAR_FOLDER_NAME = 'PROSTO CHEMP — OSCAR';
+
+const OSCAR_APPARATUS = ['Пілон','Кільце','Полотна','Оригінальний жанр'];
+
+// Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
+// на зимовий час усередині періоду.
+const NG_SUBMIT_UNTIL = '2026-10-10';   // подача в New Generation — включно
+const NG_VOTE_FROM    = '2026-10-11';
+const NG_VOTE_UNTIL   = '2026-11-01';
+const OSCAR_SUBMIT_UNTIL = '2026-11-30'; // номінації на OSCAR — включно
+const OSCAR_VOTE_FROM    = '2026-12-01';
+const OSCAR_VOTE_UNTIL   = '2027-01-17'; // останній день змагань
+
+function kyivToday_() {
+  return Utilities.formatDate(new Date(), 'Europe/Kiev', 'yyyy-MM-dd');
+}
+
+function windowOpen_(from, until) {
+  const today = kyivToday_();
+  if (from && today < from) return false;
+  if (until && today > until) return false;
+  return true;
+}
+
+
+// Пошук семи знаків P4. Час рахує сервер: браузер не може надіслати вигаданий
+// результат, бо не він вирішує, скільки часу минуло.
+const HUNT_MARKS = 7;
+const HUNT_MIN_SECONDS = 20;    // швидше фізично не проскролити сторінку і не натиснути 7 знаків
+const HUNT_MAX_SECONDS = 3600;  // довші забіги вважаємо покинутими
+const HUNT_TOP = 10;
+
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -31,6 +81,54 @@ function doGet(e) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
   }
+  if (p.action === 'huntStart') {
+    try {
+      return jsonp_(huntStart_(), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'huntFinish') {
+    try {
+      return jsonp_(huntFinish_(p.token, p.nickname), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'studios') {
+    try {
+      return jsonp_({ok:true, studios:studios_()}, p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'nominees') {
+    try {
+      return jsonp_(nominees_(p.track === 'ng' ? 'ng' : 'oscar'), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'vote') {
+    try {
+      return jsonp_(vote_(p.track === 'ng' ? 'ng' : 'oscar', p.voterName, p.voterStudio, p.nomineeId), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'huntTop') {
+    try {
+      return jsonp_(huntTop_(), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
   return json_({ok:true,service:'PROSTO CHEMP backend',version:'15'});
 }
 
@@ -48,6 +146,14 @@ function doPost(e) {
 
     if (data.submissionType === 'artRoutineDescription') {
       return json_(saveArtRoutineDescription_(data));
+    }
+
+    if (data.submissionType === 'newGeneration') {
+      return json_(saveNewGeneration_(data));
+    }
+
+    if (data.submissionType === 'oscarNominee') {
+      return json_(saveOscarNominee_(data));
     }
 
     return saveAgreement_(data);
@@ -338,6 +444,315 @@ function saveArtRoutineDescription_(data) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Знаходить папку за назвою поряд із папкою квитанцій або створює її.
+function mediaFolder_(name) {
+  const parents = DriveApp.getFolderById(RECEIPT_FOLDER_ID).getParents();
+  const root = parents.hasNext() ? parents.next() : DriveApp.getRootFolder();
+  const found = root.getFoldersByName(name);
+  return found.hasNext() ? found.next() : root.createFolder(name);
+}
+
+// Повертає ID файлу: сторінка показує фото через drive.google.com/thumbnail?id=...,
+// як уже робить конструктор обов’язкових елементів.
+function savePhoto_(dataUrl, folderName, baseName, mime) {
+  if (!dataUrl) return '';
+  const parts = String(dataUrl).split(',');
+  const raw = Utilities.base64Decode(parts[1] || '');
+  const type = mime || 'image/jpeg';
+  const blob = Utilities.newBlob(raw, type, safe_(baseName) + '_' + Date.now() + extension_('', type));
+  const file = mediaFolder_(folderName).createFile(blob);
+  // фото має бути видимим відвідувачам сторінки голосування
+  try { file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (ignore) {}
+  return file.getId();
+}
+
+function studio_(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+}
+
+// Реєстрація в дитячу суддівську панель New Generation.
+function saveNewGeneration_(data) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(NG_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(NG_SHEET);
+    sh.appendRow(['ID','Дата/час','Ім’я дитини','Вік','Студія','Контакт батьків','Згода батьків','Фото (ID)','Статус']);
+  }
+
+  if (!windowOpen_('', NG_SUBMIT_UNTIL)) {
+    throw new Error('Реєстрація в New Generation завершена ' + NG_SUBMIT_UNTIL + '.');
+  }
+
+  const name = String(data.childName || '').trim().slice(0, 80);
+  const age = Number(data.childAge) || 0;
+  const entry = studioEntry_(data.studio);
+  const studio = entry.name;
+  if (!name || !studio) throw new Error('Вкажіть ім’я та студію.');
+  if (age < 6 || age > 17) throw new Error('Вік має бути від 6 до 17 років.');
+  if (!data.parentConsent) throw new Error('Потрібна згода батьків.');
+  if (!data.photoDataUrl) throw new Error('Додайте фото.');
+
+  const rows = sh.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][2]).toLowerCase() === name.toLowerCase() && studio_(rows[i][4]).toLowerCase() === studio.toLowerCase()) {
+      throw new Error('Ця дитина вже зареєстрована.');
+    }
+  }
+
+  const photoId = savePhoto_(data.photoDataUrl, NG_FOLDER_NAME, name, data.mimeType);
+  sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), name, age, studio,
+    String(data.parentContact || '').slice(0,120), 'так', photoId,
+    entry.known ? 'На модерації' : 'На модерації · нова студія']);
+  return {ok:true, type:'newGeneration'};
+}
+
+// Номінація на OSCAR: студія подає спортсмена в снаряді або тренера.
+function saveOscarNominee_(data) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(OSCAR_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(OSCAR_SHEET);
+    sh.appendRow(['ID','Дата/час','Тип','Снаряд','Ім’я номінанта','Студія','Контакт студії','Фото (ID)','Статус']);
+  }
+
+  if (!windowOpen_('', OSCAR_SUBMIT_UNTIL)) {
+    throw new Error('Подача номінантів на OSCAR завершена ' + OSCAR_SUBMIT_UNTIL + '.');
+  }
+
+  const kind = data.kind === 'coach' ? 'coach' : 'athlete';
+  const name = String(data.nomineeName || '').trim().slice(0, 80);
+  const entry = studioEntry_(data.studio);
+  const studio = entry.name;
+  const apparatus = kind === 'athlete' ? String(data.apparatus || '') : '';
+  if (!name || !studio) throw new Error('Вкажіть ім’я номінанта та студію.');
+  if (kind === 'athlete' && OSCAR_APPARATUS.indexOf(apparatus) === -1) throw new Error('Оберіть снаряд.');
+
+  // одна номінація на студію в кожній категорії
+  const rows = sh.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    const sameStudio = studio_(rows[i][5]).toLowerCase() === studio.toLowerCase();
+    const sameKind = String(rows[i][2]) === kind;
+    const sameApparatus = String(rows[i][3]) === apparatus;
+    if (sameStudio && sameKind && sameApparatus) {
+      throw new Error(kind === 'coach'
+        ? 'Від цієї студії тренера вже подано.'
+        : 'Від цієї студії вже подано спортсмена в цьому снаряді.');
+    }
+  }
+
+  const photoId = savePhoto_(data.photoDataUrl, OSCAR_FOLDER_NAME, name, data.mimeType);
+  sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), kind, apparatus, name, studio,
+    String(data.studioContact || '').slice(0,120), photoId,
+    entry.known ? 'На модерації' : 'На модерації · нова студія']);
+  return {ok:true, type:'oscarNominee'};
+}
+
+// Список номінантів для сторінки голосування. Віддаємо лише підтверджені
+// організатором записи і лише те, що можна показувати: ім’я, студію, фото.
+// Контакти й результати голосування назовні не виходять ніколи.
+function studios_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(STUDIOS_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(STUDIOS_SHEET);
+    sh.appendRow(['Студія']);
+    sh.appendRow(['↑ додавайте назви студій нижче, по одній у рядку']);
+  }
+  const rows = sh.getDataRange().getValues().slice(1);
+  const seen = {};
+  const list = [];
+  rows.forEach(function (r) {
+    const name = studio_(r[0]);
+    if (!name || name.indexOf('↑') === 0) return;
+    const key = name.toLowerCase();
+    if (seen[key]) return;
+    seen[key] = true;
+    list.push(name);
+  });
+  return list.sort(function (a, b) { return a.localeCompare(b, 'uk'); });
+}
+
+// Перелік студій не складається наперед — він наростає з поданих заявок. Якщо
+// студія вже є, підставляємо її написання зі списку, щоб «фд студія» і
+// «ФД Студія» не стали двома різними. Якщо немає — додаємо, і наступна студія
+// вже обиратиме її зі списку замість друкувати вручну.
+function studioEntry_(value) {
+  const name = studio_(value);
+  if (!name) return {name:'', known:false};
+
+  const known = studios_(); // створює аркуш, якщо його ще немає
+  const match = known.filter(function (s) { return s.toLowerCase() === name.toLowerCase(); })[0];
+  if (match) return {name:match, known:true};
+
+  try {
+    SpreadsheetApp.openById(SHEET_ID).getSheetByName(STUDIOS_SHEET).appendRow([name]);
+  } catch (ignore) {}
+  return {name:name, known:false};
+}
+
+function nominees_(track) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const isNg = track === 'ng';
+  const sh = ss.getSheetByName(isNg ? NG_SHEET : OSCAR_SHEET);
+  const phase = isNg
+    ? {from:NG_VOTE_FROM, until:NG_VOTE_UNTIL}
+    : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
+  const open = windowOpen_(phase.from, phase.until);
+  const studios = studios_();
+  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until, nominees:[], studios:studios};
+
+  const rows = sh.getDataRange().getValues().slice(1);
+  const list = [];
+  rows.forEach(function (r) {
+    const studio = studio_(isNg ? r[4] : r[5]);
+    if (String(r[8]) !== APPROVED) return;
+    list.push(isNg
+      ? {id:String(r[0]), name:String(r[2]), age:Number(r[3]) || null, studio:studio, photo:String(r[7]), category:'ng'}
+      : {id:String(r[0]), name:String(r[4]), studio:studio, photo:String(r[7]),
+         category:String(r[2]) === 'coach' ? 'coach' : String(r[3])});
+  });
+
+  return {ok:true, track:track, open:open, from:phase.from, until:phase.until,
+          nominees:list, studios:studios};
+}
+
+function votesSheet_(track) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const name = track === 'ng' ? NG_VOTES_SHEET : OSCAR_VOTES_SHEET;
+  let sh = ss.getSheetByName(name);
+  if (!sh) {
+    sh = ss.insertSheet(name);
+    sh.appendRow(['Дата/час','Ім’я голосуючого','Студія голосуючого','Категорія','ID номінанта','Номінант','Студія номінанта']);
+  }
+  return sh;
+}
+
+function vote_(track, voterName, voterStudio, nomineeId) {
+  const isNg = track === 'ng';
+  const phase = isNg ? {from:NG_VOTE_FROM, until:NG_VOTE_UNTIL} : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
+  if (!windowOpen_(phase.from, phase.until)) {
+    return {ok:false, error:'closed', message:'Голосування в цій категорії зараз закрите.'};
+  }
+
+  const name = String(voterName || '').trim().slice(0, 80);
+  const studio = studio_(voterStudio);
+  if (!name) return {ok:false, error:'no_name', message:'Вкажіть своє ім’я.'};
+  if (!studio) return {ok:false, error:'no_studio', message:'Оберіть свою студію.'};
+
+  const data = nominees_(track);
+  const nominee = data.nominees.filter(function (n) { return n.id === String(nomineeId); })[0];
+  if (!nominee) return {ok:false, error:'no_nominee', message:'Номінанта не знайдено.'};
+
+  // правило «за своїх не голосуємо» — перевіряє сервер, а не сторінка
+  if (nominee.studio.toLowerCase() === studio.toLowerCase()) {
+    return {ok:false, error:'own_studio', message:'За номінанта своєї студії голосувати не можна.'};
+  }
+
+  const sh = votesSheet_(track);
+  const rows = sh.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    const sameVoter = String(rows[i][1]).trim().toLowerCase() === name.toLowerCase()
+      && studio_(rows[i][2]).toLowerCase() === studio.toLowerCase();
+    if (sameVoter && String(rows[i][3]) === nominee.category) {
+      return {ok:false, error:'already', message:'У цій категорії ви вже голосували.'};
+    }
+  }
+
+  sh.appendRow([new Date(), name, studio, nominee.category, nominee.id, nominee.name, nominee.studio]);
+  return {ok:true, category:nominee.category, nominee:nominee.name};
+}
+
+function huntSheet_() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sh = ss.getSheetByName(HUNT_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(HUNT_SHEET);
+    sh.appendRow(['Дата/час','Instagram','Час, сек','Час','Спроб']);
+  }
+  return sh;
+}
+
+// Нік інстаграму, а не довільний текст: safe_ вирізав би крапки, дозволені в нікнеймах.
+function huntNick_(value) {
+  const raw = String(value || '').trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/^@/, '').replace(/\/.*$/, '');
+  return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
+}
+
+function huntFormat_(seconds) {
+  const m = Math.floor(seconds / 60), s = seconds % 60;
+  return m + ':' + ('0' + s).slice(-2);
+}
+
+// Видає токен забігу. Момент старту зберігається на сервері, браузер його не бачить
+// і не може змінити.
+function huntStart_() {
+  const token = Utilities.getUuid();
+  CacheService.getScriptCache().put('hunt_' + token, String(Date.now()), HUNT_MAX_SECONDS);
+  return {ok:true, token:token};
+}
+
+function huntFinish_(token, nickname) {
+  const cache = CacheService.getScriptCache();
+  const key = 'hunt_' + String(token || '');
+  const startedAt = cache.get(key);
+  if (!startedAt) {
+    return {ok:false, error:'expired', message:'Забіг не знайдено або він застарів. Почни пошук спочатку.'};
+  }
+  cache.remove(key); // токен одноразовий
+
+  const seconds = Math.round((Date.now() - Number(startedAt)) / 1000);
+  if (seconds < HUNT_MIN_SECONDS) {
+    log_('huntP4','finish',{athleteName:nickname},'REJECTED','seconds=' + seconds);
+    return {ok:false, error:'too_fast', message:'Такий час неможливий. Спробуй ще раз.'};
+  }
+  if (seconds > HUNT_MAX_SECONDS) {
+    return {ok:false, error:'too_slow', message:'Забіг тривав надто довго і не зарахований.'};
+  }
+
+  const name = huntNick_(nickname);
+  if (!name) {
+    return {ok:false, error:'no_nickname', message:'Вкажи свій Instagram — латиниця, крапки й підкреслення.'};
+  }
+
+  const sh = huntSheet_();
+  const rows = sh.getDataRange().getValues();
+  let targetRow = 0, previous = 0, attempts = 0;
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][1]).toLowerCase() === name.toLowerCase()) {
+      targetRow = i + 1;
+      previous = Number(rows[i][2]) || 0;
+      attempts = Number(rows[i][4]) || 1;
+      break;
+    }
+  }
+
+  if (targetRow) {
+    // один рядок на нікнейм — лишаємо найкращий час
+    if (previous && seconds >= previous) {
+      sh.getRange(targetRow, 5).setValue(attempts + 1);
+      return {ok:true, seconds:seconds, best:previous, improved:false, top:huntTop_().top};
+    }
+    sh.getRange(targetRow, 1, 1, 5).setValues([[
+      new Date(), name, seconds, huntFormat_(seconds), attempts + 1
+    ]]);
+    return {ok:true, seconds:seconds, best:seconds, improved:true, top:huntTop_().top};
+  }
+
+  sh.appendRow([new Date(), name, seconds, huntFormat_(seconds), 1]);
+  return {ok:true, seconds:seconds, best:seconds, improved:true, top:huntTop_().top};
+}
+
+// Публічна таблиця: тільки нік і час.
+function huntTop_() {
+  const rows = huntSheet_().getDataRange().getValues().slice(1);
+  const top = rows
+    .filter(function (r) { return r[1] && Number(r[2]) > 0; })
+    .map(function (r) { return {nickname:String(r[1]), seconds:Number(r[2]), time:huntFormat_(Number(r[2]))}; })
+    .sort(function (a, b) { return a.seconds - b.seconds; })
+    .slice(0, HUNT_TOP);
+  return {ok:true, top:top, marks:HUNT_MARKS};
 }
 
 function log_(type, stage, data, status, details) {
