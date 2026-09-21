@@ -1447,6 +1447,14 @@ function renderStudios(){
   voteStudioEls.forEach(el=>{fillStudios(el.id,null,list);if(chosen)el.value=chosen});
 }
 
+// Фото номінанта: або файл у репозиторії поряд зі сторінкою, або ID у Drive.
+// Перше надійніше — Drive обмежує такі запити і може віддати заглушку.
+function photoSrc(value){
+  const v=String(value||'').trim();
+  return /[/.]/.test(v)?'assets/'+v.replace(/^assets\//,'')
+    :`https://drive.google.com/thumbnail?id=${encodeURIComponent(v)}&sz=w400`;
+}
+
 function voteRender(){
   const blocks={ng:[],oscar:[]};
   VOTE_ORDER.forEach(cat=>{
@@ -1461,7 +1469,7 @@ function voteRender(){
       const done=voteCast.has(cat);
       const label=done?(voteCast.has(cat+'|'+n.id)?'Ваш голос ✓':'Вже проголосовано'):mine?'Своя студія':'Голосувати';
       return `<div class="vote-card${voteCast.has(cat+'|'+n.id)?' voted':''}">
-        ${n.photo?`<img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(n.photo)}&sz=w400" alt="${escapeHtml(n.name)}" loading="lazy">`
+        ${n.photo?`<img src="${photoSrc(n.photo)}" alt="${escapeHtml(n.name)}" loading="lazy">`
           :`<div class="vote-blank" aria-hidden="true">${escapeHtml(n.name.trim()[0]||'?')}</div>`}
         <div class="who"><b>${escapeHtml(n.name)}</b><small>${escapeHtml(n.studio)}${n.age?' · '+n.age+' р.':''}</small></div>
         <button type="button" data-track="${track}" data-cat="${escapeHtml(cat)}" data-id="${escapeHtml(n.id)}"

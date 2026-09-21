@@ -36,18 +36,19 @@ const OSCAR_FOLDER_NAME = 'PROSTO CHEMP — OSCAR';
 const OSCAR_APPARATUS = ['Пілон','Кільце','Полотна','Оригінальний жанр'];
 
 // «Суддя року» — не подається студіями, склад визначають організатори. Список
-// лежить в аркуші «Судді OSCAR» і при першому запуску заповнюється цими іменами,
+// лежить в аркуші «Судді OSCAR» і при першому запуску заповнюється цими рядками,
 // тож змінити його потім можна прямо в таблиці, без оновлення скрипта.
+// У колонці «Фото» — або шлях у репозиторії (judges/name.jpg), або ID файлу в Drive.
 const JUDGES_SHEET = 'Судді OSCAR';
 const OSCAR_JUDGES = [
-  'Анастасія Рудим',
-  'Крістіна Кіпко',
-  'Світлана Сова',
-  'Вікторія Лова',
-  'Каріна Алексенко',
-  'Юлія Ткаченко',
-  'Маргарита Сегеда',
-  'Ірина Ситнікова (Бексіт)'
+  ['Анастасія Рудим',          'judges/rudym.jpg'],
+  ['Крістіна Кіпко',           'judges/kipko.jpg'],
+  ['Світлана Сова',            'judges/sova.jpg'],
+  ['Вікторія Хайнацька',       'judges/khainatska.jpg'],
+  ['Каріна Алексенко',         'judges/aleksenko.jpg'],
+  ['Юлія Ткаченко',            'judges/tkachenko.jpg'],
+  ['Маргарита Сегеда',         'judges/seheda.jpg'],
+  ['Ірина Ситнікова (Бексіт)', 'judges/sytnikova.jpg']
 ];
 
 // Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
@@ -614,8 +615,8 @@ function judges_() {
   let sh = ss.getSheetByName(JUDGES_SHEET);
   if (!sh) {
     sh = ss.insertSheet(JUDGES_SHEET);
-    sh.appendRow(['Суддя','Фото (ID)']);
-    OSCAR_JUDGES.forEach(function (name) { sh.appendRow([name, '']); });
+    sh.appendRow(['Суддя','Фото']);
+    OSCAR_JUDGES.forEach(function (row) { sh.appendRow([row[0], row[1]]); });
   }
   return sh.getDataRange().getValues().slice(1)
     .filter(function (r) { return String(r[0]).trim(); })
