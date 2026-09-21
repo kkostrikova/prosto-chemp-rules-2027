@@ -58,6 +58,19 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .p4-win-time{font-size:34px;font-weight:900;color:var(--lime);font-variant-numeric:tabular-nums;margin-bottom:4px}
 .p4-status{margin-top:12px;font-size:12.5px;color:#9aa0a9;line-height:1.6}
 @media(max-width:760px){.p4-panel{grid-template-columns:1fr}}
+.nom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.nom-card{border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:22px}
+.nom-card h3{margin:0 0 4px;font-size:18px}
+.nom-card>p{margin:0 0 14px;color:#9aa0a9;font-size:12.5px;line-height:1.6}
+.nom-note{margin-top:12px;padding:11px 13px;border:1px solid #ff0a7833;border-radius:13px;background:#ff0a780d;color:#f0b9cf;font-size:12px;line-height:1.55}
+.nom-status{margin-top:12px;font-size:12.5px;line-height:1.6;display:none}
+.nom-status.show{display:block}
+.nom-status.ok{color:var(--lime)}
+.nom-status.err{color:var(--danger)}
+.oscar-cats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.oscar-cats span{padding:5px 10px;border:1px solid #2b2f37;border-radius:999px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#9aa0a9}
+@media(max-width:860px){.nom-grid{grid-template-columns:1fr}}
+
 
 .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section h2{font-size:clamp(30px,5vw,54px);margin:0;letter-spacing:-.045em;text-transform:uppercase}.section h2 em{font-family:'Permanent Marker';color:var(--pink);font-style:normal;font-weight:400}.section-sub{color:var(--muted);max-width:650px;line-height:1.5}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:linear-gradient(180deg,#111319,#0a0b0e);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden}.card:hover{border-color:#444}.card:before{content:'';position:absolute;inset:0 auto auto 0;width:4px;height:100%;background:var(--pink);opacity:.9}.card.lime:before{background:var(--lime)}.card h3{margin:0 0 9px;font-size:18px}.card p{color:#b9bbc0;line-height:1.55;margin:0 0 15px;font-size:14px}.mini{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
@@ -508,7 +521,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#p4game">Гра</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#nominations">OSCAR</a><a href="#p4game">Гра</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
@@ -732,6 +745,54 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 
 
+<section class="section" id="nominations">
+<div class="section-title">
+  <div><div class="eyebrow">New Generation · OSCAR</div><h2>Суддівська панель дітей <em>та премія OSCAR</em></h2></div>
+  <div class="section-sub">Дві окремі подачі. Реєстрація дітей у суддівську панель New Generation — і номінації студій на премію OSCAR. Голосування відкриється під час змагань.</div>
+</div>
+<div class="nom-grid">
+
+  <div class="nom-card reveal">
+    <h3>New Generation — дитяча суддівська панель</h3>
+    <p>Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Зареєструйся, а глядачі проголосують — до панелі увійдуть п’ятеро.</p>
+    <div class="form-grid">
+      <div class="field"><label for="ngName">Ім’я та прізвище дитини</label><input id="ngName" maxlength="80" placeholder="Софія Коваленко"></div>
+      <div class="field"><label for="ngAge">Вік</label><input id="ngAge" type="number" min="6" max="17" placeholder="12"></div>
+      <div class="field"><label for="ngStudio">Студія</label><input id="ngStudio" maxlength="60" placeholder="Назва студії"></div>
+      <div class="field"><label for="ngContact">Контакт батьків</label><input id="ngContact" maxlength="120" placeholder="+380... або @nickname"></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label for="ngPhoto">Фото дитини</label><input id="ngPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
+    <label class="checkline" style="margin-top:12px"><input type="checkbox" id="ngConsent"><span>Я, батько / мати / законний представник, погоджуюсь на публікацію імені та фото дитини на цій сторінці для голосування.</span></label>
+    <div class="nom-note">Фото та ім’я дитини будуть показані публічно на час голосування. Без згоди представника заявка не приймається.</div>
+    <button class="btn pink" id="ngSubmit" type="button" style="margin-top:14px">Зареєструвати</button>
+    <div class="nom-status" id="ngStatus"></div>
+  </div>
+
+  <div class="nom-card reveal">
+    <h3>OSCAR — номінації від студії</h3>
+    <p>Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Глядачі та учасники голосують під час змагань. За своїх голосувати не можна.</p>
+    <div class="oscar-cats">
+      <span>Спортсмен року pole sport</span><span>aerial hoop</span><span>aerial silk</span><span>original genre</span><span>Тренер року</span>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label for="osKind">Номінація</label><select id="osKind">
+        <option value="athlete">Спортсмен року</option><option value="coach">Тренер року</option>
+      </select></div>
+      <div class="field" id="osApparatusField"><label for="osApparatus">Снаряд</label><select id="osApparatus">
+        <option value="">Оберіть</option><option>Пілон</option><option>Кільце</option><option>Полотна</option><option>Оригінальний жанр</option>
+      </select></div>
+      <div class="field"><label for="osName">Ім’я номінанта</label><input id="osName" maxlength="80" placeholder="Прізвище Ім’я"></div>
+      <div class="field"><label for="osStudio">Студія</label><input id="osStudio" maxlength="60" placeholder="Назва студії"></div>
+      <div class="field"><label for="osContact">Контакт студії</label><input id="osContact" maxlength="120" placeholder="+380... або @nickname"></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label for="osPhoto">Фото номінанта</label><input id="osPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
+    <div class="nom-note">Від однієї студії — один спортсмен на снаряд і один тренер. Повторна подача в тій самій категорії не приймається.</div>
+    <button class="btn pink" id="osSubmit" type="button" style="margin-top:14px">Подати номінанта</button>
+    <div class="nom-status" id="osStatus"></div>
+  </div>
+
+</div>
+</section>
 <section class="section" id="p4game">
 <div class="section-title">
   <div><div class="eyebrow">Hidden hunt</div><h2>Полювання за <em>знаками P4</em></h2></div>
@@ -1150,12 +1211,12 @@ const receiptStatus=document.getElementById('receiptStatus');
 const receiptAmountInput=document.getElementById('receiptAmount');
 receiptAmountInput?.addEventListener('input',()=>receiptAmountInput.dataset.userEdited='1');
 
-// Receipts are almost always phone photos, and base64 inflates whatever we send
+// Uploads are almost always phone photos, and base64 inflates whatever we send
 // by a third — an 8 MB photo would leave the browser as a ~10.7 MB request.
 // Re-encoding one to a 1600px JPEG brings that down to well under a megabyte.
 // PDFs and anything that fails to decode are sent untouched.
 const RECEIPT_MAX_EDGE=1600,RECEIPT_JPEG_QUALITY=.82;
-async function prepareReceipt(file){
+async function prepareImage(file){
   const asIs=async()=>({dataUrl:await fileToDataUrl(file),fileName:file.name,mimeType:file.type});
   if(!/^image\/(jpeg|png|webp)$/.test(file.type)||typeof createImageBitmap!=='function') return asIs();
   try{
@@ -1201,7 +1262,7 @@ receiptBtn?.addEventListener('click',async()=>{
   receiptStatus.innerHTML='<b>Завантажуємо квитанцію…</b>';
 
   try{
-    const prepared=await prepareReceipt(file);
+    const prepared=await prepareImage(file);
     const sent=await postSubmission({
       submissionType:'paymentReceipt',
       athleteName:athlete,
@@ -1238,6 +1299,74 @@ function updateProgress(){const all=[...document.querySelectorAll('#checklist in
 document.querySelectorAll('#checklist input').forEach(i=>i.addEventListener('change',updateProgress));updateProgress();
 // image zoom
 const modal=document.getElementById('imgModal'),modalPic=document.getElementById('imgModalPic');document.addEventListener('click',e=>{const img=e.target.closest?.('.comp-thumb');if(!img)return;modalPic.src=img.src;modalPic.alt=img.alt||'Збільшене зображення';modal.classList.add('open');document.body.style.overflow='hidden';});function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}document.getElementById('imgClose')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+// New Generation registration + OSCAR nominations. Both send a photo, so both go
+// through prepareImage and postSubmission like the receipt upload does.
+function nomStatus(el,text,ok){el.className='nom-status show '+(ok?'ok':'err');el.innerHTML=text}
+
+async function nomPhoto(input,status){
+  const file=input.files?.[0];
+  if(!file){nomStatus(status,'Додайте фото.',false);return null}
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)){nomStatus(status,'Фото має бути JPG, PNG або WEBP.',false);return null}
+  if(file.size>12*1024*1024){nomStatus(status,'Фото має бути до 12 МБ.',false);return null}
+  return prepareImage(file); // стискається так само, як квитанція
+}
+
+async function nomSend(btn,status,label,payload){
+  btn.disabled=true;btn.textContent='Надсилаємо…';
+  try{
+    const sent=await postSubmission(payload);
+    nomStatus(status, sent.confirmed
+      ? `<b>✓ ${label} прийнято.</b><br><small>Заявка чекає на підтвердження організаторів.</small>`
+      : `<b>${label} надіслано.</b><br><small>Підтвердження від сервера не отримано — перевірте статус в організаторів.</small>`, true);
+    btn.textContent=sent.confirmed?'Прийнято ✓':'Надіслано';
+  }catch(e){
+    nomStatus(status,String(e.message||'Не вдалося надіслати заявку.'),false);
+    btn.disabled=false;btn.textContent=btn.dataset.label;
+  }
+}
+
+const osKind=document.getElementById('osKind'),osApparatusField=document.getElementById('osApparatusField');
+function osToggleApparatus(){if(osApparatusField)osApparatusField.style.display=osKind.value==='coach'?'none':''}
+osKind?.addEventListener('change',osToggleApparatus);osToggleApparatus();
+
+document.getElementById('ngSubmit')?.addEventListener('click',async function(){
+  const btn=this,status=document.getElementById('ngStatus');
+  btn.dataset.label=btn.dataset.label||btn.textContent;
+  const name=document.getElementById('ngName').value.trim();
+  const age=Number(document.getElementById('ngAge').value);
+  const studio=document.getElementById('ngStudio').value.trim();
+  const contact=document.getElementById('ngContact').value.trim();
+  if(!name||!studio){nomStatus(status,'Вкажіть ім’я дитини та студію.',false);return}
+  if(!(age>=6&&age<=17)){nomStatus(status,'Вік має бути від 6 до 17 років.',false);return}
+  if(!document.getElementById('ngConsent').checked){nomStatus(status,'Потрібна згода батьків на публікацію імені та фото.',false);return}
+  const photo=await nomPhoto(document.getElementById('ngPhoto'),status);
+  if(!photo)return;
+  await nomSend(btn,status,'Реєстрацію',{
+    submissionType:'newGeneration',childName:name,childAge:age,studio:studio,
+    parentContact:contact,parentConsent:true,
+    photoDataUrl:photo.dataUrl,fileName:photo.fileName,mimeType:photo.mimeType,rulesVersion:'2026/27'
+  });
+});
+
+document.getElementById('osSubmit')?.addEventListener('click',async function(){
+  const btn=this,status=document.getElementById('osStatus');
+  btn.dataset.label=btn.dataset.label||btn.textContent;
+  const kind=osKind.value;
+  const name=document.getElementById('osName').value.trim();
+  const studio=document.getElementById('osStudio').value.trim();
+  const contact=document.getElementById('osContact').value.trim();
+  const apparatus=document.getElementById('osApparatus').value;
+  if(!name||!studio){nomStatus(status,'Вкажіть ім’я номінанта та студію.',false);return}
+  if(kind==='athlete'&&!apparatus){nomStatus(status,'Оберіть снаряд.',false);return}
+  const photo=await nomPhoto(document.getElementById('osPhoto'),status);
+  if(!photo)return;
+  await nomSend(btn,status,'Номінацію',{
+    submissionType:'oscarNominee',kind:kind,nomineeName:name,studio:studio,
+    apparatus:kind==='athlete'?apparatus:'',studioContact:contact,
+    photoDataUrl:photo.dataUrl,fileName:photo.fileName,mimeType:photo.mimeType,rulesVersion:'2026/27'
+  });
+});
+
 // hidden P4 hunt — seven marks tucked into the section margins down the page.
 // The clock runs on the server: the browser never decides how long a run took,
 // so a made-up time cannot be posted to the leaderboard.
