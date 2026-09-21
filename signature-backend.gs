@@ -37,11 +37,13 @@ const OSCAR_APPARATUS = ['Пілон','Кільце','Полотна','Ориг�
 
 // Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
 // на зимовий час усередині періоду.
-const NG_SUBMIT_UNTIL = '2026-10-10';   // подача в New Generation — включно
+const NG_SUBMIT_FROM  = '';              // реєстрація в New Generation уже відкрита
+const NG_SUBMIT_UNTIL = '2026-10-10';    // включно
 const NG_VOTE_FROM    = '2026-10-11';
 const NG_VOTE_UNTIL   = '2026-11-01';
-const OSCAR_SUBMIT_UNTIL = '2026-11-30'; // номінації на OSCAR — включно
-const OSCAR_VOTE_FROM    = '2026-12-01';
+const OSCAR_SUBMIT_FROM  = '2026-10-01'; // номінації на OSCAR відкриваються 1 жовтня
+const OSCAR_SUBMIT_UNTIL = '2026-12-01'; // включно
+const OSCAR_VOTE_FROM    = '2026-12-02';
 const OSCAR_VOTE_UNTIL   = '2027-01-17'; // останній день змагань
 
 function kyivToday_() {
@@ -481,8 +483,8 @@ function saveNewGeneration_(data) {
     sh.appendRow(['ID','Дата/час','Ім’я дитини','Вік','Студія','Контакт батьків','Згода батьків','Фото (ID)','Статус']);
   }
 
-  if (!windowOpen_('', NG_SUBMIT_UNTIL)) {
-    throw new Error('Реєстрація в New Generation завершена ' + NG_SUBMIT_UNTIL + '.');
+  if (!windowOpen_(NG_SUBMIT_FROM, NG_SUBMIT_UNTIL)) {
+    throw new Error('Реєстрація в New Generation приймається до ' + NG_SUBMIT_UNTIL + '.');
   }
 
   const name = String(data.childName || '').trim().slice(0, 80);
@@ -517,8 +519,8 @@ function saveOscarNominee_(data) {
     sh.appendRow(['ID','Дата/час','Тип','Снаряд','Ім’я номінанта','Студія','Контакт студії','Фото (ID)','Статус']);
   }
 
-  if (!windowOpen_('', OSCAR_SUBMIT_UNTIL)) {
-    throw new Error('Подача номінантів на OSCAR завершена ' + OSCAR_SUBMIT_UNTIL + '.');
+  if (!windowOpen_(OSCAR_SUBMIT_FROM, OSCAR_SUBMIT_UNTIL)) {
+    throw new Error('Номінації на OSCAR приймаються з ' + OSCAR_SUBMIT_FROM + ' до ' + OSCAR_SUBMIT_UNTIL + '.');
   }
 
   const kind = data.kind === 'coach' ? 'coach' : 'athlete';

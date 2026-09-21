@@ -22,8 +22,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;border-radius:13px;border:1px solid #333;padding:13px 16px;font-weight:800;font-size:13px;cursor:pointer;transition:.2s;background:#111;color:white}.btn:hover{transform:translateY(-2px);border-color:#555}.btn.pink{border-color:var(--pink);box-shadow:inset 0 0 0 1px #ff0a7833}.btn.lime{border-color:var(--lime);color:var(--lime)}
 .hero-art{position:relative;min-height:500px;display:flex;align-items:center;justify-content:center}.hero-art:before{content:'';position:absolute;width:430px;height:430px;border:1px solid #ff0a784d;border-radius:50%;box-shadow:0 0 70px #ff0a7827}.hero-art:after{content:'';position:absolute;width:320px;height:320px;border:1px dashed #baff0066;border-radius:50%;animation:spin 18s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.hero-art img{position:relative;z-index:2;width:min(100%,640px);max-width:100%;height:auto;border-radius:26px;filter:contrast(1.08) saturate(1.15);mix-blend-mode:normal;box-shadow:0 10px 40px rgba(0,0,0,.45),0 0 60px rgba(255,10,120,.14)}
 .kicker{position:absolute;right:0;bottom:45px;background:var(--lime);color:#0a0a0a;padding:10px 14px;font-weight:900;text-transform:uppercase;transform:rotate(-3deg);font-size:12px}
-.section{padding:60px 0 18px;scroll-margin-top:82px}.nom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.nom-card{border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:22px}
+.section{padding:60px 0 18px;scroll-margin-top:82px}.nom-card{max-width:760px;border:1px solid #2c3038;border-radius:24px;background:linear-gradient(145deg,#11141a,#090a0d);padding:22px}
 .nom-card h3{margin:0 0 4px;font-size:18px}
 .nom-card>p{margin:0 0 14px;color:#9aa0a9;font-size:12.5px;line-height:1.6}
 .nom-note{margin-top:12px;padding:11px 13px;border:1px solid #ff0a7833;border-radius:13px;background:#ff0a780d;color:#f0b9cf;font-size:12px;line-height:1.55}
@@ -56,7 +55,8 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .vote-card.voted{border-color:#baff0055}
 .vote-card.voted button{background:#baff001a;color:var(--lime)}
 .vote-closed{padding:14px;border:1px solid #2b2f37;border-radius:16px;background:#0d0f13;color:#9aa0a9;font-size:12.5px;line-height:1.6}
-@media(max-width:860px){.nom-grid{grid-template-columns:1fr}.vote-id{grid-template-columns:1fr}.vote-list{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+.vote-head{margin:30px 0 14px;font-size:17px}
+@media(max-width:860px){.vote-id{grid-template-columns:1fr}.vote-list{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 
 
 .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section h2{font-size:clamp(30px,5vw,54px);margin:0;letter-spacing:-.045em;text-transform:uppercase}.section h2 em{font-family:'Permanent Marker';color:var(--pink);font-style:normal;font-weight:400}.section-sub{color:var(--muted);max-width:650px;line-height:1.5}
@@ -508,7 +508,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#nominations">OSCAR</a><a href="#voting">Голосування</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#newgen">New Generation</a><a href="#oscar">OSCAR</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
@@ -729,16 +729,14 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 
 
-<section class="section" id="nominations">
+<section class="section" id="newgen">
 <div class="section-title">
-  <div><div class="eyebrow">New Generation · OSCAR</div><h2>Суддівська панель дітей <em>та премія OSCAR</em></h2></div>
-  <div class="section-sub">Дві окремі подачі. Реєстрація дітей у суддівську панель New Generation — і номінації студій на премію OSCAR. Голосування відкриється під час змагань.</div>
+  <div><div class="eyebrow">New Generation</div><h2>Дитяча <em>суддівська панель</em></h2></div>
+  <div class="section-sub">Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Реєстрація триває до 10 жовтня, з 11 жовтня до 1 листопада глядачі голосують — до панелі увійдуть п’ятеро.</div>
 </div>
-<div class="nom-grid">
-
-  <div class="nom-card reveal">
+<div class="nom-card reveal">
     <h3>New Generation — дитяча суддівська панель</h3>
-    <p>Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Зареєструйся, а глядачі проголосують — до панелі увійдуть п’ятеро.</p>
+    <p>Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Зареєструйся до 10 жовтня — з 11 жовтня по 1 листопада глядачі оберуть п’ятьох.</p>
     <div class="form-grid">
       <div class="field"><label for="ngName">Ім’я та прізвище дитини</label><input id="ngName" maxlength="80" placeholder="Софія Коваленко"></div>
       <div class="field"><label for="ngAge">Вік</label><input id="ngAge" type="number" min="6" max="17" placeholder="12"></div>
@@ -752,10 +750,22 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <button class="btn pink" id="ngSubmit" type="button" style="margin-top:14px">Зареєструвати</button>
     <div class="nom-status" id="ngStatus"></div>
   </div>
-
-  <div class="nom-card reveal">
+<h3 class="vote-head">Голосування за суддів</h3>
+<div class="vote-id">
+  <div class="field"><label for="ngVoteName">Ваше ім’я</label><input id="ngVoteName" class="vote-name" maxlength="80" placeholder="Прізвище Ім’я"></div>
+  <div class="field"><label for="ngVoteStudio">Ваша студія</label><select id="ngVoteStudio" class="vote-studio"><option value="">Оберіть</option></select></div>
+  <div class="hint">Студія потрібна, щоб заблокувати голоси за своїх. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
+</div>
+<div id="ngVoteBoard"></div>
+</section>
+<section class="section" id="oscar">
+<div class="section-title">
+  <div><div class="eyebrow">OSCAR</div><h2>Премія <em>OSCAR</em></h2></div>
+  <div class="section-sub">Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Номінації приймаємо з 1 жовтня до 1 грудня, голосування триває з 2 грудня до 17 січня 2027 року.</div>
+</div>
+<div class="nom-card reveal">
     <h3>OSCAR — номінації від студії</h3>
-    <p>Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Глядачі та учасники голосують під час змагань. За своїх голосувати не можна.</p>
+    <p>Кожна студія подає одного спортсмена в кожному снаряді та одного тренера. Голосують глядачі та учасники змагань з 2 грудня до 17 січня. За номінантів своєї студії голосувати не можна.</p>
     <div class="oscar-cats">
       <span>Спортсмен року pole sport</span><span>aerial hoop</span><span>aerial silk</span><span>original genre</span><span>Тренер року</span>
     </div>
@@ -776,20 +786,13 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     <button class="btn pink" id="osSubmit" type="button" style="margin-top:14px">Подати номінанта</button>
     <div class="nom-status" id="osStatus"></div>
   </div>
-
-</div>
-</section>
-<section class="section" id="voting">
-<div class="section-title">
-  <div><div class="eyebrow">Voting</div><h2>Голосування <em>New Generation та OSCAR</em></h2></div>
-  <div class="section-sub">Назвіться один раз — і голосуйте в кожній категорії. За номінантів своєї студії голосувати не можна. Результати бачать лише організатори.</div>
-</div>
+<h3 class="vote-head">Голосування за номінантів</h3>
 <div class="vote-id">
-  <div class="field"><label for="voteName">Ваше ім’я</label><input id="voteName" maxlength="80" placeholder="Прізвище Ім’я"></div>
-  <div class="field"><label for="voteStudio">Ваша студія</label><select id="voteStudio"><option value="">Оберіть</option></select></div>
-  <div class="hint">Студія потрібна, щоб заблокувати голоси за своїх. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
+  <div class="field"><label for="osVoteName">Ваше ім’я</label><input id="osVoteName" class="vote-name" maxlength="80" placeholder="Прізвище Ім’я"></div>
+  <div class="field"><label for="osVoteStudio">Ваша студія</label><select id="osVoteStudio" class="vote-studio"><option value="">Оберіть</option></select></div>
+  <div class="hint">За номінантів своєї студії голосувати не можна. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
 </div>
-<div id="voteBoard"></div>
+<div id="oscarVoteBoard"></div>
 </section>
 <section class="section"><div class="section-title"><div><div class="eyebrow">My checklist</div><h2>Чекліст <em>спортсмена</em></h2></div><div class="section-sub">Відмітки зберігаються тільки у браузері користувача — без передачі на сервер.</div></div>
 <div class="progress-shell reveal"><div class="progress-ring" id="progressRing"><strong id="progressText">0/7</strong></div><div class="progress-copy"><b>Готовність до участі</b><p id="progressMessage">Відмічай виконані кроки — прогрес збережеться у цьому браузері.</p><div class="progress-bar"><span id="progressBar"></span></div></div></div>
@@ -1277,29 +1280,37 @@ const modal=document.getElementById('imgModal'),modalPic=document.getElementById
 // Розклад подач і голосувань. Ті самі дати стоять у бекенді — тут вони лише для
 // того, щоб людина одразу бачила стан, а не впиралася у відмову після заповнення.
 const PHASES={
-  ng:{submitUntil:'2026-10-10',voteFrom:'2026-10-11',voteUntil:'2026-11-01'},
-  oscar:{submitUntil:'2026-11-30',voteFrom:'2026-12-01',voteUntil:''}
+  ng:{submitFrom:'',submitUntil:'2026-10-10',voteFrom:'2026-10-11',voteUntil:'2026-11-01'},
+  oscar:{submitFrom:'2026-10-01',submitUntil:'2026-12-01',voteFrom:'2026-12-02',voteUntil:'2027-01-17'}
 };
 function kyivToday(){
   return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Kiev',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 }
 function dmy(iso){const [y,m,d]=iso.split('-');return `${+d}.${m}.${y}`}
-function applyPhase(key,phaseId,btnId,openText){
+function applyPhase(key,phaseId,btnId){
   const box=document.getElementById(phaseId),btn=document.getElementById(btnId),ph=PHASES[key];
   if(!box)return;
-  const today=kyivToday(),open=today<=ph.submitUntil;
-  box.classList.toggle('closed',!open);
-  if(open){
-    box.innerHTML=`<b>Подача відкрита до ${dmy(ph.submitUntil)}</b> включно.`
-      +`<small>Голосування: ${dmy(ph.voteFrom)}${ph.voteUntil?' — '+dmy(ph.voteUntil):' і далі'}.</small>`;
-  }else{
-    box.innerHTML=`<b>Подача завершена ${dmy(ph.submitUntil)}.</b>`
-      +`<small>${today<=ph.voteUntil||!ph.voteUntil?'Триває етап голосування.':'Етап завершено.'}</small>`;
-    if(btn){btn.disabled=true;btn.textContent=openText}
+  const today=kyivToday();
+  const vote=`<small>Голосування: ${dmy(ph.voteFrom)} — ${dmy(ph.voteUntil)}.</small>`;
+  if(ph.submitFrom&&today<ph.submitFrom){
+    box.classList.add('closed');
+    box.innerHTML=`<b>Подача відкриється ${dmy(ph.submitFrom)}.</b>`+vote;
+    if(btn){btn.disabled=true;btn.textContent='Подача ще не відкрита'}
+    return;
   }
+  if(today>ph.submitUntil){
+    box.classList.add('closed');
+    const voting=today>=ph.voteFrom&&today<=ph.voteUntil;
+    box.innerHTML=`<b>Подача завершена ${dmy(ph.submitUntil)}.</b>`
+      +`<small>${voting?'Триває голосування до '+dmy(ph.voteUntil)+'.':'Етап завершено.'}</small>`;
+    if(btn){btn.disabled=true;btn.textContent='Подача завершена'}
+    return;
+  }
+  box.classList.remove('closed');
+  box.innerHTML=`<b>Подача відкрита до ${dmy(ph.submitUntil)}</b> включно.`+vote;
 }
-applyPhase('ng','ngPhase','ngSubmit','Подача завершена');
-applyPhase('oscar','osPhase','osSubmit','Подача завершена');
+applyPhase('ng','ngPhase','ngSubmit');
+applyPhase('oscar','osPhase','osSubmit');
 
 // Список студій веде організатор в аркуші «Студії»; сторінка лише показує його.
 // Якщо студії там ще немає, лишається запасний варіант із вписуванням назви.
@@ -1307,7 +1318,7 @@ const STUDIO_OTHER='__other__';
 function fillStudios(selectId,otherId,list){
   const sel=document.getElementById(selectId),other=document.getElementById(otherId);
   if(!sel)return;
-  const extra=selectId==='voteStudio'?['Глядач']:[];
+  const extra=sel.classList.contains('vote-studio')?['Глядач']:[];
   sel.innerHTML='<option value="">Оберіть</option>'
     +extra.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
     +list.map(s=>`<option>${escapeHtml(s)}</option>`).join('')
@@ -1407,33 +1418,43 @@ const VOTE_LABELS={ng:'Суддівська панель New Generation',coach:'
   'Пілон':'Спортсмен року · pole sport','Кільце':'Спортсмен року · aerial hoop',
   'Полотна':'Спортсмен року · aerial silk','Оригінальний жанр':'Спортсмен року · original genre'};
 const VOTE_ORDER=['ng','Пілон','Кільце','Полотна','Оригінальний жанр','coach'];
-const voteBoard=document.getElementById('voteBoard'),voteNameEl=document.getElementById('voteName'),
-      voteStudioEl=document.getElementById('voteStudio');
+// Два незалежні табло: New Generation і OSCAR голосуються в різні місяці, тож
+// живуть кожне у своїй секції. Пари полів «ім’я + студія» дублюються, але стан
+// один — назвавшись в одній секції, людина не називається вдруге в іншій.
+const VOTE_BOARDS={ng:'ngVoteBoard',oscar:'oscarVoteBoard'};
+const voteNameEls=[...document.querySelectorAll('.vote-name')];
+const voteStudioEls=[...document.querySelectorAll('.vote-studio')];
 let voteData={ng:null,oscar:null};
 const voteCast=new Set(lsRead(VOTE_KEY,[]));   // категорії, де цей браузер уже голосував
 
 function voteWho(){const w=lsRead(VOTE_WHO,null);return w&&w.name?w:null}
-(function restoreVoter(){const w=voteWho();if(w&&voteNameEl)voteNameEl.value=w.name})();
+function voteName(){return (voteNameEls.find(el=>el.value.trim())?.value||'').trim()}
+function voteStudio(){return voteStudioEls.find(el=>el.value)?.value||''}
+function syncVoter(source){
+  const name=source.classList.contains('vote-name')?source.value:voteName();
+  const studio=source.classList.contains('vote-studio')?source.value:voteStudio();
+  voteNameEls.forEach(el=>{if(el!==source)el.value=name});
+  voteStudioEls.forEach(el=>{if(el!==source&&el.value!==studio)el.value=studio});
+}
+(function restoreVoter(){const w=voteWho();if(w)voteNameEls.forEach(el=>el.value=w.name)})();
 
 function renderStudios(){
-  if(!voteStudioEl)return;
   const all=new Set();
   ['ng','oscar'].forEach(t=>{const s=voteData[t]?.studios;if(Array.isArray(s))s.forEach(x=>all.add(x))});
-  const chosen=voteStudioEl.value||voteWho()?.studio||'';
-  fillStudios('voteStudio',null,[...all].sort((a,b)=>a.localeCompare(b,'uk')));
-  if(chosen)voteStudioEl.value=chosen;
+  const list=[...all].sort((a,b)=>a.localeCompare(b,'uk'));
+  const chosen=voteStudio()||voteWho()?.studio||'';
+  voteStudioEls.forEach(el=>{fillStudios(el.id,null,list);if(chosen)el.value=chosen});
 }
 
 function voteRender(){
-  if(!voteBoard)return;
-  const blocks=[];
+  const blocks={ng:[],oscar:[]};
   VOTE_ORDER.forEach(cat=>{
     const track=cat==='ng'?'ng':'oscar',data=voteData[track];
     if(!data||!Array.isArray(data.nominees))return;
     const list=data.nominees.filter(n=>n.category===cat);
     if(!list.length&&!data.open)return;
     if(!list.length)return;
-    const myStudio=(voteStudioEl?.value||'').toLowerCase();
+    const myStudio=voteStudio().toLowerCase();
     const cards=list.map(n=>{
       const mine=n.studio.toLowerCase()===myStudio&&myStudio;
       const done=voteCast.has(cat);
@@ -1444,20 +1465,26 @@ function voteRender(){
         <button type="button" data-track="${track}" data-cat="${escapeHtml(cat)}" data-id="${escapeHtml(n.id)}"
           ${done||mine||!data.open?'disabled':''}>${label}</button></div>`;
     }).join('');
-    blocks.push(`<div class="vote-cat"><h3>${escapeHtml(VOTE_LABELS[cat]||cat)}</h3>
+    blocks[track].push(`<div class="vote-cat"><h3>${escapeHtml(VOTE_LABELS[cat]||cat)}</h3>
       <small>${data.open?'Голосування відкрите':'Голосування закрите'}</small>
       <div class="vote-list">${cards}</div></div>`);
   });
-  const anyOpen=['ng','oscar'].some(t=>voteData[t]?.open);
-  voteBoard.innerHTML=blocks.length?blocks.join('')
-    :`<div class="vote-closed">${anyOpen?'Номінантів ще не підтверджено. Загляньте пізніше.':'Голосування поки не відкрите. New Generation — з 11.10.2026, OSCAR — з 01.12.2026.'}</div>`;
-  voteBoard.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click',()=>castVote(b)));
+  Object.keys(VOTE_BOARDS).forEach(track=>{
+    const board=document.getElementById(VOTE_BOARDS[track]);
+    if(!board)return;
+    const ph=PHASES[track];
+    board.innerHTML=blocks[track].length?blocks[track].join('')
+      :`<div class="vote-closed">${voteData[track]?.open
+          ?'Номінантів ще не підтверджено. Загляньте пізніше.'
+          :'Голосування відкриється '+dmy(ph.voteFrom)+'.'}</div>`;
+    board.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click',()=>castVote(b)));
+  });
 }
 
 async function castVote(btn){
-  const name=(voteNameEl?.value||'').trim(),studio=voteStudioEl?.value||'';
-  if(!name){toast('Вкажіть своє ім’я');voteNameEl?.focus();return}
-  if(!studio){toast('Оберіть свою студію');voteStudioEl?.focus();return}
+  const name=voteName(),studio=voteStudio(),section=btn.closest('section');
+  if(!name){toast('Вкажіть своє ім’я');section?.querySelector('.vote-name')?.focus();return}
+  if(!studio){toast('Оберіть свою студію');section?.querySelector('.vote-studio')?.focus();return}
   const {track,cat,id}=btn.dataset;
   btn.disabled=true;btn.textContent='Надсилаємо…';
   try{
@@ -1473,8 +1500,9 @@ async function castVote(btn){
   }
 }
 
-voteStudioEl?.addEventListener('change',voteRender);
-if(voteBoard){
+voteStudioEls.forEach(el=>el.addEventListener('change',()=>{syncVoter(el);voteRender()}));
+voteNameEls.forEach(el=>el.addEventListener('input',()=>syncVoter(el)));
+if(voteNameEls.length){
   Promise.all(['ng','oscar'].map(t=>jsonpCall({action:'nominees',track:t},12000)
     .then(r=>{if(r&&r.ok&&Array.isArray(r.nominees))voteData[t]=r}).catch(()=>{})))
     .then(()=>{renderStudios();voteRender()});
