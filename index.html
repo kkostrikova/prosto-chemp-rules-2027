@@ -73,7 +73,23 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .nom-phase small{display:block;margin-top:3px;color:#7f858f;font-size:11px}
 .oscar-cats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .oscar-cats span{padding:5px 10px;border:1px solid #2b2f37;border-radius:999px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#9aa0a9}
-@media(max-width:860px){.nom-grid{grid-template-columns:1fr}}
+.vote-id{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;border:1px solid #2c3038;border-radius:20px;background:#0d0f13;padding:16px;margin-bottom:18px}
+.vote-id .hint{grid-column:1/-1;color:#7f858f;font-size:11.5px;line-height:1.5;margin-top:-4px}
+.vote-cat{margin-bottom:26px}
+.vote-cat h3{margin:0 0 4px;font-size:16px;text-transform:uppercase;letter-spacing:.05em;color:var(--lime)}
+.vote-cat>small{display:block;color:#7f858f;font-size:11.5px;margin-bottom:12px}
+.vote-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.vote-card{border:1px solid #2b2f37;border-radius:18px;background:#0b0d10;overflow:hidden;display:flex;flex-direction:column}
+.vote-card img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#15181d;display:block}
+.vote-card .who{padding:11px 12px 0;flex:1}
+.vote-card b{display:block;font-size:13.5px;line-height:1.35}
+.vote-card small{display:block;color:#7f858f;font-size:11px;margin-top:2px}
+.vote-card button{margin:10px 12px 12px;padding:9px;border:0;border-radius:11px;background:var(--pink);color:#fff;font-weight:800;font-size:12px;cursor:pointer}
+.vote-card button:disabled{background:#1b1e24;color:#6c727c;cursor:default}
+.vote-card.voted{border-color:#baff0055}
+.vote-card.voted button{background:#baff001a;color:var(--lime)}
+.vote-closed{padding:14px;border:1px solid #2b2f37;border-radius:16px;background:#0d0f13;color:#9aa0a9;font-size:12.5px;line-height:1.6}
+@media(max-width:860px){.nom-grid{grid-template-columns:1fr}.vote-id{grid-template-columns:1fr}.vote-list{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 
 
 .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section h2{font-size:clamp(30px,5vw,54px);margin:0;letter-spacing:-.045em;text-transform:uppercase}.section h2 em{font-family:'Permanent Marker';color:var(--pink);font-style:normal;font-weight:400}.section-sub{color:var(--muted);max-width:650px;line-height:1.5}
@@ -525,7 +541,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 </head>
 <body>
 <div class="grain"></div>
-<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#nominations">OSCAR</a><a href="#p4game">Гра</a><a href="#full-rules">Правила</a></nav></div></header>
+<header><div class="nav"><a class="brand" href="#top"><span class="brand-mark">P4</span><span>PROSTO <b>CHEMP</b> / RULES HUB</span></a><button class="mobile-menu" aria-label="Меню">☰</button><nav class="navlinks"><a href="#start">Старт</a><a href="https://polecompetition.com/" target="_blank" rel="noopener">Подати заявку</a><a href="#art-description">ART</a><a href="#compulsory">SPORT</a><a href="#agreements">Угоди</a><a href="#nominations">OSCAR</a><a href="#voting">Голосування</a><a href="#p4game">Гра</a><a href="#full-rules">Правила</a></nav></div></header>
 <main id="top">
 <section class="hero">
 <div><div class="eyebrow">Єдиний центр правил · сезон 2027</div><h1>RULES <span class="brush">HUB</span></h1><p>Дедлайни, оплата, музика, форми, категорії, чекліст спортсмена та підписання угод — в одному місці. Повний офіційний документ можна завантажити окремо.</p><div class="hero-actions"><a class="btn pink" href="#start">Почати →</a><a class="btn lime" href="rules-official-2026.pdf" download>Завантажити правила PDF ↓</a></div><div class="source-note">Ключові умови платформи сформовано з документа «Правила та положення 2027». Повний офіційний документ доступний для завантаження.</div></div>
@@ -798,6 +814,18 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
   </div>
 
 </div>
+</section>
+<section class="section" id="voting">
+<div class="section-title">
+  <div><div class="eyebrow">Voting</div><h2>Голосування <em>New Generation та OSCAR</em></h2></div>
+  <div class="section-sub">Назвіться один раз — і голосуйте в кожній категорії. За номінантів своєї студії голосувати не можна. Результати бачать лише організатори.</div>
+</div>
+<div class="vote-id">
+  <div class="field"><label for="voteName">Ваше ім’я</label><input id="voteName" maxlength="80" placeholder="Прізвище Ім’я"></div>
+  <div class="field"><label for="voteStudio">Ваша студія</label><select id="voteStudio"><option value="">Оберіть</option></select></div>
+  <div class="hint">Студія потрібна, щоб заблокувати голоси за своїх. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
+</div>
+<div id="voteBoard"></div>
 </section>
 <section class="section" id="p4game">
 <div class="section-title">
@@ -1399,6 +1427,89 @@ document.getElementById('osSubmit')?.addEventListener('click',async function(){
     photoDataUrl:photo.dataUrl,fileName:photo.fileName,mimeType:photo.mimeType,rulesVersion:'2026/27'
   });
 });
+
+// Voting for New Generation and OSCAR. Totals are never sent to the page and
+// never rendered: only the organisers see them, in the spreadsheet.
+const VOTE_KEY='pc_votes',VOTE_WHO='pc_voter';
+const VOTE_LABELS={ng:'Суддівська панель New Generation',coach:'Тренер року',
+  'Пілон':'Спортсмен року · pole sport','Кільце':'Спортсмен року · aerial hoop',
+  'Полотна':'Спортсмен року · aerial silk','Оригінальний жанр':'Спортсмен року · original genre'};
+const VOTE_ORDER=['ng','Пілон','Кільце','Полотна','Оригінальний жанр','coach'];
+const voteBoard=document.getElementById('voteBoard'),voteNameEl=document.getElementById('voteName'),
+      voteStudioEl=document.getElementById('voteStudio');
+let voteData={ng:null,oscar:null};
+const voteCast=new Set(p4ReadJson(VOTE_KEY,[]));   // категорії, де цей браузер уже голосував
+
+function voteWho(){const w=p4ReadJson(VOTE_WHO,null);return w&&w.name?w:null}
+(function restoreVoter(){const w=voteWho();if(w&&voteNameEl)voteNameEl.value=w.name})();
+
+function voteStudios(){
+  const all=new Set(['Глядач']);
+  ['ng','oscar'].forEach(t=>{const s=voteData[t]?.studios;if(Array.isArray(s))s.forEach(x=>all.add(x))});
+  return [...all].sort((a,b)=>a==='Глядач'?-1:b==='Глядач'?1:a.localeCompare(b,'uk'));
+}
+function renderStudios(){
+  if(!voteStudioEl)return;
+  const chosen=voteStudioEl.value||voteWho()?.studio||'';
+  voteStudioEl.innerHTML='<option value="">Оберіть</option>'+
+    voteStudios().map(s=>`<option${s===chosen?' selected':''}>${escapeHtml(s)}</option>`).join('');
+}
+
+function voteRender(){
+  if(!voteBoard)return;
+  const blocks=[];
+  VOTE_ORDER.forEach(cat=>{
+    const track=cat==='ng'?'ng':'oscar',data=voteData[track];
+    if(!data||!Array.isArray(data.nominees))return;
+    const list=data.nominees.filter(n=>n.category===cat);
+    if(!list.length&&!data.open)return;
+    if(!list.length)return;
+    const myStudio=(voteStudioEl?.value||'').toLowerCase();
+    const cards=list.map(n=>{
+      const mine=n.studio.toLowerCase()===myStudio&&myStudio;
+      const done=voteCast.has(cat);
+      const label=done?(voteCast.has(cat+'|'+n.id)?'Ваш голос ✓':'Вже проголосовано'):mine?'Своя студія':'Голосувати';
+      return `<div class="vote-card${voteCast.has(cat+'|'+n.id)?' voted':''}">
+        ${n.photo?`<img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(n.photo)}&sz=w400" alt="${escapeHtml(n.name)}" loading="lazy">`:''}
+        <div class="who"><b>${escapeHtml(n.name)}</b><small>${escapeHtml(n.studio)}${n.age?' · '+n.age+' р.':''}</small></div>
+        <button type="button" data-track="${track}" data-cat="${escapeHtml(cat)}" data-id="${escapeHtml(n.id)}"
+          ${done||mine||!data.open?'disabled':''}>${label}</button></div>`;
+    }).join('');
+    blocks.push(`<div class="vote-cat"><h3>${escapeHtml(VOTE_LABELS[cat]||cat)}</h3>
+      <small>${data.open?'Голосування відкрите':'Голосування закрите'}</small>
+      <div class="vote-list">${cards}</div></div>`);
+  });
+  const anyOpen=['ng','oscar'].some(t=>voteData[t]?.open);
+  voteBoard.innerHTML=blocks.length?blocks.join('')
+    :`<div class="vote-closed">${anyOpen?'Номінантів ще не підтверджено. Загляньте пізніше.':'Голосування поки не відкрите. New Generation — з 11.10.2026, OSCAR — з 01.12.2026.'}</div>`;
+  voteBoard.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click',()=>castVote(b)));
+}
+
+async function castVote(btn){
+  const name=(voteNameEl?.value||'').trim(),studio=voteStudioEl?.value||'';
+  if(!name){toast('Вкажіть своє ім’я');voteNameEl?.focus();return}
+  if(!studio){toast('Оберіть свою студію');voteStudioEl?.focus();return}
+  const {track,cat,id}=btn.dataset;
+  btn.disabled=true;btn.textContent='Надсилаємо…';
+  try{
+    const r=await jsonpCall({action:'vote',track,voterName:name,voterStudio:studio,nomineeId:id});
+    if(!r||!r.ok)throw new Error(r?.message||'Не вдалося зарахувати голос.');
+    voteCast.add(cat);voteCast.add(cat+'|'+id);
+    p4Write(VOTE_KEY,[...voteCast]);p4Write(VOTE_WHO,{name,studio});
+    toast('Голос зараховано');
+    voteRender();
+  }catch(e){
+    toast(String(e.message||'Не вдалося зарахувати голос.'));
+    btn.disabled=false;btn.textContent='Голосувати';
+  }
+}
+
+voteStudioEl?.addEventListener('change',voteRender);
+if(voteBoard){
+  Promise.all(['ng','oscar'].map(t=>jsonpCall({action:'nominees',track:t},12000)
+    .then(r=>{if(r&&r.ok&&Array.isArray(r.nominees))voteData[t]=r}).catch(()=>{})))
+    .then(()=>{renderStudios();voteRender()});
+}
 
 // hidden P4 hunt — seven marks tucked into the section margins down the page.
 // The clock runs on the server: the browser never decides how long a run took,

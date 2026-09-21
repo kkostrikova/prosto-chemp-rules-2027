@@ -16,6 +16,12 @@ const LOG_SHEET = 'SystemLog';
 const HUNT_SHEET = 'Гра P4';
 const NG_SHEET = 'New Generation';
 const OSCAR_SHEET = 'OSCAR номінанти';
+const NG_VOTES_SHEET = 'New Generation голоси';
+const OSCAR_VOTES_SHEET = 'OSCAR голоси';
+
+// Номінант потрапляє в голосування лише після того, як організатор поставить
+// цей статус у таблиці. Усе нове лягає як 'На модерації'.
+const APPROVED = 'Підтверджено';
 
 // Папки для фото створюються поряд із папкою квитанцій, щоб не заводити ID руками.
 const NG_FOLDER_NAME = 'PROSTO CHEMP — New Generation';
@@ -30,7 +36,7 @@ const NG_VOTE_FROM    = '2026-10-11';
 const NG_VOTE_UNTIL   = '2026-11-01';
 const OSCAR_SUBMIT_UNTIL = '2026-11-30'; // номінації на OSCAR — включно
 const OSCAR_VOTE_FROM    = '2026-12-01';
-const OSCAR_VOTE_UNTIL   = '';           // порожньо = до ручного закриття організатором
+const OSCAR_VOTE_UNTIL   = '2027-01-17'; // останній день змагань
 
 function kyivToday_() {
   return Utilities.formatDate(new Date(), 'Europe/Kiev', 'yyyy-MM-dd');
@@ -80,6 +86,22 @@ function doGet(e) {
   if (p.action === 'huntFinish') {
     try {
       return jsonp_(huntFinish_(p.token, p.nickname), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'nominees') {
+    try {
+      return jsonp_(nominees_(p.track === 'ng' ? 'ng' : 'oscar'), p.callback);
+    } catch (err) {
+      return jsonp_({ok:false,error:String(err)}, p.callback);
+    }
+  }
+
+  if (p.action === 'vote') {
+    try {
+      return jsonp_(vote_(p.track === 'ng' ? 'ng' : 'oscar', p.voterName, p.voterStudio, p.nomineeId), p.callback);
     } catch (err) {
       return jsonp_({ok:false,error:String(err)}, p.callback);
     }
@@ -418,13 +440,18 @@ function mediaFolder_(name) {
   return found.hasNext() ? found.next() : root.createFolder(name);
 }
 
+// Повертає ID файлу: сторінка показує фото через drive.google.com/thumbnail?id=...,
+// як уже робить конструктор обов’язкових елементів.
 function savePhoto_(dataUrl, folderName, baseName, mime) {
   if (!dataUrl) return '';
   const parts = String(dataUrl).split(',');
   const raw = Utilities.base64Decode(parts[1] || '');
   const type = mime || 'image/jpeg';
   const blob = Utilities.newBlob(raw, type, safe_(baseName) + '_' + Date.now() + extension_('', type));
-  return mediaFolder_(folderName).createFile(blob).getUrl();
+  const file = mediaFolder_(folderName).createFile(blob);
+  // фото має бути видимим відвідувачам сторінки голосування
+  try { file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (ignore) {}
+  return file.getId();
 }
 
 function studio_(value) {
@@ -437,7 +464,7 @@ function saveNewGeneration_(data) {
   let sh = ss.getSheetByName(NG_SHEET);
   if (!sh) {
     sh = ss.insertSheet(NG_SHEET);
-    sh.appendRow(['Дата/час','Ім’я дитини','Вік','Студія','Контакт батьків','Згода батьків','Фото','Статус']);
+    sh.appendRow(['ID','Дата/час','Ім’я дитини','Вік','Студія','Контакт батьків','Згода батьків','Фото (ID)','Статус']);
   }
 
   if (!windowOpen_('', NG_SUBMIT_UNTIL)) {
@@ -454,13 +481,14 @@ function saveNewGeneration_(data) {
 
   const rows = sh.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
-    if (String(rows[i][1]).toLowerCase() === name.toLowerCase() && studio_(rows[i][3]).toLowerCase() === studio.toLowerCase()) {
+    if (String(rows[i][2]).toLowerCase() === name.toLowerCase() && studio_(rows[i][4]).toLowerCase() === studio.toLowerCase()) {
       throw new Error('Ця дитина вже зареєстрована.');
     }
   }
 
-  const photoUrl = savePhoto_(data.photoDataUrl, NG_FOLDER_NAME, name, data.mimeType);
-  sh.appendRow([new Date(), name, age, studio, String(data.parentContact || '').slice(0,120), 'так', photoUrl, 'На модерації']);
+  const photoId = savePhoto_(data.photoDataUrl, NG_FOLDER_NAME, name, data.mimeType);
+  sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), name, age, studio,
+    String(data.parentContact || '').slice(0,120), 'так', photoId, 'На модерації']);
   return {ok:true, type:'newGeneration'};
 }
 
@@ -470,7 +498,7 @@ function saveOscarNominee_(data) {
   let sh = ss.getSheetByName(OSCAR_SHEET);
   if (!sh) {
     sh = ss.insertSheet(OSCAR_SHEET);
-    sh.appendRow(['Дата/час','Тип','Снаряд','Ім’я номінанта','Студія','Контакт студії','Фото','Статус']);
+    sh.appendRow(['ID','Дата/час','Тип','Снаряд','Ім’я номінанта','Студія','Контакт студії','Фото (ID)','Статус']);
   }
 
   if (!windowOpen_('', OSCAR_SUBMIT_UNTIL)) {
@@ -487,9 +515,9 @@ function saveOscarNominee_(data) {
   // одна номінація на студію в кожній категорії
   const rows = sh.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
-    const sameStudio = studio_(rows[i][4]).toLowerCase() === studio.toLowerCase();
-    const sameKind = String(rows[i][1]) === kind;
-    const sameApparatus = String(rows[i][2]) === apparatus;
+    const sameStudio = studio_(rows[i][5]).toLowerCase() === studio.toLowerCase();
+    const sameKind = String(rows[i][2]) === kind;
+    const sameApparatus = String(rows[i][3]) === apparatus;
     if (sameStudio && sameKind && sameApparatus) {
       throw new Error(kind === 'coach'
         ? 'Від цієї студії тренера вже подано.'
@@ -497,9 +525,86 @@ function saveOscarNominee_(data) {
     }
   }
 
-  const photoUrl = savePhoto_(data.photoDataUrl, OSCAR_FOLDER_NAME, name, data.mimeType);
-  sh.appendRow([new Date(), kind, apparatus, name, studio, String(data.studioContact || '').slice(0,120), photoUrl, 'На модерації']);
+  const photoId = savePhoto_(data.photoDataUrl, OSCAR_FOLDER_NAME, name, data.mimeType);
+  sh.appendRow([Utilities.getUuid().slice(0,8), new Date(), kind, apparatus, name, studio,
+    String(data.studioContact || '').slice(0,120), photoId, 'На модерації']);
   return {ok:true, type:'oscarNominee'};
+}
+
+// Список номінантів для сторінки голосування. Віддаємо лише підтверджені
+// організатором записи і лише те, що можна показувати: ім’я, студію, фото.
+// Контакти й результати голосування назовні не виходять ніколи.
+function nominees_(track) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const isNg = track === 'ng';
+  const sh = ss.getSheetByName(isNg ? NG_SHEET : OSCAR_SHEET);
+  const phase = isNg
+    ? {from:NG_VOTE_FROM, until:NG_VOTE_UNTIL}
+    : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
+  const open = windowOpen_(phase.from, phase.until);
+  if (!sh) return {ok:true, track:track, open:open, from:phase.from, until:phase.until, nominees:[], studios:[]};
+
+  const rows = sh.getDataRange().getValues().slice(1);
+  const studios = {};
+  const list = [];
+  rows.forEach(function (r) {
+    const studio = studio_(isNg ? r[4] : r[5]);
+    if (studio) studios[studio] = true;           // список студій — з усіх поданих, не лише підтверджених
+    if (String(isNg ? r[8] : r[8]) !== APPROVED) return;
+    list.push(isNg
+      ? {id:String(r[0]), name:String(r[2]), age:Number(r[3]) || null, studio:studio, photo:String(r[7]), category:'ng'}
+      : {id:String(r[0]), name:String(r[4]), studio:studio, photo:String(r[7]),
+         category:String(r[2]) === 'coach' ? 'coach' : String(r[3])});
+  });
+
+  return {ok:true, track:track, open:open, from:phase.from, until:phase.until,
+          nominees:list, studios:Object.keys(studios).sort()};
+}
+
+function votesSheet_(track) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const name = track === 'ng' ? NG_VOTES_SHEET : OSCAR_VOTES_SHEET;
+  let sh = ss.getSheetByName(name);
+  if (!sh) {
+    sh = ss.insertSheet(name);
+    sh.appendRow(['Дата/час','Ім’я голосуючого','Студія голосуючого','Категорія','ID номінанта','Номінант','Студія номінанта']);
+  }
+  return sh;
+}
+
+function vote_(track, voterName, voterStudio, nomineeId) {
+  const isNg = track === 'ng';
+  const phase = isNg ? {from:NG_VOTE_FROM, until:NG_VOTE_UNTIL} : {from:OSCAR_VOTE_FROM, until:OSCAR_VOTE_UNTIL};
+  if (!windowOpen_(phase.from, phase.until)) {
+    return {ok:false, error:'closed', message:'Голосування в цій категорії зараз закрите.'};
+  }
+
+  const name = String(voterName || '').trim().slice(0, 80);
+  const studio = studio_(voterStudio);
+  if (!name) return {ok:false, error:'no_name', message:'Вкажіть своє ім’я.'};
+  if (!studio) return {ok:false, error:'no_studio', message:'Оберіть свою студію.'};
+
+  const data = nominees_(track);
+  const nominee = data.nominees.filter(function (n) { return n.id === String(nomineeId); })[0];
+  if (!nominee) return {ok:false, error:'no_nominee', message:'Номінанта не знайдено.'};
+
+  // правило «за своїх не голосуємо» — перевіряє сервер, а не сторінка
+  if (nominee.studio.toLowerCase() === studio.toLowerCase()) {
+    return {ok:false, error:'own_studio', message:'За номінанта своєї студії голосувати не можна.'};
+  }
+
+  const sh = votesSheet_(track);
+  const rows = sh.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    const sameVoter = String(rows[i][1]).trim().toLowerCase() === name.toLowerCase()
+      && studio_(rows[i][2]).toLowerCase() === studio.toLowerCase();
+    if (sameVoter && String(rows[i][3]) === nominee.category) {
+      return {ok:false, error:'already', message:'У цій категорії ви вже голосували.'};
+    }
+  }
+
+  sh.appendRow([new Date(), name, studio, nominee.category, nominee.id, nominee.name, nominee.studio]);
+  return {ok:true, category:nominee.category, nominee:nominee.name};
 }
 
 function huntSheet_() {
