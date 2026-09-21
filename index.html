@@ -731,11 +731,11 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 
 <section class="section" id="newgen">
 <div class="section-title">
-  <div><div class="eyebrow">New Generation</div><h2>Дитяча <em>суддівська панель</em></h2></div>
+  <div><div class="eyebrow">Judging panel</div><h2>New Generation <em>суддівська панель</em></h2></div>
   <div class="section-sub">Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Реєстрація триває до 10 жовтня, з 11 жовтня до 1 листопада глядачі голосують — до панелі увійдуть п’ятеро.</div>
 </div>
 <div class="nom-card reveal">
-    <h3>New Generation — дитяча суддівська панель</h3>
+    <h3>New Generation — суддівська панель</h3>
     <p>Новий проєкт PROSTO CHEMP: діти-спортсмени пробують себе в ролі суддів. Зареєструйся до 10 жовтня — з 11 жовтня по 1 листопада глядачі оберуть п’ятьох.</p>
     <div class="form-grid">
       <div class="field"><label for="ngName">Ім’я та прізвище дитини</label><input id="ngName" maxlength="80" placeholder="Софія Коваленко"></div>
@@ -754,7 +754,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 <div class="vote-id">
   <div class="field"><label for="ngVoteName">Ваше ім’я</label><input id="ngVoteName" class="vote-name" maxlength="80" placeholder="Прізвище Ім’я"></div>
   <div class="field"><label for="ngVoteStudio">Ваша студія</label><select id="ngVoteStudio" class="vote-studio"><option value="">Оберіть</option></select></div>
-  <div class="hint">Студія потрібна, щоб заблокувати голоси за своїх. Якщо ви глядач і не належите до студії — оберіть «Глядач».</div>
+  <div class="hint">Студію вказуємо для обліку — тут голосувати за свою студію можна. Якщо ви не належите до студії, оберіть «Глядач».</div>
 </div>
 <div id="ngVoteBoard"></div>
 </section>
@@ -1456,7 +1456,7 @@ function voteRender(){
     if(!list.length)return;
     const myStudio=voteStudio().toLowerCase();
     const cards=list.map(n=>{
-      const mine=n.studio.toLowerCase()===myStudio&&myStudio;
+      const mine=track==='oscar'&&myStudio&&n.studio.toLowerCase()===myStudio;
       const done=voteCast.has(cat);
       const label=done?(voteCast.has(cat+'|'+n.id)?'Ваш голос ✓':'Вже проголосовано'):mine?'Своя студія':'Голосувати';
       return `<div class="vote-card${voteCast.has(cat+'|'+n.id)?' voted':''}">

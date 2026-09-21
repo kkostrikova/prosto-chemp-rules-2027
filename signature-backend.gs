@@ -647,8 +647,9 @@ function vote_(track, voterName, voterStudio, nomineeId) {
   const nominee = data.nominees.filter(function (n) { return n.id === String(nomineeId); })[0];
   if (!nominee) return {ok:false, error:'no_nominee', message:'Номінанта не знайдено.'};
 
-  // правило «за своїх не голосуємо» — перевіряє сервер, а не сторінка
-  if (nominee.studio.toLowerCase() === studio.toLowerCase()) {
+  // «за своїх не голосуємо» діє лише в OSCAR — там премія. У New Generation
+  // голосувати за свою студію можна. Перевіряє сервер, а не вимкнена кнопка.
+  if (!isNg && nominee.studio.toLowerCase() === studio.toLowerCase()) {
     return {ok:false, error:'own_studio', message:'За номінанта своєї студії голосувати не можна.'};
   }
 
