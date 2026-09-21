@@ -67,6 +67,10 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
 .nom-status.show{display:block}
 .nom-status.ok{color:var(--lime)}
 .nom-status.err{color:var(--danger)}
+.nom-phase{margin-top:12px;padding:10px 13px;border:1px solid #2b2f37;border-radius:13px;background:#0d0f13;font-size:12px;line-height:1.55;color:#9aa0a9}
+.nom-phase b{color:var(--lime)}
+.nom-phase.closed b{color:var(--danger)}
+.nom-phase small{display:block;margin-top:3px;color:#7f858f;font-size:11px}
 .oscar-cats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .oscar-cats span{padding:5px 10px;border:1px solid #2b2f37;border-radius:999px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:#9aa0a9}
 @media(max-width:860px){.nom-grid{grid-template-columns:1fr}}
@@ -763,6 +767,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
     </div>
     <div class="field" style="margin-top:12px"><label for="ngPhoto">Фото дитини</label><input id="ngPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
     <label class="checkline" style="margin-top:12px"><input type="checkbox" id="ngConsent"><span>Я, батько / мати / законний представник, погоджуюсь на публікацію імені та фото дитини на цій сторінці для голосування.</span></label>
+    <div class="nom-phase" id="ngPhase"></div>
     <div class="nom-note">Фото та ім’я дитини будуть показані публічно на час голосування. Без згоди представника заявка не приймається.</div>
     <button class="btn pink" id="ngSubmit" type="button" style="margin-top:14px">Зареєструвати</button>
     <div class="nom-status" id="ngStatus"></div>
@@ -786,6 +791,7 @@ main{max-width:1220px;margin:auto;padding:0 18px 70px}
       <div class="field"><label for="osContact">Контакт студії</label><input id="osContact" maxlength="120" placeholder="+380... або @nickname"></div>
     </div>
     <div class="field" style="margin-top:12px"><label for="osPhoto">Фото номінанта</label><input id="osPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
+    <div class="nom-phase" id="osPhase"></div>
     <div class="nom-note">Від однієї студії — один спортсмен на снаряд і один тренер. Повторна подача в тій самій категорії не приймається.</div>
     <button class="btn pink" id="osSubmit" type="button" style="margin-top:14px">Подати номінанта</button>
     <div class="nom-status" id="osStatus"></div>
@@ -1301,6 +1307,33 @@ document.querySelectorAll('#checklist input').forEach(i=>i.addEventListener('cha
 const modal=document.getElementById('imgModal'),modalPic=document.getElementById('imgModalPic');document.addEventListener('click',e=>{const img=e.target.closest?.('.comp-thumb');if(!img)return;modalPic.src=img.src;modalPic.alt=img.alt||'Збільшене зображення';modal.classList.add('open');document.body.style.overflow='hidden';});function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}document.getElementById('imgClose')?.addEventListener('click',closeModal);modal?.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 // New Generation registration + OSCAR nominations. Both send a photo, so both go
 // through prepareImage and postSubmission like the receipt upload does.
+// Розклад подач і голосувань. Ті самі дати стоять у бекенді — тут вони лише для
+// того, щоб людина одразу бачила стан, а не впиралася у відмову після заповнення.
+const PHASES={
+  ng:{submitUntil:'2026-10-10',voteFrom:'2026-10-11',voteUntil:'2026-11-01'},
+  oscar:{submitUntil:'2026-11-30',voteFrom:'2026-12-01',voteUntil:''}
+};
+function kyivToday(){
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Kiev',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+}
+function dmy(iso){const [y,m,d]=iso.split('-');return `${+d}.${m}.${y}`}
+function applyPhase(key,phaseId,btnId,openText){
+  const box=document.getElementById(phaseId),btn=document.getElementById(btnId),ph=PHASES[key];
+  if(!box)return;
+  const today=kyivToday(),open=today<=ph.submitUntil;
+  box.classList.toggle('closed',!open);
+  if(open){
+    box.innerHTML=`<b>Подача відкрита до ${dmy(ph.submitUntil)}</b> включно.`
+      +`<small>Голосування: ${dmy(ph.voteFrom)}${ph.voteUntil?' — '+dmy(ph.voteUntil):' і далі'}.</small>`;
+  }else{
+    box.innerHTML=`<b>Подача завершена ${dmy(ph.submitUntil)}.</b>`
+      +`<small>${today<=ph.voteUntil||!ph.voteUntil?'Триває етап голосування.':'Етап завершено.'}</small>`;
+    if(btn){btn.disabled=true;btn.textContent=openText}
+  }
+}
+applyPhase('ng','ngPhase','ngSubmit','Подача завершена');
+applyPhase('oscar','osPhase','osSubmit','Подача завершена');
+
 function nomStatus(el,text,ok){el.className='nom-status show '+(ok?'ok':'err');el.innerHTML=text}
 
 async function nomPhoto(input,status){

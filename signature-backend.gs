@@ -23,6 +23,26 @@ const OSCAR_FOLDER_NAME = 'PROSTO CHEMP — OSCAR';
 
 const OSCAR_APPARATUS = ['Пілон','Кільце','Полотна','Оригінальний жанр'];
 
+// Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
+// на зимовий час усередині періоду.
+const NG_SUBMIT_UNTIL = '2026-10-10';   // подача в New Generation — включно
+const NG_VOTE_FROM    = '2026-10-11';
+const NG_VOTE_UNTIL   = '2026-11-01';
+const OSCAR_SUBMIT_UNTIL = '2026-11-30'; // номінації на OSCAR — включно
+const OSCAR_VOTE_FROM    = '2026-12-01';
+const OSCAR_VOTE_UNTIL   = '';           // порожньо = до ручного закриття організатором
+
+function kyivToday_() {
+  return Utilities.formatDate(new Date(), 'Europe/Kiev', 'yyyy-MM-dd');
+}
+
+function windowOpen_(from, until) {
+  const today = kyivToday_();
+  if (from && today < from) return false;
+  if (until && today > until) return false;
+  return true;
+}
+
 
 // Пошук семи знаків P4. Час рахує сервер: браузер не може надіслати вигаданий
 // результат, бо не він вирішує, скільки часу минуло.
@@ -420,6 +440,10 @@ function saveNewGeneration_(data) {
     sh.appendRow(['Дата/час','Ім’я дитини','Вік','Студія','Контакт батьків','Згода батьків','Фото','Статус']);
   }
 
+  if (!windowOpen_('', NG_SUBMIT_UNTIL)) {
+    throw new Error('Реєстрація в New Generation завершена ' + NG_SUBMIT_UNTIL + '.');
+  }
+
   const name = String(data.childName || '').trim().slice(0, 80);
   const age = Number(data.childAge) || 0;
   const studio = studio_(data.studio);
@@ -447,6 +471,10 @@ function saveOscarNominee_(data) {
   if (!sh) {
     sh = ss.insertSheet(OSCAR_SHEET);
     sh.appendRow(['Дата/час','Тип','Снаряд','Ім’я номінанта','Студія','Контакт студії','Фото','Статус']);
+  }
+
+  if (!windowOpen_('', OSCAR_SUBMIT_UNTIL)) {
+    throw new Error('Подача номінантів на OSCAR завершена ' + OSCAR_SUBMIT_UNTIL + '.');
   }
 
   const kind = data.kind === 'coach' ? 'coach' : 'athlete';
