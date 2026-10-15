@@ -48,7 +48,8 @@ const OSCAR_JUDGES = [
   ['Каріна Алексенко',         'judges/aleksenko.jpg'],
   ['Юлія Ткаченко',            'judges/tkachenko.jpg'],
   ['Маргарита Сегеда',         'judges/seheda.jpg'],
-  ['Ірина Ситнікова (Бексіт)', 'judges/sytnikova.jpg']
+  ['Ірина Ситнікова (Бексіт)', 'judges/sytnikova.jpg'],
+  ['Ганна Бородай',            'judges/borodai.jpg']
 ];
 
 // Розклад. Дати київські; порівнюємо рядки yyyy-MM-dd, щоб не воювати з переходом
